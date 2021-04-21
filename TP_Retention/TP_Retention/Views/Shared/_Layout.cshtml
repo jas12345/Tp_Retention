@@ -1,0 +1,287 @@
+﻿@using System.Web.Optimization;
+@using System;
+@using System.Web.Helpers;
+@using TP_Retention.Helpers;
+@using TP_Retention_EFDM.ViewModel;
+@using Kendo.Mvc.UI;
+@using Kendo.Mvc.Extensions;
+
+
+
+<!DOCTYPE html>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="shorcut icon" href="~/Content/Images/tp-icon.jpg" type="image/png" />
+
+    @*Scripts and CSS*@
+    <link rel="stylesheet" type="text/css" href="@Url.Css("Content/CSS/normalize")" />
+    @*<link rel="stylesheet" type="text/css" href="@Url.Css("Content/CSS/metro-bootstrap")" />*@
+    <link rel="stylesheet" type="text/css" href="@Url.Css("Content/CSS/font-awesome")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Css("Content/CSS/Main")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Css("Content/CSS/style")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Css("Content/CSS/materialize.min")" />
+    @*Kendo CSS*@
+    <link rel="stylesheet" type="text/css" href="@Url.Css("Content/kendo/2014.3.1316/kendo.common-material.min")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Css("Content/kendo/2014.3.1316/kendo.material.min")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Css("Content/kendo/2014.3.1316/kendo.dataviz.material.min")" />
+
+    <!-- Archivos JavaScript -->
+    <script src="@Url.Content("~/Scripts/kendo/2014.3.1316/jquery.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2014.3.1316/jszip.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2014.3.1316/kendo.all.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2014.3.1316/kendo.aspnetmvc.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo.modernizr.custom.js")"></script>
+    <script type="text/javascript" src="@Url.Js("jquery.validate.min")" ></script>
+    <script type="text/javascript" src="@Url.Js("jquery.validate.unobtrusive.min")" ></script>
+    <script type="text/javascript" src="@Url.Js("jquery.unobtrusive-ajax.min")" ></script>
+    <script type="text/javascript" src="@Url.Js("Class/General")" ></script>
+    <script type="text/javascript" src="@Url.Js("materialize.min")"></script>
+    <script src="~/Scripts/DisableRMC.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //Menu desplegable en resolucion mobile
+            $(".button-collapse").sideNav();
+            //Menu desplegable tipo dropdown
+            $(".dropdown-button").dropdown({
+                constrain_width: false,
+                gutter: 0,
+                hover: false, // Activate on click
+                alignment: 'right'
+            });
+
+            @{
+                var urlHelper = new UrlHelper(Html.ViewContext.RequestContext);
+                var baseurl = urlHelper.Content("~");
+             }
+
+            General.BASE_URL = '@Url.RemoveLastChar(Request.Url.Scheme + "://" + Request.Url.Authority + Url.Ruta(""))';
+
+            General.PROFILE = @Session["Profile"]
+
+            General.GetProfiles();
+
+            //$("#menuVisible").bind("click", function () {
+
+            //    if ($("#menuHeader").css('display') == 'none') {
+
+            //        $("#menuHeader").show();
+
+            //    } else {
+
+            //        $("#menuHeader").hide();
+
+            //    }
+
+            //});
+
+            var time = "@(Session.Timeout)";
+
+            var secondsTime = time * 60;
+
+            $("#sessionTime").data("sessionTimeout", secondsTime);
+            $("#sessionTime").data("timeLeft", secondsTime);
+
+            setInterval(checkSession, 1000);
+
+            function checkSession() {
+                var timeLeft = $("#sessionTime").data("timeLeft");
+                timeLeft--;
+                $("#sessionTime").data("timeLeft", timeLeft);
+
+                var cont = timeLeft - 5;
+
+                if (cont == 0) {
+
+                    var window = $("#wSession").data("kendoWindow").center().open();
+
+                    $("#txtAlert").html("Session End.");
+
+                }
+
+            }
+
+        });
+
+
+        function onClose() {
+
+            document.location = General.BASE_URL + '/Access/Index';
+
+        }
+    </script>
+
+    @*    <style>
+        /*.field-validation-error {
+            color: #F00;
+        }
+
+        .overlay {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 9999;
+            opacity: .8;
+            -moz-opacity: 0.8;
+            filter: alpha(opacity=80);
+        }
+
+        #flashmessage {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            z-index: 10000;
+            margin: 0;
+            opacity: 1.0;
+            -moz-opacity: 1.0;
+            filter: alpha(opacity=100);
+        }
+
+        .divider-vertical {
+        height: 62px;
+        margin: 0 9px;
+        border-left: 1px solid #f2f2f2;
+        border-right: 1px solid #ffffff;
+        }*/
+    </style>*@
+
+    @{
+                
+        UserViewModel User = Session["User"] as UserViewModel;
+            
+    }
+
+
+</head>
+<body>
+    <div id="sessionTime" style="display: none"></div>
+    @{string dtFecha = DateTime.Now.ToString("MM/dd/yyyy");}
+    <!-- Dropdown Structure -->
+    <ul id="dropdownmenu" class="dropdown-content">
+        <li><a href="#!"><small><i class="fa fa-calendar fa-lg" style="margin-right: 5px;"></i>Date: @dtFecha</small></a></li>
+        <li class="divider"></li>
+        <li><a href="#!"><small><i class="fa fa-location-arrow fa-lg" style="margin-right: 5px;"></i>Location: @User.location_name</small></a></li>
+        <li class="divider"></li>
+        <li><a href="#!"><small><i class="fa fa-street-view fa-lg" style="margin-right: 5px;"></i>Profile: @Session["ProfileName"]</small></a></li>
+        @*<li><select id="sProfile" class="browser-default" onchange="General.ChangeProfile()" style="font-size: 12px;"></select></li>*@
+        <li><a href="~/Access/Profiles"><small><i class="fa fa-refresh fa-lg" style="margin-right: 5px;"></i>Change Profile</small></a></li>
+        <li class="divider"></li>
+        <li><a href="#!"><div id="SessionClose" onclick="General.SessionClose();" style="font-size: 75%;"><i class="fa fa-power-off fa-lg" style="font-size: 20px; margin-right: 5px;"></i>Log Out</div></a></li>
+    </ul>
+    <nav>
+        <div class="nav-wrapper grey darken-3">
+            <div class="col s12">
+                <a href="#!" class="brand-logo">
+                    <img alt="Teleperformance Mexico" class="responsive-img" title="Teleperformance Nearshore Region" src="@Url.Img("TPHead.png")" style="height:62px;" /></a>
+                <ul id="nav-mobile" class="right side-nav">
+                    <li><a href="#!"><i class="fa fa-user fa-lg left"></i>@User.account_id</a></li>
+                    @*<li class="divider-vertical"></li>*@
+                    <li><a class="dropdown-button" href="#!" data-activates="dropdownmenu"><i class="fa fa-th fa-lg left"></i>Options</a></li>
+                </ul>
+                <a class="button-collapse" style="margin-left: 5px;" href="#" data-activates="nav-mobile"><i class="fa fa-navicon fa-lg"></i></a>
+            </div>
+            @*<div class="element place-right">
+                <a class="dropdown-toggle" href="javascript:void(0);" id="menuVisible">
+                    <span class="fa fa-ellipsis-h fa-lg"></span>
+                </a>
+                <ul class="dropdown-menu place-right" data-role="dropdown" id="menuHeader">
+                    <li>
+                        <h3 style="margin: 0px;"><small style="margin-left: 10px;"><i class="fa fa-calendar fa-lg" style="font-size: 20px; margin-right: 5px;"></i>Date:</small></h3>
+                    </li>
+                    <li id="idFechaAccount">
+                            
+                        <h2 style="margin: 0px;"><small style="margin-left: 10px; font-size: 12px;">@dtFecha</small></h2>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <h3 style="margin: 0px;"><small style="margin-left: 10px;"><i class="fa fa-location-arrow fa-lg" style="font-size: 20px; margin-right: 5px;"></i>Location:</small></h3>
+                    </li>
+                    <li>
+                        <h2 style="margin: 0px;"><small style="margin-left: 10px; font-size: 12px;">@User.location_name</small></h2>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <h3 style="margin: 0px;"><small style="margin-left: 10px;"><i class="fa fa-street-view fa-lg" style="font-size: 20px; margin-right: 5px;"></i>Profile:</small></h3>
+                    </li>
+                    <li>
+                        <select id="sProfile" class="browser-default" onchange="General.ChangeProfile()" style="margin-left: 10px; width: 145px; font-size: 12px;">
+                        </select>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <h3 style="margin: 0px;"><small id="SessionClose" style="margin-left: 10px; cursor: pointer;" onclick="General.SessionClose();"><i class="fa fa-power-off fa-lg" style="font-size: 20px; margin-right: 5px;"></i>Log Out</small></h3>
+                    </li>
+                </ul>
+            </div>*@
+        </div>
+    </nav>
+    <div style="float: right; margin-right: 5px;">
+        <h5>@dtFecha</h5>
+    </div>
+    <br />
+    <br />
+    <div class="row contentPage">
+        <div class="col center" style="float: none;">
+            <div class="formCenter z-depth-3">
+                <div class="row">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*<div class="overlay">
+        <div id="flashmessage" class="progress-bar large bg-red" style="width: 100%; vertical-align: middle; height: 25px; display: none;">
+            <span id="message" style="color: #FFF;"></span>
+            <i class="icon-cancel-2" style="position: relative; float: right; margin-top: 5px; margin-right: 5px;" onclick="General.Close();"></i>
+        </div>
+    </div>*@
+
+    @*Pie de pagina*@
+    <footer style="text-align: center;">
+        <div id="footer" class="page-footer grey darken-3">
+            <div class="container" style="color: #FFFFFF;">
+                &copy; 2015 Teleperformance Nearshore Region.
+                @*<a title="Follow us" href="https://twitter.com/Teleperformance" class="waves-effect waves-circle waves-light btn-floating right blue darken-1">
+                    <i class="fa fa-twitter fa-lg"></i>
+                </a>
+                <a title="Teleperformance Communications" href="https://www.facebook.com/Teleperformance.Nearshore.North" class="waves-effect waves-circle waves-light btn-floating indigo darken-2 right" style="margin-right: 5px;">
+                    <i class="fa fa-facebook fa-lg"></i>
+                </a>*@
+            </div>
+        </div>
+    </footer>
+
+    @(Html.Kendo().Window()
+        .Name("wSession")
+        .Title("Session End")
+        .Content(@<text>
+
+    <div class="grid">
+        <div class="row">
+            <div style="text-align: center;">
+
+                <p id="txtAlert">Texto</p>
+
+            </div>
+        </div>
+    </div>
+
+    </text>)
+        .Width(400)
+        .Visible(false)
+        .Events(e => e.Close("onClose"))
+        .Modal(true)
+    )
+
+    <script src="~/Scripts/html5.js"></script>
+
+</body>
+</html>

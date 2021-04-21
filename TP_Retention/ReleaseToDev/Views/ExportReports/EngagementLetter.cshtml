@@ -1,0 +1,127 @@
+﻿@using TP_Retention_EFDM.ViewModel
+
+@model HRReportPrintingLayoutFields
+
+@{
+    ViewBag.Title = "HR Report " + @Model.ReportId;
+    Layout = "~/Views/Shared/_LayoutPDFPrinting.cshtml";
+}
+
+<br />
+<div class="row">
+    <div class="center-align">
+        <div class="col s6 m6 l6">
+            <button class="waves-effect waves-light btn white red-text" onclick="getPDF('.pdf-page')"><i class="fa fa-file-pdf-o" style="padding-right:5px;"></i> Exportar PDF</button>
+        </div>
+        <div class="col s6 m6 l6">
+            <button class="waves-effect waves-light btn red darken-3 white-text" onclick="window.close();"><i class="fa fa-undo" s style="padding-right:5px;"></i> Close this tab</button>
+        </div>
+    </div>
+</div>
+
+<div class="page-container">
+    <div class="pdf-page size-letter">
+        <div class="pdf-header">
+            @*<h4>@Model.ReportType</h4>*@
+            <span class="pdf-title">@Model.SubReportType No. Folio @Model.ReportId</span>
+        </div>
+        <div class="pdf-body text-justify ">
+            <p style="text-align:right">@Model.NameMonth @Model.DayNumber, @Model.YearNumber</p>
+
+
+            <p>Por medio de la presente Yo, @Model.EmployeeName estando consciente y enterado(a) de mis Áreas de oportunidad: </p>
+            <p>
+                ________________________________________________________________________________________________________________________
+                ________________________________________________________________________________________________________________________
+                ________________________________________________________________________________________________________________________
+                ________________________________________________________________________________________________________________________
+            </p>
+
+            <p>De manera formal y por escrito, ante la presencia de mi  Jefe del Area, quien a su vez manifiesta su disposición para apoyarme, <span class="bolder-font">ME COMPROMETO A</span>: (establecer metas específicas, alcanzables y tiempo para el cumplimiento -mínimo 21 días-)</p>
+
+            <p>
+                ________________________________________________________________________________________________________________________
+                ________________________________________________________________________________________________________________________
+                ________________________________________________________________________________________________________________________
+                ________________________________________________________________________________________________________________________
+            </p>
+
+            <p>
+                Estando plenamente consciente de la seriedad y responsabilidad que implica el compromiso aquí asumido,  acepto en caso de no cumplir con alguno de los puntos antes mencionados
+                <span class="bolder-font">CUALQUIER DETERMINACION POR PARTE DEL DEPARTAMENTO DE OPERACIONES.</span>
+                Demostraré mi compromiso e interés por mi trabajo, no volviendo a incurrir en dichas áreas de oportunidad.
+            </p>
+
+            <p class="bolder-font">Revisión de resultados. (esto de acuerdo al plan de acción) </p>
+
+            <table class="bordered responsive-table">
+                <thead>
+                    <tr>
+                        <th data-field="id">Métrica</th>
+                        <th data-field="date1">Fecha de Revisión</th>
+                        <th data-field="date2">Fecha de Revisión</th>
+                        <th data-field="date3">Fecha de Revisión</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <br />
+            <div class="row center-align">Firmas</div>
+            <div class="pdf-signature">
+                <div class="row center">
+                    <div class="col s6"><hr style="margin: 10px 15px;"><span>@Model.EmployeeName</span></div>
+                    <div class="col s6"><hr style="margin: 10px 15px;"><span>@Model.RetentionAnalyst</span></div>
+                </div>
+                <div class="row center">
+                    <div class="col s6"><span>@Model.PositionCodeEmpleado</span></div>
+                    <div class="col s6"><span>@Model.PositionCodeRetentionAnalyst</span></div>
+                </div>
+            </div>
+            <div class="pdf-signature">
+                <div class="row center">
+                    <div class="col s6"><hr style="margin: 10px 15px;"><span>@Model.ManagerName</span></div>
+                    <div class="col s6"><hr style="margin: 10px 15px;"><span>@Model.FloorManager</span></div>
+                </div>
+                <div class="row center">
+                    <div class="col s6"><span>@Model.PositionCodeManager</span></div>
+                    <div class="col s6"><span>@Model.PositionCodeFloorManager</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<script>
+        kendo.pdf.defineFont({
+            "DejaVu Sans": "//kendo.cdn.telerik.com/2014.3.1314/styles/fonts/DejaVu/DejaVuSans.ttf",
+            "DejaVu Sans|Bold": "//kendo.cdn.telerik.com/2014.3.1314/styles/fonts/DejaVu/DejaVuSans-Bold.ttf",
+            "DejaVu Sans|Bold|Italic": "//kendo.cdn.telerik.com/2014.3.1314/styles/fonts/DejaVu/DejaVuSans-Oblique.ttf",
+            "DejaVu Sans|Italic": "//kendo.cdn.telerik.com/2014.3.1314/styles/fonts/DejaVu/DejaVuSans-Oblique.ttf"
+        });
+    </script>*@
+
+<script src="~/Scripts/kendo/2014.3.1316/pako_deflate.min.js"></script>
+
+<script>
+    function getPDF(selector) {
+        kendo.drawing.drawDOM($(selector)).then(function (group) {
+            kendo.drawing.pdf.saveAs(group, "HRReport" + @Model.ReportId + ".pdf");
+        });
+
+        HRReportPrinting.Update(@Model.ReportId);
+    }
+</script>

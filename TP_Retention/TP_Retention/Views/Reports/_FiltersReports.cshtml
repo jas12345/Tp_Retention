@@ -1,0 +1,385 @@
+﻿@{ Layout = null; }
+@using TP_Retention_EFDM.ViewModel
+@using TP_Retention.Helpers;
+@using System.Web.Optimization;
+@using System.Web.Helpers;
+
+@model FiltersReportsViewModel
+
+
+
+<style type="text/css">
+    .editfieldset {
+        font-size: 12px;
+    }
+
+    #EstatusRiesgo-list .k-item
+    {
+        padding-right: 15px;
+        font-size:.8em;
+    }
+
+    #Location_Ident-list .k-item {
+        padding-right: 15px;
+        font-size:.8em;
+    }
+
+    #Manager_Ident-list .k-item {
+        padding-right: 15px;
+        font-size:.8em;
+    }
+
+    #Client_Ident-list .k-item {
+        padding-right: 15px;
+        font-size:.8em;
+    }
+
+    #FloorManager_Ident-list .k-item {
+        padding-right: 15px;
+        font-size:.8em;
+    }
+
+    #RetentionAnalyst_Name-list .k-item {
+        padding-right: 15px;
+        font-size:.8em;
+    }
+
+    .editfieldset
+    {
+        padding: 1%;
+    }
+
+    .textFilter {
+        border-radius: 0;
+        border-width: 1px;
+        border-style: solid;
+        border-collapse: collapse;
+        border-color: #dadada;
+        margin: 0;
+        height: 18px;
+        line-height: 1.65em;
+        padding: .177em 0;
+        text-indent: .33em;
+        font-family: inherit;
+        outline: 0;
+        vertical-align: top;
+        font-size: 100%;
+        -webkit-appearance: none;
+        background-color: #fff;
+        color: #787878;
+        box-sizing: content-box;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        -webkit-rtl-ordering: logical;
+        -webkit-user-select: text;
+        cursor: auto;
+        letter-spacing: normal;
+        word-spacing: normal;
+        text-transform: none;
+        font: -webkit-small-control;
+        text-shadow: none;
+        display: inline-block;
+        text-align: start;
+    }
+
+    #btnBuscar {
+        background-color: #60a917 !important;
+        color: #ffffff !important;
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnBuscar").click(function (e) {
+            //e.preventDefault();
+            Reports.Search_Reports_Details();
+        });
+    });
+</script>
+<div class="editfieldset">
+    @{
+        @Html.ValidationSummary()
+        using (Html.BeginForm("", "", FormMethod.Post, new { @id = "FiltersForm" }))
+        {
+            <fieldset>
+                <legend style="display:none;"></legend>
+                @*<span id="popupNotification"></span>*@
+                <table>
+                    <tr>
+                        <td>
+                            <div style="display:flexbox;">
+                                @Html.LabelFor(model => model.EstatusRiesgo)
+                            </div>
+                        </td>
+                        <td>
+                            @(Html.Kendo().DropDownListFor(model => model.EstatusRiesgo_Id)
+                                    .HtmlAttributes(new { style = "width: 200px;" })
+                                    //.OptionLabel("Select a filter...")
+                                    .DataTextField("EstatusRiesgo")
+                                    .DataValueField("EstatusRiesgo_Id")
+                                    //.Events(events => events.DataBound("RiskStatusOnDataBound()")) //agrega el item TODOS
+                                    .DataSource(source =>
+                                    {
+                                        source.Read(read =>
+                                        {
+                                            read.Action("Get_RiskStatus", "Reports");
+                                        });
+                                    })                                      
+                                )
+                                &nbsp
+                                <button id="btnBuscar" type="button" class="k-button k-button-icontext"><i class="fa fa-search"></i> Search</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-control checkbox" style="display:flex; margin-right: 16px;">
+                            <label style="display:flex;">
+                                @Html.CheckBox("cbRiskDate", new { onclick = "Reports.EnableField('RiskDate');" })
+                                <span class="check"></span>
+                                @Html.LabelFor(model => model.FechaRiesgoIni)
+                            </label>
+                            </div>
+                        </td>
+                        <td>
+                            <div  id="divRiskDate" style="display:flex; visibility: hidden; padding-top: 3px; margin-right: 10px;">
+                                &nbsp
+                                <label style="margin-top: 7px; margin-bottom: 0px;">between</label>
+                                &nbsp
+                                @(Html.Kendo().DatePickerFor(model => model.FechaRiesgoIni)
+                                    .Value(DateTime.Today)
+                                    .Format("MM/dd/yyyy")
+                                    .HtmlAttributes(new { style = "width:100px" })
+                                )
+                                &nbsp
+                                <label style="margin-top: 7px; margin-bottom: 0px;">and</label>
+                                &nbsp
+                                @(Html.Kendo().DatePickerFor(model => model.FechaRiesgoFin)
+                                    .Value(DateTime.Today)
+                                    .Format("MM/dd/yyyy")
+                                    .HtmlAttributes(new { style = "width:100px" })
+                                )
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-control checkbox" style="display:flex; margin-right: 30px;">
+                                <label style="display:flex;">
+                                    @Html.CheckBox("cbManagers", new { onclick = "Reports.EnableField('Managers');" })
+                                    <span class="check"></span>
+                                    @Html.LabelFor(model => model.Manager_Name)
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <div  id="divManagers" style="display:flex; visibility: hidden; padding-top: 3px; margin-right: 10px;">
+                                 &nbsp
+                                 @(Html.Kendo().DropDownListFor(model => model.Manager_Ident)
+                                .HtmlAttributes(new { style = "width: 300px;" })
+                                .OptionLabel("Select a filter...")
+                                .DataTextField("manager_name")
+                                .DataValueField("manager_ident")
+                                //.Events(events => events.DataBound("LocationOnDataBound")) //agrega el item TODOS
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("Get_Managers", "Reports");
+                                    });
+                                })                                      
+                            )
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-control checkbox" style="display:flex; margin-right: 45px;">
+                                <label style="display:flex;">
+                                    @Html.CheckBox("cbPayRoll", new { onclick = "Reports.EnableField('PayRoll');" })
+                                    <span class="check"></span>
+                                    @Html.LabelFor(model => model.PayRoll)
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <div  id="divPayRoll" style="display:flex; visibility: hidden; padding-top: 3px;">
+                                &nbsp
+                                 @(Html.TextBoxFor(model => model.PayRoll, new { Class = "textFilter" }))
+                                 @Html.ValidationMessageFor(model => model.PayRoll)
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-control checkbox" style="display:flex;">
+                                <label style="display:flex;">
+                                    @Html.CheckBox("cbReviewDate", new { onclick = "Reports.EnableField('ReviewDate');" })
+                                    <span class="check"></span>
+                                    @Html.LabelFor(model => model.FechaRevisionIni)
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <div  id="divReviewDate" style="display:flex; visibility: hidden; padding-top: 3px; margin-right: 10px;">
+                                &nbsp
+                                <label style="margin-top: 7px; margin-bottom: 0px;">between</label>
+                                &nbsp
+                                @(Html.Kendo().DatePickerFor(model => model.FechaRevisionIni)
+                                    .Value(DateTime.Today)
+                                    .Format("MM/dd/yyyy")
+                                    .HtmlAttributes(new { style = "width:100px" })
+                                )
+                                &nbsp
+                                <label style="margin-top: 7px; margin-bottom: 0px;">and</label>
+                                &nbsp
+                                @(Html.Kendo().DatePickerFor(model => model.FechaRevisionFin)
+                                    .Value(DateTime.Today)
+                                    .Format("MM/dd/yyyy")
+                                    .HtmlAttributes(new { style = "width:100px" })
+                                )
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-control checkbox" style="display:flex;">
+                                <label style="display:flex;">
+                                    @Html.CheckBox("cbFloorManagers", new { onclick = "Reports.EnableField('FloorManagers');" })
+                                    <span class="check"></span>
+                                    @Html.LabelFor(model => model.FloorManager_Name)
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <div  id="divFloorManagers" style="display:flex; visibility: hidden; padding-top: 3px; margin-right: 10px;">
+                                &nbsp
+                                 @(Html.Kendo().DropDownListFor(model => model.FloorManager_Ident)
+                                .HtmlAttributes(new { style = "width: 300px;" })
+                                .OptionLabel("Select a filter...")
+                                .DataTextField("FloorManager_Name")
+                                .DataValueField("FloorManager_Ident")
+                                //.Events(events => events.DataBound("LocationOnDataBound")) //agrega el item TODOS
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("Get_FloorManagers", "Reports");
+                                    });
+                                })                                      
+                            )
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-control checkbox" style="display:flex; margin-right: 22px;">
+                                <label style="display:flex;">
+                                    @*<input type="checkbox" id="cbCCMS_User" onclick="enableField('CCMS_User')"/>*@
+                                    @Html.CheckBox("cbCCMS_User", new { onclick = "Reports.EnableField('CCMS_User');" } ) 
+                                    <span class="check"></span>  
+                                    @Html.LabelFor(model => model.CCMS_User)                   
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <div  id="divCCMS_User" style="display:flex; visibility: hidden; padding-top: 3px;">
+                                &nbsp
+                                 @(Html.TextBoxFor(model => model.CCMS_User, new { Class = "textFilter" }))
+                                 @Html.ValidationMessageFor(model => model.CCMS_User)
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-control checkbox" style="display:flex; margin-right: 72px;">
+                                <label style="display:flex;">
+                                    @Html.CheckBox("cbLocation", new { onclick = "Reports.EnableField('Location');" } )
+                                    <span class="check"></span>
+                                    @Html.LabelFor(model => model.Location_Name)
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <div  id="divLocation" style="display:flex; visibility: hidden; padding-top: 3px; margin-right: 10px;">
+                                &nbsp
+                                 @(Html.Kendo().DropDownListFor(model => model.Location_Ident)
+                                .HtmlAttributes(new { style = "width: 230px;" })
+                                .OptionLabel("Select a filter...")
+                                .DataTextField("Location_Name")
+                                .DataValueField("location_ident")
+                                //.Events(events => events.DataBound("LocationOnDataBound")) //agrega el item TODOS
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("Get_Location", "Reports");
+                                    });
+                                })                                      
+                            )
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-control checkbox" style="display:flex; margin-right: 47px;">
+                                <label style="display:flex;">
+                                    @Html.CheckBox("cbClients", new { onclick = "Reports.EnableField('Clients');"} )
+                                    <span class="check"></span>
+                                    @Html.LabelFor(model => model.Client_Name)
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <div  id="divClients" style="display:flex; visibility: hidden; padding-top: 3px; margin-right:10px;">
+                                &nbsp
+                                @(Html.Kendo().DropDownListFor(model => model.Client_Ident)
+                                    .HtmlAttributes(new { style = "width: 300px;" })
+                                    .OptionLabel("Select a filter...")
+                                    .DataTextField("Client_Name")
+                                    .DataValueField("Client_Ident")
+                                    //.Events(events => events.DataBound("LocationOnDataBound")) //agrega el item TODOS
+                                    .DataSource(source =>
+                                    {
+                                        source.Read(read =>
+                                        {
+                                            read.Action("Get_Clients", "Reports");
+                                        });
+                                    })                                      
+                                )
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-control checkbox" style="display:flex;">
+                                <label style="display:flex;">
+                                    @Html.CheckBox("cbEmployee", new { onclick = "Reports.EnableField('Employee');" })
+                                    <span class="check"></span>
+                                    @Html.LabelFor(model => model.Employee_Ident)
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <div  id="divEmployee" style="display:flex; visibility: hidden; padding-top: 3px;">
+                                &nbsp
+                                 @(Html.TextBoxFor(model => model.Employee_Ident, new { Class = "textFilter" }))
+                                 @Html.ValidationMessageFor(model => model.Employee_Ident)
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                    @*<div class="input-control checkbox" style="display:flex;">
+                        <label>
+                            <input type="checkbox" id="cbRetentionAnalyst" onclick="enableField('RetentionAnalyst')"/>
+                            <span class="check"></span>
+                            Retention Analyst 
+                        </label>
+                    </div>
+                    <div  id="divRetentionAnalyst" style="display:flex; visibility: hidden; padding-top: 3px;">
+                        &nbsp
+                         @(Html.Kendo().DropDownListFor(model => model.RetentionAnalyst_Name)
+                        .HtmlAttributes(new { style = "width: 200px;" })
+                        .OptionLabel("Select a filter...")
+                        .DataTextField("RetentionAnalyst_Name")
+                        .DataValueField("RetentionAnalyst_Ident")
+                        //.Events(events => events.DataBound("LocationOnDataBound")) //agrega el item TODOS
+                        .DataSource(source =>
+                        {
+                            source.Read(read =>
+                            {
+                                read.Action("Get_RetentionAnalysts", "Reports");
+                            });
+                        })                                      
+                    )
+                    </div>*@
+            </fieldset>
+        }
+    }
+</div>

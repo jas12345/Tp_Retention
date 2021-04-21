@@ -1,0 +1,75 @@
+﻿.pdf-page {
+    font-family: "DejaVu Sans", "Arial", sans-serif;
+    margin: 0 auto;
+    box-sizing: border-box;
+    box-shadow: 0 5px 10px 0 rgba(0,0,0,.3);
+    background-color: #fff;
+    color: #333;
+    position: relative;
+}
+
+.pdf-header {
+    position: absolute;
+    top: .3in;
+    height: .3in;
+    left: .5in;
+    right: .5in;
+    border-bottom: 1px solid #e5e5e5;
+    text-align: center;
+}
+
+.pdf-footer {
+    position: absolute;
+    bottom: .5in;
+    height: .6in;
+    left: .5in;
+    right: .5in;
+    padding-top: 10px;
+    border-top: 1px solid #e5e5e5;
+    text-align: left;
+    color: #787878;
+    font-size: 12px;
+}
+
+.pdf-body {
+    position: absolute;
+    top: .6in;
+    bottom: 1in;
+    left: .5in;
+    right: .5in;
+}
+
+.size-letter {
+    width: 8.5in;
+    height: 11in;
+}
+
+.pdf-title {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.pdf-signature {
+    margin-top: .5in;
+    margin-bottom: .5in;
+}
+
+.line-signature {
+    border-top: 1px solid #000;
+}
+
+.bolder-font {
+    font-weight: bold;
+}
+
+.text-justify {
+    text-align: justify;
+    font-size: 12px;
+}
+
+@media screen and (max-width: 1023px) {
+    .page-container,
+    .box {
+        display: none;
+    }
+}

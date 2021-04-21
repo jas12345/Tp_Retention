@@ -1,0 +1,77 @@
+﻿.textFilter {
+    border-radius: 0;
+    border-width: 1px;
+    border-style: solid;
+    border-collapse: collapse;
+    border-color: #dadada;
+    margin: 0;
+    height: 18px;
+    line-height: 1.65em;
+    padding: .177em 0;
+    text-indent: .33em;
+    font-family: inherit;
+    outline: 0;
+    vertical-align: top;
+    font-size: 100%;
+    -webkit-appearance: none;
+    background-color: #fff;
+    color: #787878;
+    box-sizing: content-box;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-rtl-ordering: logical;
+    -webkit-user-select: text;
+    cursor: auto;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    font: -webkit-small-control;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+}
+
+.ac_results {
+    padding: 0px;
+    border: 1px solid WindowFrame;
+    background-color: Window;
+    overflow: hidden;
+    width: inherit;
+    position: absolute;
+    z-index: 9999;
+}
+
+    .ac_results ul {
+        width: 100%;
+        list-style-position: outside;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .ac_results iframe {
+        display: none; /*sorry for IE5*/
+        display /**/: block; /*sorry for IE5*/
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        filter: mask();
+        width: 3000px;
+        height: 3000px;
+    }
+
+    .ac_results li {
+        margin: 0px;
+        padding: 2px 5px;
+        cursor: pointer;
+        display: block;
+        width: 100%;
+        font: menu;
+        font-size: 12px;
+        overflow: hidden;
+    }
+
+        .ac_results li:hover {
+            background-color: #00B0FF;
+            color: #FFF;
+        }

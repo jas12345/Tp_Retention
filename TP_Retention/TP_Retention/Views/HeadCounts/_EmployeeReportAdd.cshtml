@@ -1,0 +1,210 @@
+﻿@model TP_Retention_EFDM.ViewModel.EmployeeReportViewModel
+
+@{
+    Layout = null;
+}
+
+<script type="text/javascript">
+    $("#dpReportDate").keypress(function (evt) {
+        var keycode = evt.charCode || evt.keyCode;
+
+        if (keycode == 9) {
+            return true;
+        } else {
+            var datePicker = $("#dpReportDate").data("kendoDatePicker");
+            datePicker.open();
+            return false;
+        }
+
+    });
+
+    function filterSubReportType() {
+        return {
+            ReportTypeId: $("#ReportType_IdAdd").val()
+        };
+    }
+
+    function filterMotivoReport() {
+        return {
+            SubReportType: $("#SubReportType_IdAdd").val()
+        };
+    }
+
+    function filterSpecificCauseReport() {
+        return {
+            ReasonId: $("#ReasonReport_IdAdd").val()
+        };
+    }
+
+    function onSelect(e) {
+        $('#subReportRL').hide();
+        var dataItem = this.dataItem(e.item.index());
+        if (dataItem.SubReportType_Id == 29) {
+            $('#subReportRL').show();
+        }
+    }
+
+    function onSelectAbsence(e) {
+        $('#AbsenceCauses').hide();
+        var dataItem = this.dataItem(e.item.index());
+        if (dataItem.ReportType_Id == 2) {
+            $('#AbsenceCauses').show();
+        }
+
+    }
+</script>
+
+<div class="editfieldset">
+    @{
+
+        using (Html.BeginForm("", "", FormMethod.Post, new { @id = "FormReportAdd" }))
+        {
+            @Html.HiddenFor(model => model.Employee_Ident, new { @id = "Employee_Ident_AddReport" })
+            <div>
+                @*ReportDate*@
+                <div class="row section">
+                    @*Report Date*@
+                    <div class="col s3">
+                        @Html.LabelFor(model => model.ReportDate)
+                        @(Html.Kendo().DatePickerFor(model => model.ReportDate)
+                                                                    .Value(DateTime.Today)
+                                                                    .Format("MM/dd/yyyy")
+                                                                    .HtmlAttributes(new { style = "width:100%;", @id = "dpReportDate", type = "Text" })
+                        )
+                    </div>
+                    @*ReportType*@
+                    <div class="col s4">
+                        @Html.LabelFor(model => model.ReportType)
+                        @(Html.Kendo().DropDownListFor(model => model.ReportType_Id)
+                                                                    .Name("ReportType_IdAdd")
+                                                                    .HtmlAttributes(new { style = "width:100%;", validationmessage = "The Report Type is required" })
+                                                                    .OptionLabel("Select...")
+                                                                    .DataTextField("ReportType")
+                                                                    .DataValueField("ReportType_Id")
+                                                                    .DataSource(source =>
+                                                                    {
+                                                                        source.Read(read => read.Action("Get_ReportType", "HeadCounts"))
+                                                                            .ServerFiltering(true);
+                                                                    })
+                                                                    .Events(e =>
+                                                                    {
+                                                                        e.Select("onSelectAbsence");
+                                                                    })
+                        )
+                    </div>
+                    @*SubReportType*@
+                    <div class="col s4">
+                        @Html.LabelFor(model => model.SubReportType)
+                        @(Html.Kendo().DropDownListFor(model => model.SubReportType_Id)
+                                                                    .Name("SubReportType_IdAdd")
+                                                                    .HtmlAttributes(new { style = "width:100%;" })
+                                                                    .OptionLabel("Select...")
+                                                                    .DataTextField("SubReportType")
+                                                                    .DataValueField("SubReportType_Id")
+                                                                    .DataSource(source =>
+                                                                    {
+                                                                        source.Read(read => read.Action("Get_SubReportType", "HeadCounts")
+                                                                            .Data("filterSubReportType"))
+                                                                            .ServerFiltering(true);
+                                                                    })
+                                                                    .Enable(false)
+                                                                    .AutoBind(false)
+                                                                    .CascadeFrom("ReportType_IdAdd")
+                                                                    .Events(e =>
+                                                                        {
+                                                                            e.Select("onSelect");
+                                                                        })
+                        )
+                    </div>
+                    @*Date Of Event*@
+                    <div class="col s3">
+                        @Html.LabelFor(model => model.dateOfEvent)
+                        @(Html.Kendo().DatePickerFor(model => model.dateOfEvent)
+                                                                    .Value(DateTime.Today)
+                                                                    .Format("MM/dd/yyyy")
+                                                                    .HtmlAttributes(new { style = "width:100%;", @id = "dpdateOfEvent", type = "Text" })
+                        )
+                        @*verificar validacion de fechas*@
+                    </div>
+                    <div id="AbsenceCauses" class="row section" style="display:none;">
+                        <div class="col s4">
+                            @Html.LabelFor(model => model.ReasonId)
+                            @(Html.Kendo().DropDownListFor(model => model.ReasonId)
+                                                                                .Name("ReasonReport_IdAdd")
+                                                                                .HtmlAttributes(new { style = "width:100%;" })
+                                                                                .OptionLabel("Select...")
+                                                                                .DataTextField("Reason")
+                                                                                .DataValueField("ReasonId")
+                                                                                .DataSource(source =>
+                                                                                {
+                                                                                    source.Read(read => read.Action("Get_Reasons", "HeadCounts"))
+                                                                                        //.Data("filterMotivoReport"))
+                                                                                        .ServerFiltering(true);
+                                                                                })
+                                                                                .Enable(false)
+                                                                                .AutoBind(false)
+                                                                                .CascadeFrom("SubReportType_IdAdd")
+                            )                            
+                        </div>
+                        <div class="col s5">
+                            @Html.LabelFor(model => model.SpecificCause_Id)
+                            @(Html.Kendo().DropDownListFor(model => model.SpecificCause_Id)
+                                                                                .Name("SpecificCause_IdAdd")
+                                                                                .HtmlAttributes(new { style = "width:100%;" })
+                                                                                .OptionLabel("Select...")
+                                                                                .DataTextField("SpecificCause")
+                                                                                .DataValueField("SpecificCauseId")
+                                                                                .DataSource(source =>
+                                                                                {
+                                                                                    source.Read(read => read.Action("Get_SpecificCause", "HeadCounts")
+                                                                                    .Data("filterSpecificCauseReport"))
+                                                                                    .ServerFiltering(true);
+                                                                                })
+                                                                                .Enable(false)
+                                                                                .AutoBind(false)
+                                                                                .CascadeFrom("ReasonReport_IdAdd")
+                            )
+
+                        </div>
+                    </div>
+                </div>
+                    <div id="subReportRL" class="row section" style="display:none;">
+                        <div class="col s12">
+                            @Html.LabelFor(model => model.CollegeName)
+                            @(Html.Kendo().DropDownListFor(model => model.CollegeId)
+                                        .Name("CollegeId_Add")
+                                        .HtmlAttributes(new { style = "width:100%;" })
+                                        .DataTextField("CollegeName")
+                                        .DataValueField("CollegeId")
+                                        .DataSource(source =>
+                                        {
+                                            source.Read(read => read.Action("Get_Colleges", "HeadCounts"));
+                                        })
+                                        .AutoBind(true)
+                            )
+                        </div>
+                    </div>
+                    <div class="row section">
+                        @*Report Description*@
+                        <div class="col s12">
+                            @Html.LabelFor(model => model.ReportDescription)
+                            @Html.TextAreaFor(model => model.ReportDescription, new { maxlength = 8000, @class = "materialize-textarea", style = "width: 100%; height: 22px; text-transform:uppercase;", placeholder = "Type a description..." })
+                        </div>
+                    </div>
+                    <div class="row section" style="display:none;">
+                        @*Employee Commitment*@
+                        <div class="col s12">
+                            @Html.LabelFor(model => model.EmployeeCommitment)
+                            @Html.TextAreaFor(model => model.EmployeeCommitment, new { maxlength = 8000, @class = "materialize-textarea", style = "width: 100%; height: 22px; text-transform:uppercase;", placeholder = "Type a description..." })
+                        </div>
+                    </div>
+                    <div class="row">
+                        @*Save*@
+                        <div class="col s12 center-align">
+                            <button type="button" id="btnEmployeeReportAdd" class="waves-effect waves-light btn green accent-3 white-text" onclick="HeadCounts.EmployeeReportData_Create();"><i class="fa fa-check-circle" style="padding-right: 5px;"></i>Save</button>
+                        </div>
+                    </div>
+             </div>
+        }
+    }
+</div>

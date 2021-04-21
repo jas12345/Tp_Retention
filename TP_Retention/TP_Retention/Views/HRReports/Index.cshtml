@@ -1,0 +1,80 @@
+﻿@using Kendo.Mvc.UI;
+@using Kendo.Mvc.Extensions;
+@using TP_Retention.Helpers;
+
+@{
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
+}
+
+<script src="@Url.Js("Class/HRReports")"></script>
+@*<script type="text/javascript" src="@Url.Js("Class/HeadCounts")"></script>*@
+
+<style type="text/css">
+    #divHRReportsSplitter {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: auto;
+        height: auto;
+    }
+
+    #FiltersHRReportsPane {
+        background-color: white;
+    }
+
+    #ContentHRReportsPane {
+        background-color: white;
+    }
+
+    .pane-content {
+        padding: 0 10px;
+    }
+</style>
+
+<div id="divHRReports">
+    @(Html.Kendo().Splitter()
+    .Name("divHRReportsSplitter")
+    .Orientation(SplitterOrientation.Horizontal)
+    .Panes(panes =>
+        {
+            panes.Add()
+                .HtmlAttributes(new { id = "divHRReportsSplitterPane" })
+                .Size("100%")
+                .Collapsible(true)
+                .Scrollable(true)
+                .Content(
+                    Html.Kendo().Splitter()
+                        .Name("HRReportsQueryPanel")
+                        .Orientation(SplitterOrientation.Vertical)
+                        .HtmlAttributes(new { style = "height: 100%;" })
+                        .Panes(queryPanes =>
+                            {
+                                queryPanes.Add()
+                                    .HtmlAttributes(new { id = "FiltersHRReportsPane" })
+                                    .Size("45%")
+                                    .Collapsible(true)
+                                    .Scrollable(true)
+                                    .Content(
+                                    @<text>
+                                        @Html.Partial("_FiltersHRReports")
+                                    </text>
+                                    );
+
+                                queryPanes.Add()
+                                    .HtmlAttributes(new { id = "ContentHRReportsPane" })
+                                    .Collapsible(true)
+                                    .Scrollable(true)
+                                    .Content(
+                                    @<text>
+                                        @Html.Partial("_ContentHRReports")
+                                    </text>
+                                    );
+                            }).ToHtmlString()
+                    );
+        }
+                                                    )
+    )
+</div>
+

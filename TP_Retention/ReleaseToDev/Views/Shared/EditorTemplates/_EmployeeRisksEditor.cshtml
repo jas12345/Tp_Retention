@@ -1,0 +1,261 @@
+﻿@model TP_Retention_EFDM.ViewModel.EmployeeOnRiskViewModel
+
+@{
+    Layout = null;
+    ViewBag.ListaRiesgo_Id = Model.RiskList_Id;
+}
+
+@*<style scoped></style> solo es soportado por firefox*@
+<style type="text/css"> 
+    .k-edit-form-container
+    {
+        width: auto;
+    }
+
+    .k-window > div.k-popup-edit-form
+    {
+        padding: 0;
+    }
+
+    .editfieldset
+    {
+        padding: 2% 1% 1% 6%;
+    }
+
+        .editfieldset div
+        {
+            margin-bottom: 1em;
+        }
+
+            .editfieldset div > label
+            {
+                display: block;
+            }
+        /*.editaplserv div > label:first-child { font-weight: bold; }*/
+
+    #editTabStrip {
+        /*position: absolute;*/
+        /*top: 48px;*/
+        /*bottom: 60px;*/ 
+        left: 0;
+        right: 0;
+        width: auto;
+        height: auto;
+        font-size:13px;
+    }
+
+    #editTabStrip > .k-content {
+        /*position: absolute;*/
+        /*top: 38px;*/
+        bottom: 0;
+        left: 0;
+        right: 0; 
+        padding: 0 10px 0; 
+    }
+
+    #RiskStatus_Id-list .k-item
+    {
+        font-size:.8em;
+    }
+
+    #RiskListType_Id-list .k-item
+    {
+        font-size:.8em;
+    }
+
+    /*#TipoBaja_Id-list .k-item {
+        font-size:.8em;
+    }*/
+
+    #Category_Id-list .k-item {
+        font-size:.8em;
+    }
+
+    div.k-edit-buttons.k-state-default {
+        font-size:13px;
+    }
+
+    a.k-button.k-button-icontext.k-primary.k-grid-update {
+        width: 77px;
+        height: 30px;
+        color:#787878;
+    }
+
+   
+    a.k-button.k-button-icontext.k-grid-cancel {
+        width: 77px;
+        height: 30px;
+        color:#787878;
+    }
+
+    
+
+</style>
+
+<script type="text/javascript">
+    function onSelect(e) {
+        var indexTabSelected = $(e.item).index();
+        var param = {
+            ListaRiesgo_Id: $('#ListaRiesgo_Id').val(),
+            Employee_Ident: $('#Employee_Ident').val()
+        };
+
+        if (indexTabSelected == 1) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetActionLog", "HeadCounts")',
+                data: JSON.stringify(param),
+                dataType: "html",
+                contentType: "application/json",
+                success: function (data) {
+                    $("#Employee_OnRisk_ActionLog").html(data);
+                }
+            });
+        }
+    }
+
+    $("#dpResignationDate").keypress(function (evt) {
+        var keycode = evt.charCode || evt.keyCode;
+
+        if (keycode == 9) {
+            return true;
+
+        } else {
+            var datePicker = $("#dpResignationDate").data("kendoDatePicker");
+            datePicker.open();
+            return false;
+        }
+    });
+
+    $("#dpReviewDate").keypress(function (evt) {
+        var keycode = evt.charCode || evt.keyCode;
+
+        if (keycode == 9) {
+            return true;
+        } else {
+            var datePicker = $("#dpReviewDate").data("kendoDatePicker");
+            datePicker.open();
+            return false;
+        }
+    });
+</script>
+
+@Html.HiddenFor(model => model.Employee_Ident)
+@Html.HiddenFor(model => model.RiskList_Id)
+@(Html.Kendo().TabStrip()
+        .Name("editTabStrip")
+        .Animation(false)
+        .Events(events => events
+                .Select("onSelect")
+        )
+        .Items(
+            tabstrip => 
+                {
+                    tabstrip.Add().Text("<i class='fa fa-exclamation-triangle'></i>  Risk Data")
+                        .Selected(true)
+                        .Encoded(false)
+                        .Content(@<text>
+                                    <div class="editfieldset">
+                                        <div class="grid">
+                                            @*Primera Fila*@
+                                            <div class="row" style="margin-top: 0; margin-bottom: 0;">
+                                                @*Risk Date*@
+                                                <div class="span2">
+                                                    @Html.LabelFor(model => model.RiskDate)
+                                                    @(Html.Kendo().DatePickerFor(model => model.RiskDate)
+                                                        .Value(DateTime.Today)
+                                                        .Format("MM/dd/yyyy")
+                                                        .HtmlAttributes(new { style = "width:150px" })
+                                                        .Enable(false)
+                                                    )
+                                                </div>
+                                                @*Risk Status*@
+                                                <div class="span2">
+                                                    @Html.LabelFor(model => model.RiskStatus)
+                                                    @(Html.Kendo().DropDownListFor(model => model.RiskStatus_Id)
+                                                        .HtmlAttributes(new { style = "width:150px" })
+                                                        //.AutoBind(false)
+                                                        .OptionLabel("Select...")
+                                                        .DataTextField("EstatusRiesgo")
+                                                        .DataValueField("EstatusRiesgo_Id")
+                                                        .DataSource(source =>
+                                                        {
+                                                            source.Read(read => read.Action("Get_EmployeeStatus", "HeadCounts")).ServerFiltering(true);
+                                                        })
+                                                    )                                                                                                        
+                                                </div>
+                                                @*Risk List Type*@
+                                                <div class="span2">
+                                                    @Html.LabelFor(model => model.RiskListType)
+                                                    @(Html.Kendo().DropDownListFor(model => model.RiskListType_Id)
+                                                        .HtmlAttributes(new { style = "width:150px" })
+                                                        .OptionLabel("Select...")
+                                                        .DataTextField("RiskListType")
+                                                        .DataValueField("RiskListType_Id")
+                                                        .DataSource(source =>
+                                                        {
+                                                            source.Read(read => read.Action("Get_RiskListType", "HeadCounts")).ServerFiltering(true);
+                                                        })
+                                                    )
+                                                </div>
+                                                @*Resignation Date*@
+                                                <div class="span2">
+                                                    @Html.LabelFor(model => model.ResignationDate)
+                                                    @(Html.Kendo().DatePickerFor(model => model.ResignationDate)
+                                                            .Value(DateTime.Today)
+                                                            .Format("MM/dd/yyyy")
+                                                            .Min(DateTime.Now)
+                                                            //.Events(events => events.Change("ClearManagersEmployeesGrid"))
+                                                            .HtmlAttributes(new { style = "width:150px", @id="dpResignationDate" })
+                                                    )
+                                                </div>
+                                            </div>
+                                            @*Segunda Fila*@
+                                            <div class="row" style="margin-top: 0; margin-bottom: 0;">
+                                                @*Review Date*@
+                                                <div class="span2">
+                                                    @Html.LabelFor(model => model.ReviewDate)
+                                                    @(Html.Kendo().DatePickerFor(model => model.ReviewDate)
+                                                            .Value(DateTime.Today)
+                                                            .Format("MM/dd/yyyy")
+                                                            .Min(DateTime.Now)
+                                                            //.Events(events => events.Change("ClearManagersEmployeesGrid"))
+                                                            .HtmlAttributes(new { style = "width:150px", @id = "dpReviewDate" })
+                                                    )
+                                                </div>
+                                                @*Categories*@
+                                                <div class="span2">
+                                                    @Html.LabelFor(model => model.Category)
+                                                    @(Html.Kendo().DropDownListFor(model => model.Category_Id)
+                                                            .HtmlAttributes(new { style = "width:310px" })
+                                                            .OptionLabel("Select...")
+                                                            .DataTextField("Categoria")
+                                                            .DataValueField("Categoria_Id")
+                                                            .DataSource(source => 
+                                                            {
+                                                                source.Read(read => read.Action("Get_RiskCategories", "HeadCounts")).ServerFiltering(true);
+                                                            })
+                                                    )                
+                                                </div>
+                                            </div>
+                                            @*Tercera fila*@
+                                            <div class="row" style="margin-top: 0;margin-bottom: 0;">
+                                                @*Risk Description*@
+                                                <div class="span8">
+                                                    @Html.LabelFor(model => model.RiskDescription)
+                                                    @Html.TextAreaFor(model => model.RiskDescription, new { maxlength=1000, @class="k-textbox",  @cols="80" , @rows="4", style = "width: 630px; height: 130px; text-transform:uppercase;" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </text>);
+
+                    tabstrip.Add().Text("<i class='fa fa-history'></i>  Action Log")
+                        .Encoded(false)
+                        .Content(@<text>
+                                        <div id="Employee_OnRisk_ActionLog"></div>
+                                </text>
+                        );
+                }
+        )
+)

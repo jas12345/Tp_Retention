@@ -1,0 +1,72 @@
+﻿@using TP_Retention.Helpers;
+@using System.Web.Helpers;
+@using System.Web.Optimization;
+
+@model TP_Retention_EFDM.ViewModel.LoginViewModel
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutAccess.cshtml";
+}
+
+<!-- Vista de logueo del usuario -->
+
+<script type="text/javascript" src="@Url.Js("Class/Access")" ></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $(document).keypress(function (event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+                Access.Authentication();
+            }
+        });
+
+    });
+
+</script>
+
+<div class="row">
+    <div class="col">
+        <h2><i class="fa fa-lock"></i> Login</h2>
+    </div>
+</div>
+
+<div style="width: 400px; height: 200px">
+    <!-- Formulario en el cual se logeará el usuario -->
+
+    @{ Html.ValidationSummary(); }
+    @using (Html.BeginForm("Authentication", "Access", FormMethod.Post, new { @id = "Form", @class = "col s12" }))
+    {
+
+        <div class="row">
+            <div class="input-field">
+                <i class="fa fa-user prefix"></i>
+                @(Html.Kendo().TextBoxFor(model => model.userID)
+                    .HtmlAttributes(new { style = "font-size:1rem;", type = "text"})
+                    )
+                <label for="userID">User</label>
+                @Html.ValidationMessageFor(model => model.userID)
+            </div>
+        </div>      
+        <div class="row">
+            <div class="input-field">
+                <i class="fa fa-key prefix"></i>
+                @(Html.Kendo().TextBoxFor(model => model.pass)
+                    .HtmlAttributes(new { style = "font-size:1rem;", type = "password", autocomplete = "off"})
+                    )
+                <label for="pass">Password</label>
+                @Html.ValidationMessageFor(model => model.pass)
+            </div>
+        </div>
+        <div class="row">
+            <div class="section">
+                <button type="button" id="btnsubmit" class="waves-effect waves-light btn indigo darken-3" onclick="Access.Authentication();">Enter</button>
+            </div>
+        </div>
+            
+    }
+
+</div>

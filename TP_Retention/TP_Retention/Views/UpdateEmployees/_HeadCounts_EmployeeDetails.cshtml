@@ -1,0 +1,320 @@
+﻿@using System.Web.Optimization;
+@using System;
+@using System.Web.Helpers;
+
+@{ Layout = null; }
+@model TP_Retention_EFDM.ViewModel.ManagerEmployeesViewModel
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        kendo.ui.progress($("#imgdiv"), true);
+        $(".imgLiquidFill").imgLiquid({
+            fill: false
+        });
+        kendo.ui.progress($("#imgdiv"), false);
+
+        $("#btnPayroll").click(function () {
+
+            var Employee_Ident = $("#Employee_Ident").text();
+            
+            var Payroll = $("#txtPayroll").val();
+
+            var URL = General.BASE_URL + '/UpdateEmployees/Set_Payroll_Employee';
+
+            $.ajax({
+
+                dataType: 'json',
+                type: 'POST',
+                data: { "Employee_Ident": Employee_Ident, "Payroll": Payroll },
+                async: false,
+                url: URL,
+                success: function (json) {
+
+                    if (json.success == 1) {
+
+                        $("#Payroll").text(json.oData.Payroll);
+
+                        $("#txtPayroll").val("");
+
+                        $("#result").show();
+
+                        $("#result").fadeOut(3000);
+
+                    } else if (json.failure == 1) {
+
+                        General.FlashMessage(json.oData.Error);
+
+                    } else if (json.noLogin == 1) {
+
+                        window.location = General.BASE_URL + "/Access/Index";
+
+                    }
+
+                },
+                error: function (request, status, error) {
+
+                    General.FlashMessage('Error');
+
+                }
+
+            });
+
+        });
+
+    });
+
+
+</script>
+
+<style type="text/css">
+    /*#imgdiv {
+        height: 120px;
+        width: 120px;
+        background-color: white;
+        border-radius: 10px;
+    }*/
+
+    .metro legend {
+        padding-top: 10px;
+    }
+
+    .metro fieldset {
+        padding: 0 10px 0;
+        /*height:100%;*/
+    }
+
+    .metro .grid {
+        margin-bottom: 0;
+    }
+
+    .editor-field {
+        padding-left: 8px;
+        padding-right: 30px;
+    }
+
+    .display-field,
+    .editor-field,
+    h5, p {
+        display: inline-block;
+        margin: 0.5em 0.8em 0 0;
+    }
+
+    #result {
+            
+        position:relative;
+        width:100%;
+        background-color:#40c04c;
+        /*height:auto;
+        margin-top:0.5em;
+        margin-bottom:0.5em;*/
+        font-size:100%;
+        padding:1em;
+        z-index:10000;            
+        opacity:1.0;
+        -moz-opacity:1.0;
+        filter: alpha(opacity=100);
+        display:none;
+                            
+    }
+
+    .metro label {
+    display: block;
+    margin: 5px 5px;
+    font-size: 12px;
+    }
+
+    #tblSchedule td {
+    border-color: white;
+    background-color: #78aa1c !important;
+    color: white;
+    }
+
+    #tblSchedule th {
+    border-color: white;
+    background-color: #78aa1c !important;
+    color: white;
+    }
+
+</style>
+
+    @{
+        string src = "https://observer.tpmex.com/Observer/api/EmployeePicture/?Username=" + Model.Acccount_Id;
+    }
+
+@if (Model != null)
+{
+    @Html.HiddenFor(model => model.Employee_Ident, new { @id = "empid" })
+    <fieldset>
+        <legend style="display:none;"></legend>
+        <div class="grid bg-lightOlive">
+            <div class="row bg-lightOlive" style="padding: 15px; color: white; margin-top: 0">
+
+                <div class="span2">
+                    <div class="imgLiquidFill imgLiquid" style="width: 100px; height: 100px; border-radius: 10px;">                  
+                        <img src="@src"  style="width: 120px; height: 120px; border-radius:7px;" />
+                    </div>
+                </div>
+
+                <table id="employeeData" class="bg-lightOlive" style="font-size:12px;">
+                    <tbody>
+                        <tr>
+                            <td>
+                                @Html.LabelFor(m => m.Nombre)
+                            </td>
+                            <td style="display: block; margin: 5px 5px; font-size: 12px;">
+                                @Html.DisplayFor(m => m.Nombre)
+                            </td>
+                            <td>
+                                @Html.LabelFor(m => m.Hire_Date)
+                            </td>
+                            <td style="display: block; margin: 5px 5px; font-size: 12px;">
+                                @Html.DisplayFor(m => m.Hire_Date)
+                            </td>
+                            <td>
+                                @Html.LabelFor(m => m.RiskListCount)
+                            </td>
+                            <td style="display: block; margin: 5px 5px; font-size: 12px;">
+                                @Html.DisplayFor(m => m.RiskListCount)
+                            </td>
+                            @*<td>
+                                @Html.LabelFor(m => m.FTE)
+                            </td>
+                            <td style="display: block; margin: 5px 5px; font-size: 12px;">
+                                @Html.DisplayFor(m => m.FTE)
+                            </td>*@
+                        </tr>
+
+                        <tr>
+                            <td>
+                                @Html.LabelFor(m => m.Employee_Ident)
+                            </td>
+                            <td style="display: block; margin: 5px 5px; font-size: 12px;">
+                                @Html.DisplayFor(m => m.Employee_Ident)
+                            </td>
+                            @*<td>
+                                @Html.LabelFor(m => m.PayRoll)
+                            </td>*@
+                            @*<td style="display: block; margin: 5px 5px; font-size: 12px;">
+                                @Html.DisplayFor(m => m.PayRoll)
+                            </td>*@
+                            <td>
+                                @Html.LabelFor(m => m.Acccount_Id)
+                            </td>
+                            <td style="display: block; margin: 5px 5px; font-size: 12px;">
+                                @Html.DisplayFor(m => m.Acccount_Id)
+                            </td>
+                             <td>
+                                @Html.LabelFor(m => m.Tenure)
+                            </td>
+                            <td style="display: block; margin: 5px 5px; font-size: 12px;">
+                                @Html.DisplayFor(m => m.Tenure)
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                @Html.LabelFor(m => m.Manager_Name)
+                            </td>
+                            <td style="display: block; margin: 5px 5px; font-size: 12px;">
+                                @Html.DisplayFor(m => m.Manager_Name)
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                @Html.LabelFor(m => m.Client_Name)
+                            </td>
+                            <td style="display: block; margin: 5px 5px; font-size: 12px;">
+                                @Html.DisplayFor(m => m.Client_Name)
+                            </td>
+                            <td>
+                                @Html.LabelFor(m => m.Program_Name)
+                            </td>
+                            <td style="display: block; margin: 5px 5px; font-size: 12px;">
+                                @Html.DisplayFor(m => m.Program_Name)
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="span8" style="margin-left: 0;height: 85px; margin-top: 5px;">
+                    <p style="color: white; font-size: 12px;">Schedule:</p> 
+                    <p style="color: white; font-size: 12px;">@Html.DisplayFor(m => m.HorarioCve)</p>
+                    <div id="divSchedule" class="k-widget k-grid" style="width:290px; bottom: 7px;">
+                        <table id="tblSchedule" class="k-selectable">
+                            <thead class="k-grid-header">
+                                <tr>
+                                    <th class="k-header"></th>
+                                    <th class="k-header">Sun.</th>
+                                    <th class="k-header">Mon.</th>
+                                    <th class="k-header">Tues.</th>
+                                    <th class="k-header">Wed.</th>
+                                    <th class="k-header">Thurs.</th>
+                                    <th class="k-header">Fri.</th>
+                                    <th class="k-header">Sat.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Start:</td>
+                                    <td>@Html.DisplayFor(m => m.DomIni)</td>
+                                    <td>@Html.DisplayFor(m => m.LunIni)</td>
+                                    <td>@Html.DisplayFor(m => m.MarIni)</td>
+                                    <td>@Html.DisplayFor(m => m.MieIni)</td>
+                                    <td>@Html.DisplayFor(m => m.JueIni)</td>
+                                    <td>@Html.DisplayFor(m => m.VieIni)</td>
+                                    <td>@Html.DisplayFor(m => m.SabIni)</td>
+                                </tr>
+                                <tr class="k-alt">
+                                    <td>End:</td>
+                                    <td>@Html.DisplayFor(m => m.DomFin)</td>
+                                    <td>@Html.DisplayFor(m => m.LunFin)</td>
+                                    <td>@Html.DisplayFor(m => m.MarFin)</td>
+                                    <td>@Html.DisplayFor(m => m.MieFin)</td>
+                                    <td>@Html.DisplayFor(m => m.JueFin)</td>
+                                    <td>@Html.DisplayFor(m => m.VieFin)</td>
+                                    <td>@Html.DisplayFor(m => m.SabFin)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </fieldset>
+}
+
+<br />
+
+<div style="margin-left:50px;">
+
+    @using (Html.BeginForm("", "", FormMethod.Post))
+    {
+            
+        <div class="listview">
+
+            <div class="list-content">
+                <div class="data">
+                    <label style="font-size:15px;">Number payroll that you want to change.</label>
+                    <br />
+                    <label style="font-size:15px;">Payroll:</label>
+                    <br />                    
+                    <div>
+                       <input type="text" id="txtPayroll" name="payroll" value="" style="font-size:15px;" /> 
+                    </div>
+                </div>
+            </div>
+            <br />
+
+        </div>    
+                
+        <button id="btnPayroll" type="button" class="button primary">Accept</button>              
+        
+    }
+
+</div>
+
+<div id="result">
+    Payroll Update
+</div>

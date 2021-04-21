@@ -1,0 +1,132 @@
+﻿@using System.Web.Optimization;
+@using System;
+@using System.Web.Helpers;
+@using TP_Retention.Helpers;
+@using Kendo.Mvc.UI;
+@using Kendo.Mvc.Extensions;
+
+<!DOCTYPE html>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    <link rel="shorcut icon" href="~/Content/Images/tp-icon.jpg" type="image/png" />
+
+    @*Scripts and CSS*@
+    <link rel="stylesheet" type="text/css" href="@Url.Css("Content/CSS/normalize")" />
+    @*<link rel="stylesheet" type="text/css" href="@Url.Css("Content/CSS/metro-bootstrap")" />*@
+    <link rel="stylesheet" type="text/css" href="@Url.Css("Content/CSS/font-awesome")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Css("Content/CSS/Main")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Css("Content/CSS/style")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Css("Content/CSS/materialize.min")" />
+
+    <!-- Archivos JavaScript -->
+    <script src="@Url.Content("~/Scripts/kendo/2014.3.1316/jquery.min.js")"></script>
+    <script type="text/javascript" src="@Url.Js("jquery.validate.min")" ></script>
+    <script type="text/javascript" src="@Url.Js("jquery.validate.unobtrusive.min")" ></script>
+    <script type="text/javascript" src="@Url.Js("jquery.unobtrusive-ajax.min")" ></script>
+    <script type="text/javascript" src="@Url.Js("Class/General")" ></script>
+    <script type="text/javascript" src="@Url.Js("materialize.min")"></script>
+    <script src="~/Scripts/DisableRMC.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            @{
+                var urlHelper = new UrlHelper(Html.ViewContext.RequestContext);
+                var baseurl = urlHelper.Content("~");
+             }
+
+            General.BASE_URL = '@Url.RemoveLastChar(Request.Url.Scheme + "://" + Request.Url.Authority + Url.Ruta(""))';
+
+        });
+    </script>
+
+@*    <style>
+        .field-validation-error {
+            color: #F00;
+        }
+
+        .overlay {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 9999;
+            opacity: .8;
+            -moz-opacity: 0.8;
+            filter: alpha(opacity=80);
+        }
+
+        #flashmessage {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            z-index: 10000;
+            margin: 0;
+            opacity: 1.0;
+            -moz-opacity: 1.0;
+            filter: alpha(opacity=100);
+        }
+    </style>*@
+</head>
+<body>
+    @{
+                            
+        string dtFecha = DateTime.Now.ToString("MM/dd/yyyy");
+                          
+    }
+    <nav>
+        <div class="nav-wrapper grey darken-3">
+            <div class="col s12">
+                <img alt="Teleperformance Mexico" class="responsive-img" title="Teleperformance Nearshore Region" src="@Url.Img("TPHead.png")" style="height:64px;" />
+                <ul class="side-nav">
+                    <li>
+                        <h5 style="padding-right: 10px;">@dtFecha</h5>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <br />
+    <div class="row contentPage">
+        <div class="col center" style="float: none;">
+            <div class="formCenter z-depth-3">
+                <div class="row">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+@*    <div class="overlay">
+        <div id="flashmessage" class="progress-bar large bg-red" style="width: 100%; vertical-align: middle; height: 25px; display: none;">
+            <span id="message" style="color: #FFF;"></span>
+            <i class="icon-cancel-2" style="position: relative; float: right; margin-top: 5px; margin-right: 5px;" onclick="General.Close();"></i>
+        </div>
+    </div>*@
+
+    <footer style="text-align: center;">
+        <div id="footer" class="page-footer grey darken-3">
+            <div class="container" style="color: #FFFFFF;">
+                &copy; 2015 Teleperformance Nearshore Region.
+                @*<a title="Follow us" target="_blank" href="https://twitter.com/Teleperformance" class="waves-effect waves-circle waves-light btn-floating right blue darken-1">
+                    <i class="fa fa-twitter fa-lg"></i>
+                </a>
+                <a title="Teleperformance Communications" target="_blank" href="https://www.facebook.com/Teleperformance.Nearshore.North" class="waves-effect waves-circle waves-light btn-floating indigo darken-2 right" style="margin-right: 5px;">
+                    <i class="fa fa-facebook fa-lg"></i>
+                </a>*@
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/Scripts/html5.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+﻿@{ Layout = null; }
+
+<style>
+    #navigationPanelBar-1 {
+        border-bottom-width: 0px;
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $(document).keypress(function (event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+                Users.Get_Employee_Detail();
+            }
+        });
+
+    });
+</script>
+
+@(Html.Kendo().PanelBar()
+        .Name("navigationPanelBar")
+        .HtmlAttributes(new { style = "padding-left: 0; margin-left:0px; border-bottom-width:0px;" })
+        .Items(panels =>
+            {
+                panels.Add()
+                    .Text("Employee Search")
+                    .Expanded(true)
+                    .Selected(true)
+                    .Content(
+                                @<text>
+@using (Html.BeginForm("Get_Employee_Detail", "Users", FormMethod.Post, new { @id = "fGetEmployee" }))
+{
+    <fieldset style="padding: 0 20px 20px">
+        <legend style="display: none;"></legend>
+        <div class="row">
+            <div class="input-field col">
+                <input id="txtEmployee" name="Employee_Ident" maxlength="10" type="text">
+                <label for="txtEmployee">Employee Ident</label>
+                <span style="display: none;" class="k-widget k-tooltip k-tooltip-validation k-invalid-msg field-validation-error" data-for="Location" data-valmsg-for="Location" id="EI_validationMessage" role="alert"><span class="k-icon k-warning"></span>The Employee Ident field is required.</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button class="waves-effect waves-light btn indigo darken-3 white-text" type="button" id="idSearch" onclick="Users.Get_Employee_Detail();"><i class="fa fa-search"></i> Search</button>
+            </div>
+        </div>
+    </fieldset>
+}
+</text>
+                            );
+            })
+)

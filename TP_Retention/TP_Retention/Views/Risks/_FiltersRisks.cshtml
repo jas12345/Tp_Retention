@@ -1,0 +1,435 @@
+﻿@{ Layout = null; }
+@using TP_Retention_EFDM.ViewModel
+@using TP_Retention.Helpers;
+@using System.Web.Optimization;
+@using System.Web.Helpers;
+
+@model FiltersReportsViewModel
+
+<style type="text/css">
+    #FiltersForm > fieldset div div > p label {
+        font-size: 12.5px;
+        line-height: normal;
+    }
+</style>
+
+<link href="~/Content/CSS/AutoCompleteResult.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnBuscar").click(function (e) {
+            //e.preventDefault();
+            //Valida rango de dias entre fechas
+            if ($('#cbRiskDate').is(":checked")) {
+                var riskDateStart = $("#dpRiskDateStart").val();
+                var riskDateEnd = $("#dpRiskDateEnd").val();
+                var oRiskDateStart = new Date(riskDateStart);
+                var oRiskDateEnd = new Date(riskDateEnd);
+                checkBoxesChecked = true;
+                var diasDif = oRiskDateEnd.getTime() - oRiskDateStart.getTime();
+                var dias = Math.round(diasDif / (1000 * 60 * 60 * 24));
+
+                if (dias > 30) {
+                    //popupNotification.show({
+                    //    title: "Check values",
+                    //    message: "El rango de fecha para consultar no debe ser mayor a 30 dias."
+                    //}, "error");
+                    return toast('El rango de fecha para consultar no debe ser mayor a 30 dias.', 4000, 'rounded yellow darken-2');
+
+                    result = false;
+                }
+            }
+
+            Risks.Search_Reports_Details();
+        });
+
+        $("#dpRiskDateStart").keypress(function (evt) {
+            var keycode = evt.charCode || evt.keyCode;
+            if (keycode == 9) { //allow Tab through
+                return true;
+            } else {
+                // Allow the datepicker to open instead
+                var datePicker = $("#dpRiskDateStart").data("kendoDatePicker");
+                datePicker.open();
+                return false;
+            }
+        });
+
+        $("#dpRiskDateEnd").keypress(function (evt) {
+            var keycode = evt.charCode || evt.keyCode;
+            if (keycode == 9) { //allow Tab through
+                return true;
+            } else {
+                // Allow the datepicker to open instead
+                var datePicker = $("#dpRiskDateEnd").data("kendoDatePicker");
+                datePicker.open();
+                return false;
+            }
+        });
+
+        $("#dpReviewDateStart").keypress(function (evt) {
+            var keycode = evt.charCode || evt.keyCode;
+            if (keycode == 9) { //allow Tab through
+                return true;
+            } else {
+                // Allow the datepicker to open instead
+                var datePicker = $("#dpReviewDateStart").data("kendoDatePicker");
+                datePicker.open();
+                return false;
+            }
+        });
+
+        $("#dpReviewDateEnd").keypress(function (evt) {
+            var keycode = evt.charCode || evt.keyCode;
+            if (keycode == 9) { //allow Tab through
+                return true;
+            } else {
+                // Allow the datepicker to open instead
+                var datePicker = $("#dpReviewDateEnd").data("kendoDatePicker");
+                datePicker.open();
+                return false;
+            }
+        });
+
+        $("#EmployeeName").keyup(function (e) {
+            if (e.keyCode == 46 || e.keyCode == 8) {
+                $('#divAC_Results').hide();
+                $('.k-animation-container').hide();
+                return;
+            }
+
+            LoadEmployees();
+            $('#divAC_Results').show();
+            $('.k-animation-container').show();
+        });
+
+        function LoadEmployees() {
+            var countLetter = $("#EmployeeName").val().replace(/[^a-zA-Z0-9+]/g, "").length;
+
+            if (countLetter >= 5) {
+                var RegExName = /^[a-z A-Z]+(.)?\d?$/;
+                var Name = "";
+                var result = false;
+                var count = 5;
+
+                if ($("#EmployeeName").val().match(RegExName)) {
+                    Name = $("#EmployeeName").val();
+                    result = true;
+                }
+
+                if (result == true) {
+                    //ajax call
+                    var URL = General.BASE_URL + '/Risks/GetResultEmployeeName';
+
+                    $.ajax({
+                        dataType: 'json',
+                        type: 'POST',
+                        data: { "EmployeeName": Name, "Top": count },
+                        async: false,
+                        url: URL,
+                        success: function (json) {
+                            if (json.success == 1) {
+                                //agregar items a lista ul
+                                if ($('#divAC_Results').children().length !== 0) {
+                                    var previousUl = $('#divAC_Results').children();
+                                    previousUl.remove();
+                                }
+
+                                var ul = $('<ul>').appendTo('#divAC_Results');
+
+                                $(json.oData.Employees).each(function (index, item) {
+                                    ul.append("<li onclick='CopyText(this);' value='" + item.Employee_Ident + "'>" + item.Name + "</li>");
+                                });
+
+                            } else if (json.failure == 1) {
+                                General.FlashMessage(json.oData.Error);
+                            } else if (json.noLogin == 1) {
+                                window.location = General.BASE_URL + "/Access/Index";
+                            }
+                        },
+                        error: function (request, status, error) {
+                            General.FlashMessage('Error');
+                        }
+                    });
+                }
+            }
+        }
+    });
+
+    function getClient_Ident() {
+        return {
+            client_Ident: $("#Client_Ident").data("kendoDropDownList").value()
+        };
+    }
+</script>
+
+@*<script id="errorTemplate" type="text/x-kendo-template">
+    <div class="wrong-pass">
+        <img src="../content/images/error-icon-gray.png" />
+        <h3>#= title #</h3>
+        <p>#= message #</p>
+    </div>
+</script>*@
+
+<div id="divFiltersRisks">
+    @{
+        @Html.ValidationSummary()
+        using (Html.BeginForm("", "", FormMethod.Post, new { @id = "FiltersForm" }))
+        {
+        <fieldset style="font-size: 13px;">
+            <legend style="display: none;"></legend>
+            @*<div class="switch">
+                <label>
+                    <input type="checkbox" ID="cbSwitch">
+                    <span class="lever"></span>
+                </label>
+            </div>*@
+            <div class="row">
+                <div class="col">
+                    <h5><i class="fa @ViewData["Icon"]"></i> @ViewData["Title"]</h5>
+                </div>
+            </div>
+            @*<span id="popupNotification" style="display: none; cursor: pointer;"></span>*@
+            <div class="row">
+                <div class="col s1">
+                    <p>
+                        <input id="EstatusRiesgo" type="checkbox" checked="checked" disabled="disabled" />
+                        @Html.LabelFor(model => model.EstatusRiesgo)
+                    </p>
+                </div>
+                <div class="col s2" style="display: flex;">
+                    @(Html.Kendo().DropDownListFor(model => model.EstatusRiesgo_Id)
+                                    .HtmlAttributes(new { style = "width: 200px;" })
+                                    .DataTextField("EstatusRiesgo")
+                                    .DataValueField("EstatusRiesgo_Id")
+                                    .DataSource(source =>
+                                    {
+                                        source.Read(read =>
+                                        {
+                                            read.Action("Get_RiskStatus", "Risks");
+                                        });
+                                    })
+                                )
+                </div>
+                <div class="col s1">
+                    <p>
+                        <!--<input type="checkbox" id="cbRiskDate" onclick="Risks.EnableField('RiskDate');" />-->
+                        <input type="checkbox" id="cbRiskDate" checked="checked" disabled="disabled" />
+                        <label for="cbRiskDate">Registration Date</label>
+                    </p>
+                </div>
+                <div class="col s4" id="divRiskDate" style="display: flex; visibility: visible;">
+                    @(Html.Kendo().DatePickerFor(model => model.FechaRiesgoIni)
+                                    .Name("dpRiskDateStart")
+                                    .Value(DateTime.Today)
+                                    .Format("MM/dd/yyyy")
+                                    .Max(DateTime.Now)
+                                    .HtmlAttributes(new { style = "width:140px", Type = "Text" })
+                                )
+
+                    <p style="padding-left: 3px; padding-right: 3px;">and </p>
+
+                    @(Html.Kendo().DatePickerFor(model => model.FechaRiesgoFin)
+                                    .Name("dpRiskDateEnd")
+                                    .Value(DateTime.Today)
+                                    .Format("MM/dd/yyyy")
+                                    .Max(DateTime.Now)
+                                    .HtmlAttributes(new { style = "width:140px", Type = "Text" })
+                                )
+                </div>
+                <div class="col s1">
+                    <p>
+                        <input type="checkbox" id="cbReviewDate" onclick="Risks.EnableField('ReviewDate');" />
+                        <label for="cbReviewDate">Review Date</label>
+                    </p>
+                </div>
+                <div class="col s3" id="divReviewDate" style="display: flex; visibility: hidden;">
+                    @(Html.Kendo().DatePickerFor(model => model.FechaRevisionIni)
+                                    .Name("dpReviewDateStart")
+                                    .Format("MM/dd/yyyy")
+                                    .Value(DateTime.Today)
+                                    .HtmlAttributes(new { style = "width:140px" })
+                                )
+
+                    <p style="padding-left: 3px; padding-right: 3px;">and</p>
+
+                    @(Html.Kendo().DatePickerFor(model => model.FechaRevisionFin)
+                                    .Name("dpReviewDateEnd")
+                                    .Value(DateTime.Today)
+                                    .Format("MM/dd/yyyy")
+                                    .HtmlAttributes(new { style = "width:140px" })
+                                )
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col s1">
+                    <p>
+                        @*<input type="checkbox" id="cbLocation" onclick="Risks.EnableField('Location');" />*@
+                        <input type="checkbox" id="cbLocation" checked="checked" disabled="disabled" />
+                        <label for="cbLocation">Site</label>
+                    </p>
+                </div>
+                <div class="col s2" id="divLocation" style="display: flex; visibility: visible;">
+                    @(Html.Kendo().DropDownListFor(model => model.Location_Ident)
+                                .HtmlAttributes(new { style = "width: 180px;" })
+                                .OptionLabel("Select...")
+                                .DataTextField("Location_Name")
+                                .DataValueField("location_ident")
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("Get_Location", "Risks");
+                                    });
+                                })
+                            )
+                </div>
+                <div class="col s1">
+                    <p>
+                        <input type="checkbox" id="cbFloorManagers" onclick="Risks.EnableField('FloorManagers');" />
+                        <label for="cbFloorManagers">Floor Manager</label>
+                    </p>
+                </div>
+                <div class="col s4" id="divFloorManagers" style="display: flex; visibility: hidden;">
+                    @(Html.Kendo().DropDownListFor(model => model.FloorManager_Ident)
+                                .HtmlAttributes(new { style = "width: 230px;" })
+                                .OptionLabel("Select...")
+                                .DataTextField("FloorManager_Name")
+                                .DataValueField("FloorManager_Ident")
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("Get_FloorManagers", "Risks");
+                                    });
+                                })
+                            )
+                </div>
+                <div class="col s1">
+                    <p>
+                        <input type="checkbox" id="cbManagers" onclick="Risks.EnableField('Managers');" />
+                        <label for="cbManagers">Manager</label>
+                    </p>
+                </div>
+                <div class="col s3" id="divManagers" style="display: flex; visibility: hidden;">
+                    @(Html.Kendo().DropDownListFor(model => model.Manager_Ident)
+                                    .HtmlAttributes(new { style = "width: 230px;" })
+                                    .DataTextField("manager_name")
+                                    .DataValueField("manager_ident")
+                                    .OptionLabel("Select...")
+                                    .DataSource(source =>
+                                    {
+                                        source.Read(read =>
+                                        {
+                                            read.Action("Get_Managers", "Risks");
+                                        });
+                                    })
+
+                                )
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col s1">
+                    <p>
+                        <input type="checkbox" id="cbEmployee" onclick="Risks.EnableField('Employee');" />
+                        <label for="cbEmployee">CCMSID</label>
+                    </p>
+                </div>
+                <div class="col s2" id="divEmployee" style="display: flex; visibility: hidden;">
+                    @(Html.TextBoxFor(model => model.Employee_Ident, new { @style = "width: 180px;" }))
+                    @Html.ValidationMessageFor(model => model.Employee_Ident)
+                </div>
+                <div class="col s1">
+                    <p>
+                        <input type="checkbox" id="cbEmployeeName" onclick="Risks.EnableField('EmployeeName');" />
+                        <label for="cbEmployeeName">Employee</label>
+                    </p>
+                </div>
+                <div class="col s4" id="divEmployeeName" style="visibility: hidden;">
+                    @(Html.TextBoxFor(model => model.EmployeeName, new { Class = "textFilter", style = "margin-bottom: 1px;" }))
+                    @Html.Hidden("empid_selected", 0, new { @id = "empid_selected" })
+                    @*<div class="k-animation-container" style="width: 200px; height: 188px; margin-left: -2px; padding-left: 2px; padding-right: 2px; padding-bottom: 4px; overflow: hidden; display: none; position: absolute; top: 238px; z-index: 10002; left: 35.25px;">
+                        <div class="k-list-container k-popup k-group k-reset" id="divAC_Results" data-role="popup" style="height: auto; display: none; font-size: 13px; font-family: Roboto, sans-serif; font-stretch: normal; font-style: normal; font-weight: 500; line-height: normal; width: 198px; position: absolute; -webkit-transform: translateY(-188px);">
+                        </div>
+                    </div>*@
+                    <div id="divAC_Results" class="ac_results" style="display: none;">
+                    </div>
+                    @Html.ValidationMessageFor(model => model.EmployeeName)
+                </div>
+
+                <div class="col s1">
+                    <p>
+                        <input type="checkbox" id="cbCCMS_User" onclick="Risks.EnableField('CCMS_User');" />
+                        <label for="cbCCMS_User">CCMS User</label>
+                    </p>
+                </div>
+                <div class="col s2" id="divCCMS_User" style="display: flex; visibility: hidden;">
+                    @(Html.TextBoxFor(model => model.CCMS_User, new { @style = "width: 180px;" }))
+                    @Html.ValidationMessageFor(model => model.CCMS_User)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s1">
+                    <p>
+                        <input type="checkbox" id="cbClients" onclick="Risks.EnableField('Clients');" />
+                        <label for="cbClients">Client</label>
+                    </p>
+                </div>
+                <div class="col s2" id="divClients" style="display: flex; visibility: hidden;">
+                    @(Html.Kendo().DropDownListFor(model => model.Client_Ident)
+                                    .HtmlAttributes(new { style = "width: 230px;" })
+                                    .OptionLabel("Select...")
+                                    .DataTextField("Client_Name")
+                                    .DataValueField("Client_Ident")
+                                    .DataSource(source =>
+                                    {
+                                        source.Read(read =>
+                                        {
+                                            read.Action("Get_Clients", "Risks");
+                                        });
+                                    })
+                                )
+                </div>
+                <div class="col s1" id="divProgramLabel" style="display: flex; visibility: hidden;">
+                    <p>
+                        <input id="Program_Name" type="checkbox" checked="checked" disabled="disabled" />
+                        @Html.LabelFor(model => model.Program_Name)
+                    </p>
+                </div>
+                <div class="col s4" id="divProgram" style="display: flex; visibility: hidden;">
+                    @(Html.Kendo().DropDownListFor(model => model.Program_Ident)
+                                .HtmlAttributes(new { style = "width: 230px;" })
+                                .OptionLabel("Select...")
+                                .DataTextField("Program_Name")
+                                .DataValueField("Program_Ident")
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("Get_Programs", "Risks").Data("getClient_Ident");
+                                    })
+                                    .ServerFiltering(true);
+                                })
+                                .AutoBind(false)
+                                .Enable(false)
+                                .CascadeFrom("Client_Ident")
+                            )
+                </div>
+                <div class="col s4">
+                    <button id="btnBuscar" type="button" class="waves-effect waves-light btn indigo darken-3 white-text"><i class="fa fa-search" style="padding-right: 5px;"></i>Search</button>
+                </div>
+            </div>
+        </fieldset>
+        }
+    }
+</div>
+
+<script type="text/javascript">
+    function CopyText(elemento) {
+        $('#EmployeeName').val(elemento.textContent);
+        $('#empid_selected').val(elemento.value);
+        $('#divAC_Results').hide();
+    }
+</script>

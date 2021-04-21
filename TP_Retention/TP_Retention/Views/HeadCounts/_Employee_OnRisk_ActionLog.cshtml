@@ -1,0 +1,61 @@
+﻿@model TP_Retention_EFDM.ViewModel.EmployeeOnRiskActionLogViewModel
+
+@{
+    Layout = null;
+}
+
+<style type="text/css">
+    .author {
+        font-size: 12px;
+        color: #92A3B0;
+        line-height: 1.9em;
+        font-weight: normal;
+    }
+
+    .quote {
+        padding: 10px 10px;
+        line-height: 1.9em;
+        color: #617789;
+        font-size: 14px;
+    }
+</style>
+
+<div>
+    @*<span id="popupNotificationActionLog" style="display:none; cursor:pointer;"></span>*@
+    <div class="row section">
+        <div class="col s12">
+            @Html.LabelFor(model => model.AccionRetencion)
+            @Html.TextAreaFor(model => model.AccionRetencion, new { maxlength = 8000, @class = "materialize-textarea", style = "height: 22px; text-transform:uppercase;" })
+        </div>
+    </div>
+    <div class="row">
+        @*Update*@
+        <div class="col s12 center-align">
+            <button id="btnAddAction" type="button" class="waves-effect waves-light btn indigo darken-3 white-text" onclick="HeadCounts.SaveActionLog();"><i class="fa fa-check-circle"></i> Add</button>
+        </div>
+    </div>
+    <div class="row section">
+        <div class="col s12">
+            @Html.Label("Log")
+            <script type="text/x-kendo-tmpl" id="template">
+                <div class="quote">
+                    <i class="fa fa-quote-left"></i>
+                    #:AccionRetencion#
+                    <i class="fa fa-quote-right"></i>
+                    <div class="author"> #:UserIns#, #:kendo.toString(DateIns,"F")#</div>
+                </div>
+            </script>
+            @(Html.Kendo().ListView<TP_Retention_EFDM.ViewModel.EmployeeOnRiskActionLogViewModel>()
+                    .Name("listViewActionLog")
+                    .TagName("div")
+                    .ClientTemplateId("template")
+                    .DataSource(dataSource =>
+                    {
+                        dataSource.Read(read => read.Action("ActionLog_Read", "HeadCounts", new { riskList_Id = @ViewBag.ListaRiesgo_Id }));
+                        dataSource.PageSize(1);
+                    })
+                    .Pageable(paging => paging.ButtonCount(5))
+            )
+        </div>
+    </div>
+</div>

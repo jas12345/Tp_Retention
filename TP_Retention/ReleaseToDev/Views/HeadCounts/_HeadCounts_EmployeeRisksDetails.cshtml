@@ -1,0 +1,112 @@
+﻿@using TP_Retention_EFDM.ViewModel;
+@using System.Collections.Generic;
+@model List<EmployeeOnRiskViewModel>
+
+<style type="text/css">
+    #tabStripDetails {
+        font-size: 13px;
+    }
+</style>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        HeadCounts.EmployeeRisksDetails(@ViewData["Employee_Ident"]);
+
+        HeadCounts.EmployeeReportDetails(@ViewData["Employee_Ident"]);
+
+        $("#ModalEmployeeRisksEditor").kendoWindow({
+            width: "735px",
+            height: "785px",
+            title: "Edit Risk",
+            modal: true,
+            visible: false
+        });
+
+        $("#ModalEmployeeRisksAdd").kendoWindow({
+            width: "735px",
+            height: "650px",
+            title: "Add Risk",
+            modal: true,
+            visible: false
+        });
+
+        $("#ModalEmployeeReportEditor").kendoWindow({
+            width: "735px",
+            title: "Edit Report",
+            modal: true,
+            visible: false
+        });
+
+        $("#ModalEmployeeReportAdd").kendoWindow({
+            width: "735px",
+            title: "Add Report",
+            modal: true,
+            visible: false
+        });
+
+        $("#ModalEmployeeReportPrint").kendoWindow({
+            width: "735px",
+            title: "Export Report",
+            modal: true,
+            visible: false
+        });
+
+        $("#ModalEmployeeReportRemove").kendoWindow({
+            width: "400px",
+            title: "Remove Report",
+            modal: true,
+            visible: false
+        });
+        
+    });
+
+</script>
+
+@(Html.Kendo().TabStrip()
+    .Name("tabStripDetails")
+    .Items(tabstrip =>
+     {
+         tabstrip.Add().Text("Risks")
+          .Selected(true)
+             .Content(@<text>
+                <button type="button" id="addRiskButton" class="waves-effect waves-light btn indigo darken-3" onclick="HeadCounts.ModalEmployeeRisksAdd(@ViewData["Employee_Ident"]);"><i class="fa fa-plus-circle"></i> Add Risk</button>
+
+                <div id="gridEmployeeRisksDetails">
+
+                </div>
+
+                <div id="ModalEmployeeRisksEditor">
+
+                </div>
+
+                <div id="ModalEmployeeRisksAdd">
+
+                </div>
+            </text>);
+
+         tabstrip.Add().Text("HR Reports")
+             .Content(@<text>
+                <button type="button" id="addReportButton" class="waves-effect waves-light btn indigo darken-3" onclick="HeadCounts.ModalEmployeeReportAdd(@ViewData["Employee_Ident"]);"><i class="fa fa-plus-circle"></i> Add Report</button>
+                <div id="gridEmployeeReportDetails">
+
+                </div>
+
+                <div id="ModalEmployeeReportEditor">
+
+                </div>
+
+                <div id="ModalEmployeeReportAdd">
+
+                </div>
+
+                <div id="ModalEmployeeReportPrint">
+
+                </div>
+
+                <div id="ModalEmployeeReportRemove"></div>
+            </text>);
+})
+)
+

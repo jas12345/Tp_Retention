@@ -1,0 +1,80 @@
+﻿@{ Layout = null; }
+
+<style>
+    #navigationPanelBar-1 {
+        border-bottom-width: 0px;
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $(document).keypress(function (event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+                HeadCounts.Load_Info_Employee();
+            }
+        });
+
+        $("#queryDate").keypress(function (evt) {
+            var keycode = evt.charCode || evt.keyCode;
+            if (keycode == 9) { //allow Tab through
+                return true;
+            } else {
+                var datePicker = $("#queryDate").data("kendoDatePicker");
+                datePicker.open();
+                return false;
+            }
+        });
+
+    });
+</script>
+
+@(Html.Kendo().PanelBar()
+        .Name("navigationPanelBar")
+        .HtmlAttributes(new { style = "padding-left: 0; margin-left:0px; border-bottom-width:0px;" })
+        .Items(panels =>
+            {
+                panels.Add()
+                    .Text("Employee Search")
+                    .Expanded(true)
+                    .Selected(true)
+                    .Content(
+                    @<text>
+                        @using (Html.BeginForm("Get_Employee_Detail", "HeadCounts", FormMethod.Post, new { @id = "fGetEmployee" }))
+                        {
+                            <fieldset style="padding: 0 20px 20px">
+                                <legend style="display: none;"></legend>
+                                <div class="row">
+                                    <div class="input-field col">
+                                        <input id="txtEmployee" name="Employee_Ident" maxlength="10" type="text">
+                                        <label for="txtEmployee">CCMS ID</label>
+                                        <span style="display: none;" class="k-widget k-tooltip k-tooltip-validation k-invalid-msg field-validation-error" data-for="Location" data-valmsg-for="Location" id="EI_validationMessage" role="alert"><span class="k-icon k-warning"></span>The CCMS Id field is required.</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s8">
+                                        <div class="section">
+                                            <label for="queryDate" class="labelContent">Date</label>
+                                        </div>
+                                        @(Html.Kendo().DatePicker().Name("queryDate")
+                                            .Value(DateTime.Today)
+                                            .Format("MM/dd/yyyy")
+                                            .Max(DateTime.Now)
+                                            .HtmlAttributes(new { Type = "Text" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s8">
+                                        <div class="section" style="text-align: center;">
+                                            <button class="waves-effect waves-light btn indigo darken-3 white-text" type="button" id="idSearch" onclick="HeadCounts.Load_Info_Employee();"><i class="fa fa-search"></i> Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        }
+                    </text>
+                            );
+            })
+)

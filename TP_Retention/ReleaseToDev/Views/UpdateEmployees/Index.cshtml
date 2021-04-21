@@ -1,0 +1,236 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var count = 10;
+        
+        $("#footerResultSearch").click(
+            function() {
+
+                count = count + 10;
+                
+                LoadEmployees();
+
+            }
+        );
+
+        $("#txtEmployee").keyup(function (e) {
+
+            if (e.keyCode == 46 || e.keyCode == 8) {
+
+                $("#idAdd").hide();
+
+                count = 10;
+            
+            }
+
+            LoadEmployees();
+            
+        });
+
+        function LoadEmployees() {
+
+            $("#idAdd").show();
+            
+            var countLetter = $("#txtEmployee").val().replace(/[^a-zA-Z0-9+]/g, "").length;
+
+            if (countLetter >= 3) {
+
+                var RegExNumber = /^\d+$/;
+                var RegExName = /^[a-z A-Z]+(.)?\d?$/;
+
+                var Employee_Ident = 0;
+                var Name = "";
+                var result = false;
+
+                if ($("#txtEmployee").val().match(RegExNumber)) {
+
+                    Employee_Ident = $("#txtEmployee").val();
+
+                    result = true;
+
+                } else if ($("#txtEmployee").val().match(RegExName)) {
+
+                    Name = $("#txtEmployee").val();
+
+                    result = true;
+
+                }
+
+                if (result == true) {
+
+                    var URL = General.BASE_URL + '/UpdateEmployees/GetResultSearchemployee';
+
+                    $.ajax({
+
+                        dataType: 'json',
+                        type: 'POST',
+                        data: { "Employee_Ident": Employee_Ident, "Name": Name, "Top": count },
+                        async: false,
+                        url: URL,
+                        success: function (json) {
+
+                            if (json.success == 1) {
+
+                                var grid = $("#Employees").data("kendoGrid");
+
+                                var dataSource = new kendo.data.DataSource({
+
+                                    data: json.oData.Employees
+
+                                });
+
+                                grid.setDataSource(dataSource);
+                                grid.dataSource.read();
+
+                                $("#Employees table tbody tr").each(function (i, row) {
+
+                                    var $row = $(row);
+
+                                    $row.click(function () {
+
+                                        LoadDetailEmployees(this);
+
+                                    })
+                                });
+
+                            } else if (json.failure == 1) {
+
+                                General.FlashMessage(json.oData.Error);
+
+                            } else if (json.noLogin == 1) {
+
+                                window.location = General.BASE_URL + "/Access/Index";
+
+                            }
+
+                        },
+                        error: function (request, status, error) {
+
+                            General.FlashMessage('Error');
+
+                        }
+
+                    });
+                }
+
+            }
+
+        }
+
+        function LoadDetailEmployees(x) {
+
+            var URL = General.BASE_URL + '/UpdateEmployees/Get_Employee_Detail';
+
+            var Employee_Ident = parseInt(x.children[0].textContent);
+
+            $.ajax({
+                dataType:"html",
+                type: "POST",
+                url: URL,
+                data: { "Employee_Ident": Employee_Ident },
+                async:false,
+                success: function (data) {
+                    $("#EmployeeDetails").html(data); // HTML DOM replace
+                }
+            });
+                        
+        }
+
+    });
+
+</script>
+
+<style  scoped="scoped">
+
+    #divUpdateEmployees, #divMainSplitter {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: auto;
+        height: auto;
+    }
+
+    #ManagersEmployeesGrid {
+        top:35px;            
+    }
+
+    #footerResultSearch {
+        position:relative; 
+        background-color:#555555;
+        left:0px;
+        margin:0px;
+        width:100%;
+        height:35px;   
+        text-align:center;   
+        opacity: 0.8;             
+    }
+
+</style>
+
+<div id="divHeadCounts" >
+    @(Html.Kendo().Splitter()
+        .Name("divMainSplitter")
+        .Orientation(SplitterOrientation.Horizontal)
+        .Panes(panes =>
+            {
+                panes.Add().HtmlAttributes(new { id = "QueryDataPanel" })
+                    .Size("380px")
+                    .Collapsible(true)
+                    .Scrollable(true)
+                    .Content(
+                        Html.Kendo().Splitter()
+                            .Name("HeadCountsQueryPanel")
+                            .Orientation(SplitterOrientation.Vertical)
+                            .HtmlAttributes(new { style = "height: 100%;" })
+                            .Panes(queryPanes =>
+                                {
+                                    queryPanes.Add()
+                                        .Size("20%")
+                                        .Collapsible(true)
+                                        .Scrollable(true)
+                                        .Content(
+                                                @<text>
+                                                        @Html.Partial("_SearchEmployee")
+                                                </text>
+                                        );
+
+                                    queryPanes.Add()
+                                        .Collapsible(true)
+                                        .Scrollable(true)
+                                        .HtmlAttributes(new { id = "PanelResultSearch" })
+                                        .Content(
+                                                @<text>
+                                                       <div id="footerResultSearch">
+                                                           <i id="idAdd" class="fa fa-plus-circle fa-2x" style="color:red;margin-top:8px; display:none;"></i>
+                                                       </div>
+                                                       @Html.Partial("_ResultEmployees") 
+                                                       
+                                                </text>
+                                        );
+                                }).ToHtmlString()
+                    );
+
+                @*Engloba la seccion de los datos del empleado y el area de riesgos, actas y bajas (tabstrip)*@
+                panes.Add()
+                    .HtmlAttributes(new { id = "DetailPanel" })
+                    .Content(
+                        @<text>
+                            @*Contiene la seccion que muestra la foto del empleado y los datos*@
+                            <div id="EmployeeDetails"></div>
+                            <br />
+                            @*Contiene la seccion del tabstrip que contiene riesgos, actas y bajas*@
+                            <div id="EmployeeRiskDetails"></div>
+                        </text>
+                    );
+            }
+        )
+    )
+</div>

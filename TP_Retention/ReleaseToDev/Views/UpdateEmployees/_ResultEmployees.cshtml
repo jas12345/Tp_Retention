@@ -1,0 +1,27 @@
+﻿@{ Layout = null; }
+@model TP_Retention_EFDM.ViewModel.SearchEmployeeViewModel
+
+<style>
+
+    #navigationPanelBar-1 {
+    
+        border-bottom-width:0px;
+
+    }
+
+</style>
+
+
+<div id="ManagersEmployeesGrid">
+    @(Html.Kendo().Grid<TP_Retention_EFDM.ViewModel.SearchEmployeeViewModel>()
+        .Name("Employees")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.Employee_Ident).Title("Ident").Width("20%");
+        columns.Bound(p => p.Name).Title("Name").Width("80%");
+    })
+    .Sortable(sortable => sortable.AllowUnsort(false))
+    .Resizable(resize => resize.Columns(true))   
+    )
+
+</div>

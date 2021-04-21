@@ -1,0 +1,221 @@
+﻿@model TP_Retention_EFDM.ViewModel.EmployeeOnRiskViewModel
+
+@{
+    Layout = null;
+}
+
+<script type="text/javascript">
+
+    $("#dpResignationDate").keypress(function (evt) {
+        var keycode = evt.charCode || evt.keyCode;
+
+        if (keycode == 9) {
+            return true;
+
+        } else {
+            var datePicker = $("#dpResignationDate").data("kendoDatePicker");
+            datePicker.open();
+            return false;
+        }
+    });
+
+    $("#dpReviewDate").keypress(function (evt) {
+        var keycode = evt.charCode || evt.keyCode;
+
+        if (keycode == 9) {
+            return true;
+        } else {
+            var datePicker = $("#dpReviewDate").data("kendoDatePicker");
+            datePicker.open();
+            return false;
+        }
+
+    });
+
+    $(document).ready(function () {
+        var window = $("#wAlertMsg");
+
+        if (!window.data("kendoWindow")) {
+            window.kendoWindow({
+                width: "400px",
+                title: "Check fields",
+                visible: false,
+                actions: [
+                    "Close"
+                ]
+            });
+        }
+    });
+
+    function filterCategories() {
+        return {
+            RiskListTypeId: $("#RiskListType_Id").val()
+        };
+    }
+
+    var param = {
+        ListaRiesgo_Id: 0,
+        Employee_Ident: 0
+    };
+
+    $.ajax({
+        type: "POST",
+        url: '@Url.Action("GetActionLog", "HeadCounts")',
+        data: JSON.stringify(param),
+        dataType: "html",
+        contentType: "application/json",
+        success: function (data) {
+            $("#Employee_OnRisk_ActionLog").html(data);
+
+            $("#btnAddAction").remove();
+        }
+    });
+
+</script>
+
+<div>
+    @{
+       
+
+        using (Html.BeginForm("", "", FormMethod.Post, new { @id = "FormRisksAdd" }))
+        {
+            @Html.HiddenFor(model => model.Employee_Ident, new { @id = "Employee_Ident_Add" })
+            <div>
+                @*Primera Fila*@
+                <div class="row section">
+                    @*Risk Date*@
+                    <div class="col s3">
+                        @Html.LabelFor(model => model.RiskDate)
+                        @(Html.Kendo().DatePickerFor(model => model.RiskDate)
+                                                            .Value(DateTime.Today)
+                                                            .Format("MM/dd/yyyy")
+                                                            .HtmlAttributes(new { style = "width:150px", Type = "Text" })
+                                                            .Enable(false)
+                        )
+                    </div>
+                    @*Risk Status*@
+                    <div class="col s3">
+                        @Html.LabelFor(model => model.RiskStatus)
+                        @(Html.Kendo().DropDownListFor(model => model.RiskStatus_Id)
+                                                            .HtmlAttributes(new { style = "width:150px" })
+                                                            .OptionLabel("Select...")
+                                                            .DataTextField("EstatusRiesgo")
+                                                            .DataValueField("EstatusRiesgo_Id")
+                                                            .DataSource(source =>
+                                                            {
+                                                                source.Read(read => read.Action("Get_EmployeeStatus", "HeadCounts")).ServerFiltering(true);
+                                                            })
+                        )
+                    </div>
+                    @*Risk List Type*@
+                    <div class="col s3">
+                        @Html.LabelFor(model => model.RiskListType)
+                        @(Html.Kendo().DropDownListFor(model => model.RiskListType_Id)
+                                                            .HtmlAttributes(new { style = "width:150px" })
+                                                            .OptionLabel("Select...")
+                                                            .DataTextField("RiskListType")
+                                                            .DataValueField("RiskListType_Id")
+                                                            .DataSource(source =>
+                                                            {
+                                                                source.Read(read => read.Action("Get_RiskListType", "HeadCounts", new {BarometerId = 2  })).ServerFiltering(true);
+                                                            })
+                        )
+                    </div>
+                    @*Resignation Date*@
+                    <div class="col s3">
+                        @Html.LabelFor(model => model.ResignationDate)
+                        @(Html.Kendo().DatePickerFor(model => model.ResignationDate)
+                                                                .Value(DateTime.Today)
+                                                                .Format("MM/dd/yyyy")
+                                                                .Min(DateTime.Now)
+                                                                .HtmlAttributes(new { style = "width:150px", @id = "dpResignationDate", Type = "Text" })
+                        )
+                    </div>
+                </div>
+                @*Segunda Fila*@
+            <div class="row section">
+                @*Review Date*@
+                <div class="col s3">
+                    @Html.LabelFor(model => model.ReviewDate)
+                    @(Html.Kendo().DatePickerFor(model => model.ReviewDate)
+                                                                .Value(DateTime.Today.AddDays(7))
+                                                                .Format("MM/dd/yyyy")
+                                                                .Min(DateTime.Now)
+                                                                .HtmlAttributes(new { style = "width:150px", @id = "dpReviewDate", Type = "Text" })
+                        )
+                </div>
+                @*Categories*@
+                <div class="col s9">
+                    @Html.LabelFor(model => model.Category)
+                    @(Html.Kendo().DropDownListFor(model => model.Category_Id)
+                                                                .HtmlAttributes(new { style = "width:100%;" })
+                                                                .OptionLabel("Select...")
+                                                                .DataTextField("Categoria")
+                                                                .DataValueField("Categoria_Id")
+                                                                .DataSource(source =>
+                                                                {
+                                                                    source.Read(read => read.Action("Get_RiskCategories", "HeadCounts").Data("filterCategories")).ServerFiltering(true);
+                                                                })
+                                                            .Enable(false)
+                                                            .AutoBind(false)
+                                                            .CascadeFrom("RiskListType_Id")
+                        )
+                </div>
+                @*RiskEstimation*@
+                <div class="col s3">
+                    @Html.LabelFor(model => model.EstimacionRiesgo)
+                    @(Html.Kendo().DropDownListFor(model => model.EstimacionRiesgo_Id)
+                                                            .HtmlAttributes(new { style = "width:150px" })
+                                                            .OptionLabel("Select...")
+                                                            .DataTextField("EstimacionRiesgo")
+                                                            .DataValueField("EstimacionRiesgo_Id")
+                                                            .DataSource(source =>
+                                                            {
+                                                                source.Read(read => read.Action("Get_EstimationStatus", "HeadCounts")).ServerFiltering(true);
+                                                            })
+                        )
+                </div>
+                <div class="col s3">
+                    @Html.LabelFor(model => model.Barometro)
+                    @(Html.Kendo().DropDownListFor(model => model.Barometro_Id)
+                                                            .HtmlAttributes(new { style = "width:150px" })
+                                                            .OptionLabel("Select...")
+                                                            .DataTextField("Text")
+                                                            .DataValueField("Value")
+                                                            .DataSource(source =>
+                                                            {
+                                                                source.Read(read => read.Action("Get_BarometerRisks", "HeadCounts")).ServerFiltering(true);
+                                                            })
+                        )
+
+                </div>
+                </div>
+                @*Tercera fila*@
+                <div class="row section">
+                    @*Risk Description*@
+                    <div class="col s12">
+                        @Html.LabelFor(model => model.RiskDescription)
+                        @Html.TextAreaFor(model => model.RiskDescription, new { maxlength = 8000, @class = "materialize-textarea", style = "height: 22px; text-transform:uppercase;", placeholder = "Type a description..." })
+                    </div>
+                </div>
+                <div id="Employee_OnRisk_ActionLog"></div>
+                <div class="row">
+                    @*Save*@
+                    <div class="col s12 center-align">
+                        <button type="button" id="btnEmployeeRiskAdd" class="waves-effect waves-light btn green accent-3 white-text" onclick="HeadCounts.EmployeeRisksData_Create();"><i class="fa fa-check-circle" style="padding-right: 5px;"></i>Save</button>
+                    </div>
+                </div>
+            </div>
+            <div id="wAlertMsg">
+                <div class="row">
+                    <div style="text-align: center;">
+
+                        <p id="txtAlertMsg"></p>
+
+                    </div>
+                </div>
+            </div>
+        }
+
+    }
+</div>

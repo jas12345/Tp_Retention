@@ -1,0 +1,121 @@
+﻿@using System.Web.Optimization;
+@using System;
+@using System.Web.Helpers;
+
+@{ Layout = null; }
+
+@model TP_Retention_EFDM.ViewModel.ManagerEmployeesViewModel
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        Users.Get_Employee_Profile();
+
+        //kendo.ui.progress($("#imgdiv"), true);
+        //$(".imgLiquidFill").imgLiquid({
+        //    fill: false
+        //});
+        //kendo.ui.progress($("#imgdiv"), false);
+
+    });
+
+
+</script>
+
+<style type="text/css">
+    #result {
+        position: relative;
+        width: 100%;
+        background-color: #40c04c;
+        /*height:auto;
+        margin-top:0.5em;
+        margin-bottom:0.5em;*/
+        font-size: 100%;
+        padding: 1em;
+        z-index: 10000;
+        opacity: 1.0;
+        -moz-opacity: 1.0;
+        filter: alpha(opacity=100);
+        display: none;
+    }
+</style>
+
+@{
+    string src = "https://observer.tpmex.com/Observer/api/EmployeePicture/?Username=" + Model.Acccount_Id;
+}
+
+@if (Model != null)
+{
+    @Html.HiddenFor(model => model.Employee_Ident, new { @id = "empid" })
+    <fieldset>
+        <legend style="display: none;"></legend>
+        <div class="row" style="margin-top: 0;">
+            <div class="card indigo">
+                <div class="card-image waves-effect waves-block waves-light" style="padding: 5px 5px;">
+                    <img class="activator" src="@src"  style="width: auto; height: 120px;">
+                </div>
+                <div class="card-content">
+                    <span class="card-title activator white-text text-darken-4">@Html.DisplayFor(m => m.Nombre) <i class="tooltipped mdi-navigation-more-vert right" data-position="left" data-delay="50" data-tooltip="More info"></i></span>
+                </div>
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">@Html.DisplayFor(m => m.Nombre) <i class="fa fa-times right"></i></span>
+                    <div class="row">
+                        <div class="col s4">
+                            <p>@Html.LabelFor(m => m.Employee_Ident) @Html.DisplayFor(m => m.Employee_Ident)</p>
+                        </div>
+                        <div class="col s4">
+                            <p>@Html.LabelFor(m => m.Acccount_Id) @Html.DisplayFor(m => m.Acccount_Id)</p>
+                        </div>
+                        <div class="col s4">
+                            <p>@Html.LabelFor(m => m.Hire_Date) @Html.DisplayFor(m => m.Hire_Date)</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s4">
+                            <p>@Html.LabelFor(m => m.Manager_Name) @Html.DisplayFor(m => m.Manager_Name)</p>
+                        </div>
+                        <div class="col s4">
+                            <p>@Html.LabelFor(m => m.Client_Name) @Html.DisplayFor(m => m.Client_Name)</p>
+                        </div>
+                        <div class="col s4">
+                            <p>@Html.LabelFor(m => m.Program_Name) @Html.DisplayFor(m => m.Program_Name)</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s4">
+                            <p>
+                                <label>Schedule:</label>
+                                <i class="fa fa-clock-o" style="padding-right: 5px;"></i>@Html.DisplayFor(m => m.HorarioCve)
+                            </p>
+                        </div>
+                        <div class="col s4">
+                            <p>@Html.LabelFor(m => m.RiskListCount) @Html.DisplayFor(m => m.RiskListCount)</p>
+                        </div>
+                        <div class="col s4">
+                            <p>@Html.LabelFor(m => m.Tenure) @Html.DisplayFor(m => m.Tenure)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}
+
+<br />
+
+<div style="margin-left: 50px;">
+
+    @using (Html.BeginForm("", "", FormMethod.Post, new { @id = "FormProfiles" }))
+    {
+            
+        <div id="lstProfiles">
+        </div>      
+        <button id="btnProfile" type="button" class="waves-effect waves-light btn green accent-3 white-text" onclick="Users.UpdateProfile();"><i class="fa fa-check-circle"></i> Save</button>              
+        
+    }
+
+</div>
+<div id="result" class="white-text">
+    Updated Profile
+</div>

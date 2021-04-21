@@ -1,0 +1,161 @@
+﻿@using System.Web.Optimization;
+@using System.Web.Helpers;
+
+@{ Layout = null; }
+@model TP_Retention_EFDM.ViewModel.FiltersHeadCountsQueryPanelViewModel
+
+<style type="text/css">
+    #divHeadCountsQueryForm {
+        font-size: 13px;
+    }
+</style>
+
+
+<script type="text/javascript">
+    function getLocationIdent() {
+        return {
+            location_Ident: $("#Location").data("kendoComboBox").value(),
+            textFilter: $("#Positions").data("kendoComboBox").input.val()
+        };
+    }
+
+    function getPositionCode() {
+        return {
+            position_Ident: $("#Positions").data("kendoComboBox").value(),
+            location_Ident: $("#Location").data("kendoComboBox").value(),
+            textFilter: $("#Managers").data("kendoComboBox").text()
+        };
+    }
+
+    $(document).ready(function () {
+        $("#btnBuscar").click(function (e) {
+
+            e.preventDefault();
+
+            var QueryFormValidator = $("#divHeadCountsQueryForm").kendoValidator().data("kendoValidator");
+
+            if (QueryFormValidator.validate()) {
+
+                $("#ManagersEmployees").data("kendoGrid").dataSource.read();
+                $("#ManagersEmployees").data("kendoGrid").refresh();
+
+            }
+
+        });
+
+        $("#QueryDate").keypress(function (evt) {
+            var keycode = evt.charCode || evt.keyCode;
+            if (keycode == 9) { //allow Tab through
+                return true;
+            } else {
+                var datePicker = $("#QueryDate").data("kendoDatePicker");
+                datePicker.open();
+                return false;
+            }
+        });
+    });
+</script>
+
+<div id="divHeadCountsQueryForm">
+    @{
+        Html.ValidationSummary(true, "Please select values for all options and click search again.");
+        using (Html.BeginForm("ManagersEmployees_Read", "HeadCounts", FormMethod.Post, new { @id = "QueryForm" }))
+        {
+        <div class="row">
+            <fieldset style="padding: 0 20px 20px">
+                <legend style="display: none;"></legend>
+                <div class="row">
+                    <div class="col s6">
+                        <div class="section">
+                            @Html.LabelFor(model => model.Location, new { @class = "labelContent" })
+                        </div>
+                        @(Html.Kendo().ComboBoxFor(model => model.Location)
+                                                .HtmlAttributes(new { style = "width: 200px;" })
+                                                .Filter("contains")
+                                                .MinLength(3)
+                                                .DataTextField("Location_Name")
+                                                .DataValueField("location_ident")
+                                                .DataSource(source =>
+                                                {
+                                                    source.Read(read =>
+                                                    {
+                                                        read.Action("Get_Locations", "HeadCounts");
+                                                    });
+                                                })
+                                        )
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s6">
+                        <div class="section">
+                            @Html.LabelFor(model => model.Positions, new { @class = "labelContent" })
+                        </div>
+                        @(Html.Kendo().ComboBoxFor(model => model.Positions)
+                                                .HtmlAttributes(new { style = "width: 250px;" })
+                                                .Filter(FilterType.Contains)
+                                                .DataTextField("Position_Code_Full_Name")
+                                                .DataValueField("Position_Code_Type_Ident")
+                                                .Events(events => events.DataBound("PositionOnDataBound"))
+                                                .DataSource(source =>
+                                                {
+                                                    source.Read(read =>
+                                                    {
+                                                        read.Action("Get_Positions", "HeadCounts")
+                                                            .Data("getLocationIdent");
+                                                    })
+                                                    .ServerFiltering(true);
+                                                })
+                                                .Enable(false)
+                                                .AutoBind(false)
+                                                .CascadeFrom("Location")
+                                        )
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s6">
+                        <div class="section">
+                            @Html.LabelFor(model => model.Managers, new { @class = "labelContent" })
+                        </div>
+                        @(Html.Kendo().ComboBoxFor(model => model.Managers)
+                                                .HtmlAttributes(new { style = "width: 250px;" })
+                                                .Filter(FilterType.Contains)
+                                                .DataTextField("Nombre")
+                                                .DataValueField("Employee_Ident")
+                                                .DataSource(source =>
+                                                {
+                                                    source.Read(read =>
+                                                    {
+                                                        read.Action("Get_Managers", "HeadCounts")
+                                                            .Data("getPositionCode");
+                                                    })
+                                                    .ServerFiltering(true);
+                                                })
+                                                .Enable(false)
+                                                .AutoBind(false)
+                                                .CascadeFrom("Positions")
+                                        )
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s6">
+                        <div class="section">
+                            @Html.LabelFor(model => model.QueryDate, "Date", new { @class = "labelContent" })
+                        </div>
+                        @(Html.Kendo().DatePickerFor(model => model.QueryDate)
+                                            .Value(DateTime.Today)
+                                            .Format("MM/dd/yyyy")
+                                            .Max(DateTime.Now)
+                                            .HtmlAttributes(new { Type = "Text" })
+                                        )
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="section" style="text-align: center;">
+                        <button id="btnBuscar" type="button" class="waves-effect waves-light btn indigo darken-3"><i class="fa fa-search"></i> Search</button>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        }
+    }
+</div>

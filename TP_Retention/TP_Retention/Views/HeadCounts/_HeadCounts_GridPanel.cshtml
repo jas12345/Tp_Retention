@@ -1,0 +1,172 @@
+﻿@{ Layout = null; }
+@model TP_Retention_EFDM.ViewModel.FiltersHeadCountsQueryPanelViewModel
+
+<script type="text/javascript">
+    //ManagersEmployees grid filters
+    function getGridFilters() {
+        return {
+            Manager_Ident: $("#Managers").val(),
+            FechaConsulta: $("#QueryDate").val()
+        };
+    }
+
+    //Manager_Employees grid row select
+    function ManagersEmployeesGridSelect(e) {
+        var pid = this.select();
+        var dataItem = this.dataItem(pid);
+
+        $.ajax({
+            dataType: 'html',
+            url: '@Url.Action("GetEmployeeData", "HeadCounts")',
+            data: JSON.stringify(dataItem), //row data to display
+            type: "POST",
+            contentType: "application/json",
+            success: function (data) {
+                if (data.search("/Access/Authentication") < 0) {
+                    $("#EmployeeDetails").html(data); // HTML DOM replace
+                }
+            }
+        });
+
+        kendo.ui.progress($("#EmployeeRiskDetails"), true);
+        $.ajax({
+            dataType: 'html',
+            url: '@Url.Action("GetViewEmployeeRiskData", "HeadCounts")',
+            data: JSON.stringify(dataItem), //Employee model to display
+            type: "POST",
+            contentType: "application/json",
+            success: function (data) {
+                if (data.search("/Access/Authentication") < 0) {
+                    $("#EmployeeRiskDetails").html(data); // HTML DOM replace
+                } else {
+                    window.location = General.BASE_URL + "/Access/Index";
+                }
+            },
+            error: function (request, status, error) {
+                alert(error);
+            }
+        });
+        kendo.ui.progress($("#EmployeeRiskDetails"), false);
+    }
+
+    $(document).ready(function () {
+        $("#windowReference").kendoWindow({
+            width: "350px",
+            actions: ["Close"],
+            title: "Icon Reference",
+            visible: false,
+            modal: true
+        });
+    });
+
+    function OpenModalReference() {
+
+        var window = $("#windowReference").data("kendoWindow").center().open();
+
+    }
+</script>
+
+<style type="text/css">
+    #ManagersEmployees {
+        font-size: 13px;
+    }
+
+    #windowReference {
+        font-size: 13px;
+    }
+</style>
+
+@*Colores para los estatus de riesgos*@
+@*rgb(126, 167, 0) verde*@ 
+@*rgb(204, 42, 65) rojo*@
+@*rgb(255, 219, 0) amarillo*@
+<div id="ManagersEmployeesGrid">
+    <table class="hoverable">
+	    <tr>
+		    <td style='cursor:pointer; float: right; color:#283593; padding: 3px 3px;' onclick='OpenModalReference();'>
+			    <p>Icon Reference <i class='fa fa-external-link'></i></p>
+		    </td>
+	    </tr>
+    </table>
+    @(Html.Kendo().Grid<TP_Retention_EFDM.ViewModel.ManagerEmployeesViewModel>()
+        .Name("ManagersEmployees")
+        .Columns(columns =>
+        {
+            columns.Bound(p => p.Employee_Ident).Title("CCMSID").Width(50);
+            columns.Bound(p => p.Nombre).Title("Name").Width(300);
+            columns.Bound(p => p.EstatusRiesgo_Id).Title("").Width(20).ClientTemplate(
+                        "# if (EstatusRiesgo_Id == 0) { #" +
+                            "<i class='fa fa-user fa-lg'></i>" +
+                        "# } else if (EstatusRiesgo_Id == 1) { #" +
+                            "<i style='color:rgb(255, 219, 0);' class='fa fa-user fa-lg'></i>" +
+                        "# } else if (EstatusRiesgo_Id == 2) { #" +
+                            "<i style='color:rgb(0, 205, 0)' class='fa fa-user fa-lg'></i>" +
+                        "# } else if (EstatusRiesgo_Id == 3) { #" +
+                            "<i style='color:rgb(204, 42, 65);' class='fa fa-user fa-lg'></i>" +
+                        "# } else if (EstatusRiesgo_Id == 4) { #" +
+                            "<i style='color:rgb(255,165,0);' class='fa fa-user fa-lg'></i>" +
+                        "# } #"
+            );
+        })
+    .Sortable(sortable => sortable.AllowUnsort(false))
+    .Resizable(resize => resize.Columns(true))
+    .AutoBind(false)
+    .Selectable(selectable => selectable
+            .Mode(GridSelectionMode.Single))
+    .Events(e => e.Change("ManagersEmployeesGridSelect"))
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Model(model => { model.Id(p => p.Employee_Ident); })
+        .ServerOperation(true)
+        .Read(read => read.Action("ManagersEmployees_Read", "HeadCounts").Data("getGridFilters"))
+
+        )
+    )
+
+</div>
+
+@*Modal para iconos del estatus del empleado*@
+<div id="windowReference">
+    <table class="responsive-table hoverable">
+	    <tr>
+		    <td>
+			    <p>NO RISK</p>
+		    </td>
+            <td>
+                <i class='fa fa-user fa-2x'></i>
+            </td>
+	    </tr>
+        <tr>
+		    <td>
+			    <p>AT RISK</p>
+		    </td>
+            <td>
+                <i style='color: rgb(255, 219, 0);' class='fa fa-user fa-2x'></i>
+            </td>
+	    </tr>
+        <tr>
+		    <td>
+			    <p>SAVED</p>
+		    </td>
+            <td>
+                <i style='color:rgb(0, 205, 0)' class='fa fa-user fa-2x'></i>
+            </td>
+	    </tr>
+        <tr>
+		    <td>
+			    <p>TERMINATED</p>
+		    </td>
+            <td>
+                <i style='color:rgb(204, 42, 65);' class='fa fa-user fa-2x'></i>
+            </td>
+	    </tr>
+        <tr>
+		    <td>
+			    <p>ATTRITION</p>
+		    </td>
+            <td>
+                <i style='color:rgb(255,165,0);' class='fa fa-user fa-2x'></i>
+            </td>
+	    </tr>
+    </table>
+</div>

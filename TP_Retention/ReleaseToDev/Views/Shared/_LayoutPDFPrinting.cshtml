@@ -1,0 +1,36 @@
+﻿@using TP_Retention.Helpers;
+@using System.Web.Optimization;
+@using System.Web.Helpers;
+
+<!DOCTYPE html>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="shorcut icon" href="~/Content/Images/tp-icon.jpg" type="image/png" />
+
+    <link rel="stylesheet" type="text/css" href="@Url.Css("Content/CSS/materialize.min")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Css("Content/CSS/font-awesome")" />
+    <script src="~/Scripts/kendo/2014.3.1316/jszip.min.js"></script>
+    <script src="~/Scripts/kendo/2014.3.1316/jquery.min.js"></script>
+    <script src="~/Scripts/kendo/2014.3.1316/kendo.all.min.js"></script>
+    <link href="~/Content/kendo/2014.3.1316/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/2014.3.1316/kendo.default.min.css" rel="stylesheet" />
+    <link href="~/Content/CSS/PDF-Layout.css" rel="stylesheet" />
+    <script src="~/Scripts/materialize.min.js"></script>
+    <script src="~/Scripts/Class/HRReportPrinting.js"></script>
+    <script src="~/Scripts/Class/General.js"></script>
+    <script src="~/Scripts/DisableRMC.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            General.BASE_URL = '@Url.RemoveLastChar(Request.Url.Scheme + "://" + Request.Url.Authority + Url.Ruta(""))';
+        });
+    </script>
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>

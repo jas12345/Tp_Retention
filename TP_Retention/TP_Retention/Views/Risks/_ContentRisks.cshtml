@@ -1,0 +1,94 @@
+﻿@{ Layout = null; }
+@using TP_Retention_EFDM.ViewModel
+@using TP_Retention.Helpers;
+@using System.Web.Optimization;
+@using System.Web.Helpers;
+
+<style type="text/css">
+    #RiskReportGrid {
+        font-size: 13px;
+    }
+
+        #RiskReportGrid table tbody tr:hover {
+            cursor: pointer;
+            /*color:rgba(45, 173, 237, 0.8);*/
+            color: #00B0FF;
+        }
+</style>
+
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.4.0/jszip.js"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnExport").click(function (e) {
+            //Risks.Export_Result_Report();
+            var grid = $("#RiskReportGrid").data("kendoGrid");
+            grid.saveAsExcel();
+        });
+
+        $('.tooltipped').tooltip({ delay: 50 });
+    });
+</script>
+
+<div style="float:right; margin-right:3px">
+    <button id="btnExport" type="button" class="waves-effect waves-light btn green darken-2 white-text"><i class="fa fa-table"></i> Export</button>
+</div>
+<br />
+<br />
+<div id="RiskReportGrid">
+    @(Html.Kendo().Grid<RiskReportFields>()
+        .Name("RiskReportGrid")
+        //.Scrollable(s => s.Enabled(true).Height("auto"))
+        .Columns(columns =>
+        {
+            columns.Bound(p => p.RiskDate).Title("Registration Date");
+            columns.Bound(p => p.Employee_Ident).Title("Employee Ident");
+            columns.Bound(p => p.Nombre).Title("Employee");
+            columns.Bound(p => p.Position_Code_Full_Name).Title("Position");
+            columns.Bound(p => p.Manager_Name).Title("Manager");
+            columns.Bound(p => p.Client_Name).Title("Client");
+            columns.Bound(p => p.Category).Title("Attrition Reason");
+            columns.Bound(p => p.FloorManager_Name).Title("Floor Manager");
+            columns.Bound(p => p.Location_Name).Title("Site");
+            columns.Bound(p => p.RiskStatus).Title("PTL Status");
+            columns.Bound(p => p.RiskListType).Title("Attrition Type");
+            columns.Bound(p => p.RiskDescription).Title("Risk Description");
+            columns.Bound(p => p.ResignationDate).Title("Attrition Date");
+            columns.Bound(p => p.ReviewDate).Title("Review Date");
+            columns.Bound(p => p.RetentionAction).Title("RetentionAction");
+            columns.Bound(p => p.LogActionDate).Title("LogActionDate");
+
+
+        })
+        //.Pageable(p => p.Refresh(true))
+        .Resizable(resize => resize.Columns(true))
+    //.ToolBar(toolBar =>
+    //    toolBar.Custom()
+    //        .Text(" Export")
+    //        .HtmlAttributes(new { id = "btnExport", @class = "fa fa-table" })
+    //        .Url(Url.Action("ExportToXLS", "Risks"))
+    //        )
+    )
+</div>
+
+<div id="divModalPopUp">
+    @(Html.Kendo().Window()
+        .Name("modalWindowRisks")
+        .Title("Risks Details")
+        .Content(@<text>
+            <div id="RiskDetailsHeader"></div>
+            <br /><br />
+            <div id="RiskDetailsContent"></div>
+        </text>
+                )
+                .Resizable()
+                .Draggable()
+                .Width(800)
+                .Visible(false)
+                .Modal(true)
+                .Scrollable(true)
+                .Position(settings =>
+                    settings.Top(100).Left(100))
+    )
+</div>

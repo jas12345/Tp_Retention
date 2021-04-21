@@ -1,0 +1,138 @@
+﻿@{ Layout = null; }
+@model TP_Retention_EFDM.ViewModel.ManagerEmployeesViewModel
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //$(".imgLiquidFill").imgLiquid({
+        //    fill: false
+        //});
+
+        $("#modalSchedule").kendoWindow({
+            width: "500px",
+            actions: ["Close"],
+            title: "<i class='fa fa-clock-o' style='padding-right: 5px;'></i>Schedule",
+            visible: false,
+            modal: true
+        });
+
+        $('.tooltipped').tooltip({ delay: 50 });
+    });
+
+    function OpenModalSchedule() {
+
+        var window = $("#modalSchedule").data("kendoWindow").center().open();
+
+    }
+</script>
+
+<style type="text/css">
+    #openModal:hover {
+        color: #00B0FF;
+    }
+</style>
+
+@{
+    if (Model != null && Model.Employee_Ident > 0)
+    {
+
+        string src = "https://observer.tpmex.com/Observer/api/EmployeePicture/?Username=" + Model.Acccount_Id;
+        @Html.HiddenFor(model => model.Employee_Ident, new { @id = "empid" })
+        @Html.HiddenFor(model => model.Manager_Ident, new { @id = "Manager_Ident_Editor" })
+        @Html.HiddenFor(model => model.Program_Ident, new { @id = "Program_Ident_Editor" })
+        <fieldset>
+            <legend style="display: none;"></legend>
+            <div class="row" style="margin-top: 0;">
+                <div class="card indigo">
+                    <div class="card-image waves-effect waves-block waves-light" style="padding: 5px 5px;">
+                        <img class="activator" src="@src" style="width: auto; height: 120px;">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title activator white-text text-darken-4">@Html.DisplayFor(m => m.Nombre) <i class="tooltipped mdi-navigation-more-vert right" data-position="left" data-delay="50" data-tooltip="More info"></i></span>
+                    </div>
+                    <div class="card-reveal">
+                        <span class="card-title grey-text text-darken-4">@Html.DisplayFor(m => m.Nombre) <i class="fa fa-times right"></i></span>
+                        <div class="row">
+                            <div class="col s4">
+                                <p>@Html.LabelFor(m => m.Employee_Ident) @Html.DisplayFor(m => m.Employee_Ident)</p>
+                            </div>
+                            <div class="col s4">
+                                <p>@Html.LabelFor(m => m.Acccount_Id) @Html.DisplayFor(m => m.Acccount_Id)</p>
+                            </div>
+                            <div class="col s4">
+                                <p>@Html.LabelFor(m => m.Hire_Date) @Html.DisplayFor(m => m.Hire_Date)</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s4">
+                                <p>@Html.LabelFor(m => m.Manager_Name) @Html.DisplayFor(m => m.Manager_Name)</p>
+                            </div>
+                            <div class="col s4">
+                                <p>@Html.LabelFor(m => m.Client_Name) @Html.DisplayFor(m => m.Client_Name)</p>
+                            </div>
+                            <div class="col s4">
+                                <p>@Html.LabelFor(m => m.Program_Name) @Html.DisplayFor(m => m.Program_Name)</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s4">
+                                <p id="openModal" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Click to view" onclick="OpenModalSchedule();" style="cursor: pointer;">
+                                    <label>Schedule:</label>
+                                    <i class="fa fa-clock-o" style="padding-right: 5px;"></i>@Html.DisplayFor(m => m.HorarioCve)
+                                </p>
+                            </div>
+                            <div class="col s4">
+                                <p>@Html.LabelFor(m => m.RiskListCount) @Html.DisplayFor(m => m.RiskListCount)</p>
+                            </div>
+                            <div class="col s4">
+                                <p>@Html.LabelFor(m => m.Tenure) @Html.DisplayFor(m => m.Tenure)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="modalSchedule">
+                    <table id="tblSchedule" class="responsive-table centered indigo" style="color: white;">
+                        <thead>
+                            <tr>
+                                <th class="k-header"></th>
+                                <th class="k-header">Sun.</th>
+                                <th class="k-header">Mon.</th>
+                                <th class="k-header">Tues.</th>
+                                <th class="k-header">Wed.</th>
+                                <th class="k-header">Thurs.</th>
+                                <th class="k-header">Fri.</th>
+                                <th class="k-header">Sat.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Start:</td>
+                                <td>@Html.DisplayFor(m => m.DomIni)</td>
+                                <td>@Html.DisplayFor(m => m.LunIni)</td>
+                                <td>@Html.DisplayFor(m => m.MarIni)</td>
+                                <td>@Html.DisplayFor(m => m.MieIni)</td>
+                                <td>@Html.DisplayFor(m => m.JueIni)</td>
+                                <td>@Html.DisplayFor(m => m.VieIni)</td>
+                                <td>@Html.DisplayFor(m => m.SabIni)</td>
+                            </tr>
+                            <tr>
+                                <td>End:</td>
+                                <td>@Html.DisplayFor(m => m.DomFin)</td>
+                                <td>@Html.DisplayFor(m => m.LunFin)</td>
+                                <td>@Html.DisplayFor(m => m.MarFin)</td>
+                                <td>@Html.DisplayFor(m => m.MieFin)</td>
+                                <td>@Html.DisplayFor(m => m.JueFin)</td>
+                                <td>@Html.DisplayFor(m => m.VieFin)</td>
+                                <td>@Html.DisplayFor(m => m.SabFin)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </fieldset>
+    }
+    else
+    {
+        <p>Sorry, the employee are you looking for does not exist or something wrong happened. Check your input and try again.</p>
+    }
+}

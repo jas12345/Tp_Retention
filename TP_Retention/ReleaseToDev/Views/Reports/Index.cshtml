@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "Reports";
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
+}
+@using TP_Retention.Helpers;
+
+<script type="text/javascript" src="@Url.Js("Class/Reports")"></script>
+
+<style scoped="scoped">
+    #divReportsSplitter {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: auto;
+        height: auto;
+    }
+
+    #FiltersReportsPane {
+        background-color: white;
+    }
+
+    #ContentReportsPane {
+        background-color: white;
+    }
+
+    .pane-content {
+        padding: 0 10px;
+    }
+</style>
+
+@(Html.Kendo().Splitter()
+    .Name("divReportsSplitter")
+    .Orientation(SplitterOrientation.Horizontal)
+    .Panes(panes =>
+        {
+            panes.Add()
+                .HtmlAttributes(new { id = "divReportsSplitterPane" })
+                .Size("100%")
+                .Collapsible(true)
+                .Scrollable(true)
+                .Content(
+                    Html.Kendo().Splitter()
+                        .Name("HeadCountsQueryPanel")
+                        .Orientation(SplitterOrientation.Vertical)
+                        .HtmlAttributes(new { style = "height: 100%;" })
+                        .Panes(queryPanes =>
+                            {
+                                queryPanes.Add()
+                                    .HtmlAttributes(new { id = "FiltersReportsPane" })
+                                    .Size("28%")
+                                    .Collapsible(true)
+                                    .Scrollable(true)
+                                    .Content(
+                                                @<text>
+                                                        @Html.Partial("_FiltersReports")
+                                                </text>
+                                    );
+
+                                queryPanes.Add()
+                                    .HtmlAttributes(new { id = "ContentReportsPane" })
+                                    .Collapsible(true)
+                                    .Scrollable(true)
+                                    .Content(
+                                            @<text>
+                                                    @Html.Partial("_ContentReports")
+                                            </text>
+                                    );
+                            }).ToHtmlString()
+                );
+        }
+    )
+)

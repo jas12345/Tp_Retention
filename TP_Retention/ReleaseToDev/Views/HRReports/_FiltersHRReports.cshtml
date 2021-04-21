@@ -1,0 +1,396 @@
+﻿@{ Layout = null; }
+@using TP_Retention_EFDM.ViewModel
+@using TP_Retention.Helpers;
+@using System.Web.Optimization;
+@using System.Web.Helpers;
+
+@model FiltersHRReportsViewModel
+
+<style type="text/css">
+    #FiltersHRReportsForm > fieldset div div > p label {
+        font-size: 12.5px;
+        line-height: normal;
+    }
+</style>
+
+<link href="~/Content/CSS/AutoCompleteResult.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnSearchReports").click(function (e) {
+            //Valida rango de dias entre fechas
+            if ($('#cbReportDate').is(":checked")) {
+                var riskDateStart = $("#dpReportDateStartFilter").val();
+                var riskDateEnd = $("#dpReportDateEndFilter").val();
+                var oRiskDateStart = new Date(riskDateStart);
+                var oRiskDateEnd = new Date(riskDateEnd);
+                checkBoxesChecked = true;
+                var diasDif = oRiskDateEnd.getTime() - oRiskDateStart.getTime();
+                var dias = Math.round(diasDif / (1000 * 60 * 60 * 24));
+
+                if (dias > 30) {
+                    //popupNotification.show({
+                    //    title: "Check values",
+                    //    message: "El rango de fecha para consultar no debe ser mayor a 30 dias."
+                    //}, "error");
+                    return toast('El rango de fecha para consultar no debe ser mayor a 30 dias.', 4000, 'rounded yellow darken-2');
+
+                    result = false;
+                }
+            }
+            HRReports.Search_HRReports_Details();
+        });
+
+        $("#dpReportDateStart").keypress(function (evt) {
+            var keycode = evt.charCode || evt.keyCode;
+            if (keycode == 9) { //allow Tab through
+                return true;
+            } else {
+                // Allow the datepicker to open instead
+                var datePicker = $("#dpReportDateStart").data("kendoDatePicker");
+                datePicker.open();
+                return false;
+            }
+        });
+
+        $("#dpReportDateEnd").keypress(function (evt) {
+            var keycode = evt.charCode || evt.keyCode;
+            if (keycode == 9) { //allow Tab through
+                return true;
+            } else {
+                // Allow the datepicker to open instead
+                var datePicker = $("#dpReportDateEnd").data("kendoDatePicker");
+                datePicker.open();
+                return false;
+            }
+        });
+
+        $("#EmployeeName").keyup(function (e) {
+            if (e.keyCode == 46 || e.keyCode == 8) {
+                $('#divAC_Results').hide();
+                $('.k-animation-container').hide();
+                return;
+            }
+
+            LoadEmployees();
+            $('#divAC_Results').show();
+            $('.k-animation-container').show();
+        });
+
+        function LoadEmployees() {
+            var countLetter = $("#EmployeeName").val().replace(/[^a-zA-Z0-9+]/g, "").length;
+
+            if (countLetter >= 5) {
+                var RegExName = /^[a-z A-Z]+(.)?\d?$/;
+                var Name = "";
+                var result = false;
+                var count = 5;
+
+                if ($("#EmployeeName").val().match(RegExName)) {
+                    Name = $("#EmployeeName").val();
+                    result = true;
+                }
+
+                if (result == true) {
+                    //ajax call
+                    var URL = General.BASE_URL + '/HRReports/GetResultEmployeeName';
+
+                    $.ajax({
+                        dataType: 'json',
+                        type: 'POST',
+                        data: { "EmployeeName": Name, "Top": count },
+                        async: false,
+                        url: URL,
+                        success: function (json) {
+                            if (json.success == 1) {
+                                //agregar items a lista ul
+                                if ($('#divAC_Results').children().length !== 0) {
+                                    var previousUl = $('#divAC_Results').children();
+                                    previousUl.remove();
+                                }
+
+                                var ul = $('<ul>').appendTo('#divAC_Results');
+
+                                $(json.oData.Employees).each(function (index, item) {
+                                    ul.append("<li onclick='CopyText(this);' value='" + item.Employee_Ident + "'>" + item.Name + "</li>");
+                                });
+
+                            } else if (json.failure == 1) {
+                                General.FlashMessage(json.oData.Error);
+                            } else if (json.noLogin == 1) {
+                                window.location = General.BASE_URL + "/Access/Index";
+                            }
+                        },
+                        error: function (request, status, error) {
+                            General.FlashMessage('Error');
+                        }
+                    });
+                }
+            }
+        }
+    });
+
+    function getReportType_Id() {
+        return {
+            ReportTypeId: $("#ReportType_Id").data("kendoDropDownList").value()
+        };
+    }
+
+    function getClient_Ident() {
+        return {
+            client_Ident: $("#Client_Ident").data("kendoDropDownList").value()
+        };
+    }
+</script>
+
+<div id="divFiltersHRReports">
+    @{
+        @Html.ValidationSummary()
+        using (Html.BeginForm("", "", FormMethod.Post, new { @id = "FiltersHRReportsForm" }))
+        {
+            <fieldset style="font-size: 13px;">
+                <legend style="display: none;"></legend>
+                <div class="row">
+                    <div class="col">
+                        <h5><i class="fa @ViewData["Icon"]"></i> @ViewData["Title"]</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s1">
+                        <p>
+                            <input type="checkbox" id="cbLocation" onclick="HRReports.EnableField('Location');" />
+                            <label for="cbLocation">Site</label>
+                        </p>
+                    </div>
+                    <div class="col s2" id="divLocation" style="display: flex; visibility: hidden;">
+                        @(Html.Kendo().DropDownListFor(model => model.Location_Ident)
+                                .HtmlAttributes(new { style = "width: 180px;" })
+                                .OptionLabel("Select...")
+                                .DataTextField("Location_Name")
+                                .DataValueField("location_ident")
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("Get_Location", "HRReports");
+                                    });
+                                })
+                        )
+                    </div>
+                    <div class="col s1">
+                        <p>
+                            @*<input type="checkbox" id="cbReportDate" onclick="HRReports.EnableField('ReportDate');" />*@
+                            <input type="checkbox" id="cbReportDate" checked="checked" disabled="disabled" />
+                            <label for="cbReportDate">Report Date</label>
+                        </p>
+                    </div>
+                    <div class="col s4" id="divReportDate" style="display: flex; visibility: visible;">
+                        @(Html.Kendo().DatePickerFor(model => model.ReportDateStart)
+                                    .Name("dpReportDateStartFilter")
+                                    .Value(DateTime.Today)
+                                    .Format("MM/dd/yyyy")
+                                    .Max(DateTime.Now)
+                                    .HtmlAttributes(new { style = "width:140px", Type="Text" })
+                        )
+
+                        <p style="padding-left: 3px; padding-right: 3px;">and </p>
+
+                        @(Html.Kendo().DatePickerFor(model => model.ReportDateStart)
+                                    .Name("dpReportDateEndFilter")
+                                    .Value(DateTime.Today)
+                                    .Format("MM/dd/yyyy")
+                                    .Max(DateTime.Now)
+                                    .HtmlAttributes(new { style = "width:140px", Type = "Text" })
+                        )
+                    </div>
+                    <div class="col s4">
+                        <button id="btnSearchReports" type="button" class="waves-effect waves-light btn indigo darken-3 white-text"><i class="fa fa-search" style="padding-right: 5px;"></i>Search</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s1">
+                        <p>
+                            <input type="checkbox" id="cbEmployee" onclick="HRReports.EnableField('Employee');" />
+                            <label for="cbEmployee">CCMSID</label>
+                        </p>
+                    </div>
+                    <div class="col s2" id="divEmployee" style="display: flex; visibility: hidden;">
+                        @(Html.TextBoxFor(model => model.Employee_Ident, new { @style = "width: 180px;" }))
+                        @Html.ValidationMessageFor(model => model.Employee_Ident)
+                    </div>
+                    <div class="col s1">
+                        <p>
+                            <input type="checkbox" id="cbEmployeeName" onclick="HRReports.EnableField('EmployeeName');" />
+                            <label for="cbEmployeeName">Employee</label>
+                        </p>
+                    </div>
+                    <div class="col s4" id="divEmployeeName" style="visibility: hidden;">
+                        @(Html.TextBoxFor(model => model.EmployeeName, new { Class = "textFilter", style = "margin-bottom: 1px;" }))
+                        @Html.Hidden("empid_selected", 0, new { @id = "empid_selected" })
+                        <div id="divAC_Results" class="ac_results" style="display: none;">
+                        </div>
+                        @Html.ValidationMessageFor(model => model.EmployeeName)
+                    </div>
+
+                    <div class="col s1">
+                        <p>
+                            <input type="checkbox" id="cbCCMS_User" onclick="HRReports.EnableField('CCMS_User');" />
+                            <label for="cbCCMS_User">CCMS User</label>
+                        </p>
+                    </div>
+                    <div class="col s2" id="divCCMS_User" style="display: flex; visibility: hidden;">
+                        @(Html.TextBoxFor(model => model.CCMS_User, new { @style = "width: 180px;" }))
+                        @Html.ValidationMessageFor(model => model.CCMS_User)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s1">
+                        <p>
+                            <input type="checkbox" id="cbClients" onclick="HRReports.EnableField('Clients');" />
+                            <label for="cbClients">Client</label>
+                        </p>
+                    </div>
+                    <div class="col s2" id="divClients" style="display: flex; visibility: hidden;">
+                        @(Html.Kendo().DropDownListFor(model => model.Client_Ident)
+                                    .HtmlAttributes(new { style = "width: 230px;" })
+                                    .OptionLabel("Select...")
+                                    .DataTextField("Client_Name")
+                                    .DataValueField("Client_Ident")
+                                    .DataSource(source =>
+                                    {
+                                        source.Read(read =>
+                                        {
+                                            read.Action("Get_Clients", "HRReports");
+                                        });
+                                    })
+                        )
+                    </div>
+                    <div class="col s1" id="divProgramLabel" style="display: flex; visibility: hidden;">
+                        <p>
+                            <input id="Program_Name" type="checkbox" checked="checked" disabled="disabled" />
+                            @Html.LabelFor(model => model.Program_Name)
+                        </p>
+                    </div>
+                    <div class="col s4" id="divProgram" style="display: flex; visibility: hidden;">
+                        @(Html.Kendo().DropDownListFor(model => model.Program_Ident)
+                                .HtmlAttributes(new { style = "width: 230px;" })
+                                .OptionLabel("Select...")
+                                .DataTextField("Program_Name")
+                                .DataValueField("Program_Ident")
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("Get_Programs", "HRReports").Data("getClient_Ident");
+                                    })
+                                    .ServerFiltering(true);
+                                })
+                                .AutoBind(false)
+                                .Enable(false)
+                                .CascadeFrom("Client_Ident")
+                        )
+                    </div>
+                    <div class="col s1">
+                        <p>
+                            <input type="checkbox" id="cbFloorManagers" onclick="HRReports.EnableField('FloorManagers');" />
+                            <label for="cbFloorManagers">Floor Manager</label>
+                        </p>
+                    </div>
+                    <div class="col s3" id="divFloorManagers" style="display: flex; visibility: hidden;">
+                        @(Html.Kendo().DropDownListFor(model => model.FloorManager_Ident)
+                                .HtmlAttributes(new { style = "width: 230px;" })
+                                .OptionLabel("Select...")
+                                .DataTextField("FloorManager_Name")
+                                .DataValueField("FloorManager_Ident")
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("Get_FloorManagers", "HRReports");
+                                    });
+                                })
+                        )
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s1">
+                        <p>
+                            <input type="checkbox" id="cbReportType" onclick="HRReports.EnableField('ReportType');" />
+                            <label for="cbReportType">Report Type</label>
+                        </p>
+                    </div>
+                    <div class="col s2" id="divReportType" style="display: flex; visibility: hidden;">
+                        @(Html.Kendo().DropDownListFor(model => model.ReportType_Id)
+                                    .HtmlAttributes(new { style = "width: 230px;" })
+                                    .OptionLabel("Select...")
+                                    .DataTextField("ReportType")
+                                    .DataValueField("ReportType_Id")
+                                    .DataSource(source =>
+                                    {
+                                        source.Read(read =>
+                                        {
+                                            read.Action("Get_ReportType", "HRReports");
+                                        });
+                                    })
+                        )
+                    </div>
+                    <div class="col s1" id="divSubReportTypeLabel" style="display: flex; visibility: hidden;">
+                        <p>
+                            <input id="SubReportType" type="checkbox" checked="checked" disabled="disabled" />
+                            @Html.LabelFor(model => model.SubReportType)
+                        </p>
+                    </div>
+                    <div class="col s4" id="divSubReportType" style="display: flex; visibility: hidden;">
+                        @(Html.Kendo().DropDownListFor(model => model.SubReportType_Id)
+                                .HtmlAttributes(new { style = "width: 230px;" })
+                                .OptionLabel("Select...")
+                                .DataTextField("SubReportType")
+                                .DataValueField("SubReportType_Id")
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("Get_SubReportType", "HRReports").Data("getReportType_Id");
+                                    })
+                                    .ServerFiltering(true);
+                                })
+                                .AutoBind(false)
+                                .Enable(false)
+                                .CascadeFrom("ReportType_Id")
+                        )
+                    </div>
+                    <div class="col s1">
+                        <p>
+                            <input type="checkbox" id="cbManagers" onclick="HRReports.EnableField('Managers');" />
+                            <label for="cbManagers">Manager</label>
+                        </p>
+                    </div>
+                    <div class="col s3" id="divManagers" style="display: flex; visibility: hidden;">
+                        @(Html.Kendo().DropDownListFor(model => model.Manager_Ident)
+                                    .HtmlAttributes(new { style = "width: 230px;" })
+                                    .DataTextField("manager_name")
+                                    .DataValueField("manager_ident")
+                                    .OptionLabel("Select...")
+                                    .DataSource(source =>
+                                    {
+                                        source.Read(read =>
+                                        {
+                                            read.Action("Get_Managers", "HRReports");
+                                        });
+                                    })
+
+                        )
+                    </div>
+                </div>
+            </fieldset>
+        }
+    }
+</div>
+
+<script type="text/javascript">
+    function CopyText(elemento) {
+        $('#EmployeeName').val(elemento.textContent);
+        $('#empid_selected').val(elemento.value);
+        $('#divAC_Results').hide();
+    }
+</script>

@@ -1,0 +1,58 @@
+﻿@model TP_Retention_EFDM.ViewModel.EmployeeReportPrintViewModel
+
+@{
+    Layout = null;
+}
+
+<script type="text/javascript">
+    function onSelect(e) {
+        var dataItem = this.dataItem(e.item.index());
+        var newurl = General.BASE_URL + '/ExportReports/Index?EmployeeId=' + @Model.Employee_Ident + '&HRReportId=' + @Model.HRreport_Id + '&RetentionAnalyst_Ident=' + dataItem.RetentionAnalyst_Ident;
+        $('#ExportHPDFReport').attr('href', newurl);
+    }
+</script>
+
+<div class="editfieldset" id="contentReportPrint">
+    @{
+
+        using (Html.BeginForm("", "", FormMethod.Post, new { @id = "FormReportReport" }))
+        {
+            @*@Html.HiddenFor(model => model.Employee_Ident, new { @id = "Employee_Ident_AddReport" })*@
+            <div>
+                <div class="row section">
+                    @*Retention Analyst*@
+                    <div class="col s12">
+                        <p>Select the Retention Analyst that will appear as a witness in the selected report:</p>
+                        @Html.LabelFor(model => model.RetentionAnalyst_Name)
+                        @(Html.Kendo().DropDownListFor(model => model.RetentionAnalyst_Ident)
+                            .Name("RetentionAnalyst")
+                            .OptionLabel("Select...")
+                            .DataTextField("RetentionAnalyst_Name")
+                            .DataValueField("RetentionAnalyst_Ident")
+                            .HtmlAttributes(new { @style = "width: 100%;", required = "required", data_required_msg = "The Retention Analyst is required", @id = "RetentionAnalyst_Ident" })
+                            .DataSource(source =>
+                            {
+                                source.Read(read =>
+                                {
+                                    read.Action("Get_RetentionAnalyst", "HeadCounts");
+                                })
+                                .ServerFiltering(false);
+                            })
+                            .Events(e =>
+                            {
+                                e.Select("onSelect");
+                            })
+                        )
+                    </div>
+                </div>
+                <div class="row">
+                    @*Print*@
+                    <div class="col s12 center-align">
+                        @*<button type="button" id="btnEmployeeReportPrint" class="waves-effect waves-light btn indigo darken-3 white-text" onclick="HeadCounts.EmployeeReportData_Print();"><i class="fa fa-print" style="padding-right: 5px;"></i>Print</button>*@
+                        <a id="ExportHPDFReport" href='javascript:void(0)' target='_blank' class="waves-effect waves-light btn indigo darken-3 white-text"><i class="fa fa-external-link-square" style="padding-right: 5px;"></i> Preview</a>
+                    </div>
+                </div>
+            </div>      
+        }
+    }
+</div>

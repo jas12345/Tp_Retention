@@ -1,0 +1,113 @@
+﻿@model TP_Retention_EFDM.ViewModel.EmployeeOnRiskInterActionLogViewModel
+
+@{
+    Layout = null;
+}
+
+<script id="errorTemplate" type="text/x-kendo-template">
+    <div class="wrong-pass">
+        <img src="../content/images/error-icon-gray.png" />
+        <h3>#= title #</h3>
+        <p>#= message #</p>
+    </div>
+</script>
+
+<script type="text/javascript">    
+    function onDataBound() {
+        var items = $("#listViewInteractionLog").data("kendoListView").dataSource.total();
+
+        if (items >= 3) {
+            //$("#btnAddInteraction").remove();
+            //$("#btnAddInteraction").hide();
+            $("#btnAddInteraction").prop('disabled', true);
+        }
+    }
+</script>
+
+
+<style type="text/css">
+    /*notification*/
+    .k-notification {
+        border: 0;
+    }
+
+    .k-notification-error.k-group {
+        background: rgba(100%,100%,0%,.7);
+        color: #ffffff;
+    }
+    .wrong-pass {
+        width: 300px;
+        height: 10px;
+        cursor: pointer;
+    }
+    .wrong-pass h3 {
+        font-size: 14px;
+        color: gray;
+        text-shadow: 1px 1px white;
+    }
+    .wrong-pass img {
+        float: left;
+        margin: 25px 10px 15px 10px;
+    }
+
+    .wrong-pass p {
+        font-size: 13px;
+        color: gray;
+        text-shadow: 1px 1px white;
+    }
+
+    #btnAddInteraction {
+        background-color: #60a917 !important;
+        color: #ffffff !important;
+    }
+    .author {
+        font-size: 12px;
+        color: #92A3B0;
+        line-height: 1.9em;
+        font-weight: normal;
+    }
+    .quote {
+        padding: 10px 10px;
+        line-height: 1.9em;
+        color: #617789;
+        font-size: 14px;
+    }
+</style>
+
+<div class="editfieldset">
+    <span id="popupNotificationInteractionLog" style="display:none; cursor:pointer;"></span>
+    <div class="grid">
+        <div class="row" style="margin-top: 0; margin-bottom: 0;">
+            <div class="span8">
+                @Html.LabelFor(model => model.Interaction)
+                @Html.TextAreaFor(model => model.Interaction, new { maxlength=1000, @class="k-textbox",  @cols="80" , @rows="4", style = "width: 650px; height: 80px; text-transform:uppercase;" })
+                <br />
+                <button id="btnAddInteraction" type="button" class="k-button k-button-icontext" onclick="HeadCounts.SaveInteractionLog();"><i class="fa fa-check-circle"></i> Add</button>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 0; margin-bottom: 0;">
+            <div class="span8">
+                @Html.Label("Interaction Log")
+                <script type="text/x-kendo-tmpl" id="templateInteraction">
+                    <div class="quote">
+                        <i class="fa fa-quote-left"></i>
+                        #:Interaction#
+                        <i class="fa fa-quote-right"></i>
+                        <div class="author"> #:UserIns#, #:kendo.toString(DateIns,"F")#</div>
+                    </div>
+                </script>
+                @(Html.Kendo().ListView<TP_Retention_EFDM.ViewModel.EmployeeOnRiskInterActionLogViewModel>()
+                    .Name("listViewInteractionLog")
+                    .TagName("div")
+                    .ClientTemplateId("templateInteraction")
+                    .DataSource(dataSource => {
+                        dataSource.Read(read => read.Action("InteractionLog_Read", "HeadCounts", new { ListaRiesgo_Id = @ViewBag.ListaRiesgo_Id }));
+                        dataSource.PageSize(1);
+                    })
+                    .Events(events => events.DataBound("onDataBound"))
+                    .Pageable()
+                )
+            </div>
+        </div>
+    </div>
+</div>

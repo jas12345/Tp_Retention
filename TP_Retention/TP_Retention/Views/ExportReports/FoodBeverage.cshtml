@@ -1,0 +1,105 @@
+﻿@using TP_Retention_EFDM.ViewModel
+
+@model HRReportPrintingLayoutFields
+
+@{
+    ViewBag.Title = "HR Report " + @Model.ReportId;
+    Layout = "~/Views/Shared/_LayoutPDFPrinting.cshtml";
+}
+
+<br />
+<div class="row">
+    <div class="center-align">
+        <div class="col s6 m6 l6">
+            <button class="waves-effect waves-light btn white red-text" onclick="getPDF('.pdf-page')"><i class="fa fa-file-pdf-o" style="padding-right:5px;"></i> Exportar PDF</button>
+        </div>
+        <div class="col s6 m6 l6">
+            <button class="waves-effect waves-light btn red darken-3 white-text" onclick="window.close();"><i class="fa fa-undo" s style="padding-right:5px;"></i> Close this tab</button>
+        </div>
+    </div>
+</div>
+
+<div class="page-container">
+    <div class="pdf-page size-letter">
+        <div class="pdf-header">
+            @*<h4>@Model.ReportType</h4>*@
+            <span class="pdf-title">@Model.SubReportType No. Folio @Model.ReportId</span>
+        </div>
+        <div class="pdf-body text-justify">
+            <p>
+                En @Model.LocationCompanyName siendo las @Model.CreatedTime hrs del día @Model.NameDay, @Model.DayNumber de @Model.NameMonth de @Model.YearNumber,
+                comparecen @Model.RetentionAnalyst como representante de recursos humanos de @Model.CompanyName y en su carácter de empleado @Model.EmployeeName,
+                en presencia de dos testigos para hacer constar los siguientes hechos:
+            </p>
+            <p>
+                Que el empleado @Model.EmployeeName se ha hecho acreedor a un Reporte debido a que ha incumplido las disposiciones del reglamento interior de trabajo en los siguientes puntos:
+            </p>
+            <p>
+                Se observó que @Model.EmployeeName incurrió en un acto de Cuidado de equipo, Instalaciones y Seguridad al @Model.ReportDescription el día @Model.CreatedShortDate.
+            </p>
+
+            <p class="bolder-font">CUIDADO DE EQUIPO, INSTALACIONES Y SEGURIDAD</p>
+            <p>
+                Todas las computadoras y equipo son propiedad de esta empresa. Estos equipos son proporcionados por la empresa para poder realizar el trabajo.
+                Así mismo, toda comunicación e información transmitida, recibida de, o almacenada en cualquier Sistema o Equipo, está considerada como propiedad de la compañía.
+                Como muestra de respeto y educación hacia los compañeros de trabajo y con el fin de salvaguardar su seguridad y la de su lugar de trabajo es responsabilidad
+                de todos el cuidar las instalaciones y cumplir con los lineamientos de limpieza y seguridad.
+                Esto ayudará a mantener un ambiente limpio, sano y seguro en el área de trabajo.
+            </p>
+            <p>
+                Alimentos y bebidas- Bebidas (agua, refrescos o café) son permitidas solamente en envases cerrados con tapa; en caso de introducir un envase con etiqueta al piso de operaciones, ésta deberá ser removida.
+            </p>
+            <p>
+                <span class="bolder-font">Alimentos permitidos</span>: son solamente aquellos que fueron autorizados y entregados por el Gerente del Edificio.
+            </p>
+
+            <p>
+                Así mismo, queda manifestado que todos los hechos descritos en el contenido de este Reporte son ciertos y no fueron obtenidos bajo coerción alguna;
+                cabe mencionar que el presente reporte será parte integrante del expediente personal del trabajador.
+            </p>
+
+            <div class="row center-align">Firmando el reporte de enterados y conformes.</div>
+            <div class="pdf-signature">
+                <div class="row center">
+                    <div class="col s6"><hr style="margin: 10px 15px;"><span>@Model.EmployeeName</span></div>
+                    <div class="col s6"><hr style="margin: 10px 15px;"><span>@Model.RetentionAnalyst</span></div>
+                </div>
+                <div class="row center">
+                    <div class="col s6"><span>@Model.PositionCodeEmpleado</span></div>
+                    <div class="col s6"><span>@Model.PositionCodeRetentionAnalyst</span></div>
+                </div>
+            </div>
+            <div class="pdf-signature">
+                <div class="row center">
+                    <div class="col s6"><hr style="margin: 10px 15px;"><span>@Model.ManagerName</span></div>
+                    <div class="col s6"><hr style="margin: 10px 15px;"><span>@Model.FloorManager</span></div>
+                </div>
+                <div class="row center">
+                    <div class="col s6"><span>@Model.PositionCodeManager</span></div>
+                    <div class="col s6"><span>@Model.PositionCodeFloorManager</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<script>
+        kendo.pdf.defineFont({
+            "DejaVu Sans": "//kendo.cdn.telerik.com/2014.3.1314/styles/fonts/DejaVu/DejaVuSans.ttf",
+            "DejaVu Sans|Bold": "//kendo.cdn.telerik.com/2014.3.1314/styles/fonts/DejaVu/DejaVuSans-Bold.ttf",
+            "DejaVu Sans|Bold|Italic": "//kendo.cdn.telerik.com/2014.3.1314/styles/fonts/DejaVu/DejaVuSans-Oblique.ttf",
+            "DejaVu Sans|Italic": "//kendo.cdn.telerik.com/2014.3.1314/styles/fonts/DejaVu/DejaVuSans-Oblique.ttf"
+        });
+    </script>*@
+
+<script src="~/Scripts/kendo/2014.3.1316/pako_deflate.min.js"></script>
+
+<script>
+    function getPDF(selector) {
+        kendo.drawing.drawDOM($(selector)).then(function (group) {
+            kendo.drawing.pdf.saveAs(group, "HRReport" + @Model.ReportId + ".pdf");
+        });
+
+        HRReportPrinting.Update(@Model.ReportId);
+    }
+</script>

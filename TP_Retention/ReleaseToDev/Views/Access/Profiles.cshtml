@@ -1,0 +1,39 @@
+﻿@using System.Web.Optimization;
+@using System.Collections;
+@using System.Web.Helpers;
+@using TP_Retention.Helpers;
+
+@{
+    ViewBag.Title = "Profiles";
+    Layout = "~/Views/Shared/_LayoutAccess.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#Profile').val(@Session["Profile"]);
+        $('select').material_select();
+    });
+</script>
+
+<!-- Vista en la cual el usuario seleccionará el Perfil con el cual nevagará dentro del sistema -->
+<div class="row">
+    <div class="col">
+        <h2><i class="fa fa-street-view"></i> Profile</h2>
+    </div>
+</div>
+<div style="width: 350px; height: 170px">
+    <!-- Formulario en el cual se logeará el usuario -->
+
+    @using (Html.BeginForm("SetProfile", "Access", FormMethod.Post, new { @id = "Form", @class = "col s12" }))
+    {
+        <div class="row">
+            @Html.DropDownList("Profile", (IEnumerable<SelectListItem>)ViewData["Profiles"])
+        </div>
+        <div class="row">
+            <div class="section">
+                <button type="submit" id="btnsubmit" class="waves-effect waves-light btn indigo darken-3">GO</button>
+            </div>
+        </div>                              
+    }
+</div>
+

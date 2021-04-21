@@ -1,0 +1,1443 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TPRetentionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <Function Name="Check_Employee_Ident" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Employee_Ident" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="Delete_Employee_HRreport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Employee_Ident" Type="bigint" Mode="In" />
+          <Parameter Name="HRreport_Id" Type="int" Mode="In" />
+          <Parameter Name="DeactivatedBy" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="Get_All_Clients" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Get_All_FloorManagers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Get_All_Managers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Get_All_RetentionAnalyst" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Get_College" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Get_Employee_Detail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Employee_Ident" Type="int" Mode="In" />
+          <Parameter Name="FechaConsulta" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="Get_Employee_HRreport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Employee_Ident" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="Get_Employee_OnRisk" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Employee_Ident" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="Get_Employee_OnRisk_ActionLog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RiskList_Id" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="Get_Employee_OnRisk_InterActionLog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RiskList_Id" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="Get_Employee_Profile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Employee_Ident" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="Get_Employees_HRreport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="reportType_Id" Type="smallint" Mode="In" />
+          <Parameter Name="subReportType_Id" Type="smallint" Mode="In" />
+          <Parameter Name="reportDateStart" Type="datetime" Mode="In" />
+          <Parameter Name="reportDateEnd" Type="datetime" Mode="In" />
+          <Parameter Name="employee_Ident" Type="bigint" Mode="In" />
+          <Parameter Name="manager_Ident" Type="bigint" Mode="In" />
+          <Parameter Name="floorManager_Ident" Type="bigint" Mode="In" />
+          <Parameter Name="location_Ident" Type="smallint" Mode="In" />
+          <Parameter Name="payroll" Type="varchar" Mode="In" />
+          <Parameter Name="CCMS_User" Type="varchar" Mode="In" />
+          <Parameter Name="client_Ident" Type="int" Mode="In" />
+          <Parameter Name="program_ident" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Get_Employees_HRreport_Grid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="reportType_Id" Type="smallint" Mode="In" />
+          <Parameter Name="subReportType_Id" Type="smallint" Mode="In" />
+          <Parameter Name="reportDateStart" Type="datetime" Mode="In" />
+          <Parameter Name="reportDateEnd" Type="datetime" Mode="In" />
+          <Parameter Name="employee_Ident" Type="bigint" Mode="In" />
+          <Parameter Name="manager_Ident" Type="bigint" Mode="In" />
+          <Parameter Name="floorManager_Ident" Type="bigint" Mode="In" />
+          <Parameter Name="location_Ident" Type="smallint" Mode="In" />
+          <Parameter Name="payroll" Type="varchar" Mode="In" />
+          <Parameter Name="CCMS_User" Type="varchar" Mode="In" />
+          <Parameter Name="client_Ident" Type="int" Mode="In" />
+          <Parameter Name="program_ident" Type="int" Mode="In" />
+          <Parameter Name="HRreport_Id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Get_Employees_OnRisk" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="riskStatus_Id" Type="smallint" Mode="In" />
+          <Parameter Name="riskDateStart" Type="datetime" Mode="In" />
+          <Parameter Name="riskDateEnd" Type="datetime" Mode="In" />
+          <Parameter Name="reviewDateStart" Type="datetime" Mode="In" />
+          <Parameter Name="reviewDateEnd" Type="datetime" Mode="In" />
+          <Parameter Name="employee_Ident" Type="bigint" Mode="In" />
+          <Parameter Name="manager_Ident" Type="bigint" Mode="In" />
+          <Parameter Name="floorManager_Ident" Type="bigint" Mode="In" />
+          <Parameter Name="location_Ident" Type="smallint" Mode="In" />
+          <Parameter Name="payroll" Type="varchar" Mode="In" />
+          <Parameter Name="CCMS_User" Type="varchar" Mode="In" />
+          <Parameter Name="client_Ident" Type="int" Mode="In" />
+          <Parameter Name="program_ident" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Get_Employees_OnRisk_Grid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="riskStatus_Id" Type="smallint" Mode="In" />
+          <Parameter Name="riskDateStart" Type="datetime" Mode="In" />
+          <Parameter Name="riskDateEnd" Type="datetime" Mode="In" />
+          <Parameter Name="reviewDateStart" Type="datetime" Mode="In" />
+          <Parameter Name="reviewDateEnd" Type="datetime" Mode="In" />
+          <Parameter Name="employee_Ident" Type="bigint" Mode="In" />
+          <Parameter Name="manager_Ident" Type="bigint" Mode="In" />
+          <Parameter Name="floorManager_Ident" Type="bigint" Mode="In" />
+          <Parameter Name="location_Ident" Type="smallint" Mode="In" />
+          <Parameter Name="payroll" Type="varchar" Mode="In" />
+          <Parameter Name="CCMS_User" Type="varchar" Mode="In" />
+          <Parameter Name="client_Ident" Type="int" Mode="In" />
+          <Parameter Name="program_ident" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Get_Employees_Search" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Employee_Ident" Type="bigint" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Top" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="Get_Employees_x_Hierarchy" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Manager_Ident" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="Get_HRReportPrintingLayout" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EmployeeId" Type="bigint" Mode="In" />
+          <Parameter Name="HRReportId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Get_Layoff_Status" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Get_Locations" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Get_Manager_Employees" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Manager_Ident" Type="int" Mode="In" />
+          <Parameter Name="FechaConsulta" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="Get_Managers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Position_Code_Type_Ident" Type="int" Mode="In" />
+          <Parameter Name="Location_Ident" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="Get_Modules_Profile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Profile_Id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Get_Positions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Location_Ident" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="Get_Profile_x_Employee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Employee_Ident" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="Get_Programs_By_Clent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Client_Ident" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Get_Reasons" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Get_ReportType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Get_Risk_Action_Categories" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Get_Risk_Case_Status" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Get_Risk_Categories" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RiskListTypeId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Get_Risk_Estimation_Status" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Get_Risk_Priority_Status" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Get_Risk_Status" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Profile_Id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Get_RiskListEfficiency" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Get_RiskListType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Get_Segment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Get_SpecificCause_By_Reason" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ReasonId" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="Get_SubReportType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ReportType_Id" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="Get_Tenure" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Insert_Employee_HRreport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Employee_Ident" Type="bigint" Mode="In" />
+          <Parameter Name="ReportDate" Type="datetime" Mode="In" />
+          <Parameter Name="ReportType_Id" Type="smallint" Mode="In" />
+          <Parameter Name="SubReportType_Id" Type="smallint" Mode="In" />
+          <Parameter Name="ReportDescription" Type="varchar" Mode="In" />
+          <Parameter Name="Manager_Ident" Type="bigint" Mode="In" />
+          <Parameter Name="FloorManager_Ident" Type="bigint" Mode="In" />
+          <Parameter Name="Program_Ident" Type="int" Mode="In" />
+          <Parameter Name="UserIns" Type="varchar" Mode="In" />
+          <Parameter Name="CollegeId" Type="int" Mode="In" />
+          <Parameter Name="dateOfEvent" Type="datetime" Mode="In" />
+          <Parameter Name="ReasonId" Type="int" Mode="In" />
+          <Parameter Name="SpecificCauseId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Insert_Employee_OnRisk" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Employee_Ident" Type="bigint" Mode="In" />
+          <Parameter Name="Instalacion_Id" Type="smallint" Mode="In" />
+          <Parameter Name="RiskDate" Type="datetime" Mode="In" />
+          <Parameter Name="Category_Id" Type="smallint" Mode="In" />
+          <Parameter Name="RiskStatus_Id" Type="smallint" Mode="In" />
+          <Parameter Name="RiskDescription" Type="varchar" Mode="In" />
+          <Parameter Name="Manager_Ident" Type="bigint" Mode="In" />
+          <Parameter Name="FloorManager_Ident" Type="bigint" Mode="In" />
+          <Parameter Name="Program_Ident" Type="int" Mode="In" />
+          <Parameter Name="UserIns" Type="varchar" Mode="In" />
+          <Parameter Name="RiskListType_Id" Type="int" Mode="In" />
+          <Parameter Name="ResignationDate" Type="datetime" Mode="In" />
+          <Parameter Name="ReviewDate" Type="datetime" Mode="In" />
+          <Parameter Name="EstimacionRiesgo_Id" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="Insert_Employee_OnRisk_ActionLog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RiskList_Id" Type="int" Mode="In" />
+          <Parameter Name="RetentionAction" Type="varchar" Mode="In" />
+          <Parameter Name="RiskStatus_Id" Type="int" Mode="In" />
+          <Parameter Name="UserIns" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="Insert_Employee_OnRisk_InterActionLog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RiskList_Id" Type="int" Mode="In" />
+          <Parameter Name="Interaction" Type="varchar" Mode="In" />
+          <Parameter Name="RiskStatus_Id" Type="int" Mode="In" />
+          <Parameter Name="UserIns" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="Insert_Errors" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ErrorMessage" Type="varchar" Mode="In" />
+          <Parameter Name="StackTrace" Type="varchar" Mode="In" />
+          <Parameter Name="ErrorNumber" Type="int" Mode="In" />
+          <Parameter Name="ProfileId" Type="smallint" Mode="In" />
+          <Parameter Name="IpAddress" Type="varchar" Mode="In" />
+          <Parameter Name="Browser" Type="varchar" Mode="In" />
+          <Parameter Name="UserIns" Type="varchar" Mode="In" />
+          <Parameter Name="Error_Id" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="Set_Employee_Profile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Employee_Ident" Type="bigint" Mode="In" />
+          <Parameter Name="Profiles" Type="xml" Mode="In" />
+          <Parameter Name="User_Id" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="Update_Employee_HRreport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="HRreport_Id" Type="int" Mode="In" />
+          <Parameter Name="ReportDate" Type="datetime" Mode="In" />
+          <Parameter Name="ReportType_Id" Type="smallint" Mode="In" />
+          <Parameter Name="SubReportType_Id" Type="smallint" Mode="In" />
+          <Parameter Name="ReportDescription" Type="varchar" Mode="In" />
+          <Parameter Name="UserUpd" Type="varchar" Mode="In" />
+          <Parameter Name="Delivered" Type="bit" Mode="In" />
+          <Parameter Name="Interaction" Type="bit" Mode="In" />
+          <Parameter Name="EmployeeCommitment" Type="varchar" Mode="In" />
+          <Parameter Name="EmployeeCommitmentDate" Type="datetime" Mode="In" />
+          <Parameter Name="Acknowledgment" Type="varchar" Mode="In" />
+          <Parameter Name="FutureImplications" Type="varchar" Mode="In" />
+          <Parameter Name="AcknowledgmentDate" Type="datetime" Mode="In" />
+          <Parameter Name="CollegeId" Type="int" Mode="In" />
+          <Parameter Name="dateOfEvent" Type="datetime" Mode="In" />
+          <Parameter Name="ReasonId" Type="int" Mode="In" />
+          <Parameter Name="SpecificCauseId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Update_Employee_HRreport_Commitment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="HRreport_Id" Type="int" Mode="In" />
+          <Parameter Name="EmployeeCommitment" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="Update_Employee_HRreport_Printed" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="HRreport_Id" Type="int" Mode="In" />
+          <Parameter Name="PrintedBy" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="Update_Employee_OnRisk" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RiskList_Id" Type="int" Mode="In" />
+          <Parameter Name="RiskDate" Type="datetime" Mode="In" />
+          <Parameter Name="Category_Id" Type="smallint" Mode="In" />
+          <Parameter Name="RiskStatus_Id" Type="smallint" Mode="In" />
+          <Parameter Name="RiskDescription" Type="varchar" Mode="In" />
+          <Parameter Name="UserUpd" Type="varchar" Mode="In" />
+          <Parameter Name="RiskListType_Id" Type="int" Mode="In" />
+          <Parameter Name="ResignationDate" Type="datetime" Mode="In" />
+          <Parameter Name="ReviewDate" Type="datetime" Mode="In" />
+          <Parameter Name="EstimacionRiesgo_Id" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="TPRetentionModelStoreContainer" />
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TPRetentionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TPRetentionEntities" annotation:LazyLoadingEnabled="true" >
+          <FunctionImport Name="Get_Employee_OnRisk" ReturnType="Collection(TPRetentionModel.Get_Employee_OnRisk_Result)">
+          <Parameter Name="Employee_Ident" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="Get_Employee_OnRisk_ActionLog" ReturnType="Collection(TPRetentionModel.Get_Employee_OnRisk_ActionLog_Result)">
+          <Parameter Name="RiskList_Id" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="Get_Layoff_Status" ReturnType="Collection(TPRetentionModel.Get_Layoff_Status_Result)" />
+          <FunctionImport Name="Get_Locations" ReturnType="Collection(TPRetentionModel.Get_Locations_Result)">
+          </FunctionImport>
+          <FunctionImport Name="Get_Managers" ReturnType="Collection(TPRetentionModel.Get_Managers_Result)">
+            <Parameter Name="Position_Code_Type_Ident" Mode="In" Type="Int32" />
+            <Parameter Name="Location_Ident" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="Get_Positions" ReturnType="Collection(TPRetentionModel.Get_Positions_Result)">
+          <Parameter Name="Location_Ident" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="Get_Risk_Action_Categories" ReturnType="Collection(TPRetentionModel.Get_Risk_Action_Categories_Result)" />
+          <FunctionImport Name="Get_Risk_Case_Status" ReturnType="Collection(TPRetentionModel.Get_Risk_Case_Status_Result)" />
+          <FunctionImport Name="Get_Risk_Categories" ReturnType="Collection(TPRetentionModel.Get_Risk_Categories_Result)" >
+          <Parameter Name="RiskListTypeId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Get_Risk_Estimation_Status" ReturnType="Collection(TPRetentionModel.Get_Risk_Estimation_Status_Result)" />
+          <FunctionImport Name="Get_Risk_Priority_Status" ReturnType="Collection(TPRetentionModel.Get_Risk_Priority_Status_Result)" />
+          <FunctionImport Name="Get_Risk_Status" ReturnType="Collection(TPRetentionModel.Get_Risk_Status_Result)" >
+          <Parameter Name="Profile_Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Insert_Employee_OnRisk" ReturnType="Collection(Int32)">
+            <Parameter Name="Employee_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="Instalacion_Id" Mode="In" Type="Int16" />
+            <Parameter Name="RiskDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Category_Id" Mode="In" Type="Int16" />
+            <Parameter Name="RiskStatus_Id" Mode="In" Type="Int16" />
+            <Parameter Name="RiskDescription" Mode="In" Type="String" />
+            <Parameter Name="Manager_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="FloorManager_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="Program_Ident" Mode="In" Type="Int32" />
+            <Parameter Name="UserIns" Mode="In" Type="String" />
+            <Parameter Name="RiskListType_Id" Mode="In" Type="Int32" />
+            <Parameter Name="ResignationDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ReviewDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EstimacionRiesgo_Id" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="Update_Employee_OnRisk">
+            <Parameter Name="RiskList_Id" Mode="In" Type="Int32" />
+            <Parameter Name="RiskDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Category_Id" Mode="In" Type="Int16" />
+            <Parameter Name="RiskStatus_Id" Mode="In" Type="Int16" />
+            <Parameter Name="RiskDescription" Mode="In" Type="String" />
+            <Parameter Name="UserUpd" Mode="In" Type="String" />
+            <Parameter Name="RiskListType_Id" Mode="In" Type="Int32" />
+            <Parameter Name="ResignationDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ReviewDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EstimacionRiesgo_Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Get_Employees_Search" ReturnType="Collection(TPRetentionModel.Get_Employees_Search_Result)">
+            <Parameter Name="Employee_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Top" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="Insert_Employee_OnRisk_ActionLog">
+            <Parameter Name="RiskList_Id" Mode="In" Type="Int32" />
+            <Parameter Name="RetentionAction" Mode="In" Type="String" />
+            <Parameter Name="RiskStatus_Id" Mode="In" Type="Int32" />
+            <Parameter Name="UserIns" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Get_Employee_Detail" ReturnType="Collection(TPRetentionModel.Get_Employee_Detail_Result)">
+            <Parameter Name="Employee_Ident" Mode="In" Type="Int32" />
+            <Parameter Name="FechaConsulta" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="Get_Manager_Employees" ReturnType="Collection(TPRetentionModel.Get_Manager_Employees_Result)">
+            <Parameter Name="Manager_Ident" Mode="In" Type="Int32" />
+            <Parameter Name="FechaConsulta" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="Get_All_Managers" ReturnType="Collection(TPRetentionModel.Get_All_Managers_Result)" />
+          <FunctionImport Name="Get_Segment" ReturnType="Collection(TPRetentionModel.Get_Segment_Result)" />
+          <FunctionImport Name="Get_All_Clients" ReturnType="Collection(TPRetentionModel.Get_All_Clients_Result)" />
+          <FunctionImport Name="Get_All_FloorManagers" ReturnType="Collection(TPRetentionModel.Get_All_FloorManagers_Result)" />
+          <FunctionImport Name="Get_All_RetentionAnalyst" ReturnType="Collection(TPRetentionModel.Get_All_RetentionAnalyst_Result)" />
+          <FunctionImport Name="Get_Employee_Profile" ReturnType="Collection(TPRetentionModel.Get_Employee_Profile_Result)">
+          <Parameter Name="Employee_Ident" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="Set_Employee_Profile">
+            <Parameter Name="Employee_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="Profiles" Mode="In" Type="String" />
+            <Parameter Name="User_Id" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="Get_Modules_Profile" ReturnType="Collection(TPRetentionModel.Get_Modules_Profile_Result)">
+          <Parameter Name="Profile_Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Get_Profile_x_Employee" ReturnType="Collection(TPRetentionModel.Get_Profile_x_Employee_Result)">
+          <Parameter Name="Employee_Ident" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="Get_RiskListEfficiency" ReturnType="Collection(TPRetentionModel.Get_RiskListEfficiency_Result)" />
+          <FunctionImport Name="Get_Tenure" ReturnType="Collection(TPRetentionModel.Get_Tenure_Result)" />
+          <FunctionImport Name="Get_Employees_OnRisk" ReturnType="Collection(TPRetentionModel.Get_Employees_OnRisk_Result)">
+            <Parameter Name="riskStatus_Id" Mode="In" Type="Int16" />
+            <Parameter Name="riskDateStart" Mode="In" Type="DateTime" />
+            <Parameter Name="riskDateEnd" Mode="In" Type="DateTime" />
+            <Parameter Name="reviewDateStart" Mode="In" Type="DateTime" />
+            <Parameter Name="reviewDateEnd" Mode="In" Type="DateTime" />
+            <Parameter Name="employee_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="manager_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="floorManager_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="location_Ident" Mode="In" Type="Int16" />
+            <Parameter Name="payroll" Mode="In" Type="String" />
+            <Parameter Name="CCMS_User" Mode="In" Type="String" />
+            <Parameter Name="client_Ident" Mode="In" Type="Int32" />
+            <Parameter Name="program_ident" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Insert_Errors">
+            <Parameter Name="ErrorMessage" Mode="In" Type="String" />
+            <Parameter Name="StackTrace" Mode="In" Type="String" />
+            <Parameter Name="ErrorNumber" Mode="In" Type="Int32" />
+            <Parameter Name="ProfileId" Mode="In" Type="Int16" />
+            <Parameter Name="IpAddress" Mode="In" Type="String" />
+            <Parameter Name="Browser" Mode="In" Type="String" />
+            <Parameter Name="UserIns" Mode="In" Type="String" />
+            <Parameter Name="Error_Id" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Get_Employee_OnRisk_InterActionLog" ReturnType="Collection(TPRetentionModel.Get_Employee_OnRisk_InterActionLog_Result)">
+          <Parameter Name="RiskList_Id" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="Insert_Employee_OnRisk_InterActionLog">
+            <Parameter Name="RiskList_Id" Mode="In" Type="Int32" />
+            <Parameter Name="Interaction" Mode="In" Type="String" />
+            <Parameter Name="RiskStatus_Id" Mode="In" Type="Int32" />
+            <Parameter Name="UserIns" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Get_Programs_By_Clent" ReturnType="Collection(TPRetentionModel.Get_Programs_By_Clent_Result)">
+          <Parameter Name="Client_Ident" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Check_Employee_Ident" ReturnType="Collection(Int32)">
+          <Parameter Name="Employee_Ident" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="Get_Employee_HRreport" ReturnType="Collection(TPRetentionModel.Get_Employee_HRreport_Result)">
+          <Parameter Name="Employee_Ident" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="Get_Employees_HRreport" ReturnType="Collection(TPRetentionModel.Get_Employees_HRreport_Result)">
+            <Parameter Name="reportType_Id" Mode="In" Type="Int16" />
+            <Parameter Name="subReportType_Id" Mode="In" Type="Int16" />
+            <Parameter Name="reportDateStart" Mode="In" Type="DateTime" />
+            <Parameter Name="reportDateEnd" Mode="In" Type="DateTime" />
+            <Parameter Name="employee_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="manager_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="floorManager_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="location_Ident" Mode="In" Type="Int16" />
+            <Parameter Name="payroll" Mode="In" Type="String" />
+            <Parameter Name="CCMS_User" Mode="In" Type="String" />
+            <Parameter Name="client_Ident" Mode="In" Type="Int32" />
+            <Parameter Name="program_ident" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Get_ReportType" ReturnType="Collection(TPRetentionModel.Get_ReportType_Result)" />
+          <FunctionImport Name="Get_SubReportType" ReturnType="Collection(TPRetentionModel.Get_SubReportType_Result)">
+          <Parameter Name="ReportType_Id" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="Insert_Employee_HRreport">
+            <Parameter Name="Employee_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="ReportDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ReportType_Id" Mode="In" Type="Int16" />
+            <Parameter Name="SubReportType_Id" Mode="In" Type="Int16" />
+            <Parameter Name="ReportDescription" Mode="In" Type="String" />
+            <Parameter Name="Manager_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="FloorManager_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="Program_Ident" Mode="In" Type="Int32" />
+            <Parameter Name="UserIns" Mode="In" Type="String" />
+            <Parameter Name="CollegeId" Mode="In" Type="Int32" />
+            <Parameter Name="dateOfEvent" Mode="In" Type="DateTime" />
+            <Parameter Name="ReasonId" Mode="In" Type="Int32" />
+            <Parameter Name="SpecificCauseId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Update_Employee_HRreport_Commitment">
+            <Parameter Name="HRreport_Id" Mode="In" Type="Int32" />
+            <Parameter Name="EmployeeCommitment" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Update_Employee_HRreport_Printed">
+            <Parameter Name="HRreport_Id" Mode="In" Type="Int32" />
+            <Parameter Name="PrintedBy" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Get_HRReportPrintingLayout" ReturnType="Collection(TPRetentionModel.Get_HRReportPrintingLayout_Result)">
+            <Parameter Name="EmployeeId" Mode="In" Type="Int64" />
+            <Parameter Name="HRReportId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Get_Employees_x_Hierarchy" ReturnType="Collection(TPRetentionModel.Get_Employees_x_Hierarchy_Result)">
+          <Parameter Name="Manager_Ident" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="Get_College" ReturnType="Collection(TPRetentionModel.Get_College_Result)" />
+          <FunctionImport Name="Delete_Employee_HRreport">
+            <Parameter Name="Employee_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="HRreport_Id" Mode="In" Type="Int32" />
+            <Parameter Name="DeactivatedBy" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Get_Employees_HRreport_Grid" ReturnType="Collection(TPRetentionModel.Get_Employees_HRreport_Grid_Result)">
+            <Parameter Name="reportType_Id" Mode="In" Type="Int16" />
+            <Parameter Name="subReportType_Id" Mode="In" Type="Int16" />
+            <Parameter Name="reportDateStart" Mode="In" Type="DateTime" />
+            <Parameter Name="reportDateEnd" Mode="In" Type="DateTime" />
+            <Parameter Name="employee_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="manager_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="floorManager_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="location_Ident" Mode="In" Type="Int16" />
+            <Parameter Name="payroll" Mode="In" Type="String" />
+            <Parameter Name="CCMS_User" Mode="In" Type="String" />
+            <Parameter Name="client_Ident" Mode="In" Type="Int32" />
+            <Parameter Name="program_ident" Mode="In" Type="Int32" />
+            <Parameter Name="HRreport_Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Get_Employees_OnRisk_Grid" ReturnType="Collection(TPRetentionModel.Get_Employees_OnRisk_Grid_Result)">
+            <Parameter Name="riskStatus_Id" Mode="In" Type="Int16" />
+            <Parameter Name="riskDateStart" Mode="In" Type="DateTime" />
+            <Parameter Name="riskDateEnd" Mode="In" Type="DateTime" />
+            <Parameter Name="reviewDateStart" Mode="In" Type="DateTime" />
+            <Parameter Name="reviewDateEnd" Mode="In" Type="DateTime" />
+            <Parameter Name="employee_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="manager_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="floorManager_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="location_Ident" Mode="In" Type="Int16" />
+            <Parameter Name="payroll" Mode="In" Type="String" />
+            <Parameter Name="CCMS_User" Mode="In" Type="String" />
+            <Parameter Name="client_Ident" Mode="In" Type="Int32" />
+            <Parameter Name="program_ident" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Get_Reasons" ReturnType="Collection(TPRetentionModel.Get_Reasons_Result)" />
+          <FunctionImport Name="Get_SpecificCause_By_Reason" ReturnType="Collection(TPRetentionModel.Get_SpecificCause_By_Reason_Result)">
+          <Parameter Name="ReasonId" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="Update_Employee_HRreport">
+            <Parameter Name="HRreport_Id" Mode="In" Type="Int32" />
+            <Parameter Name="ReportDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ReportType_Id" Mode="In" Type="Int16" />
+            <Parameter Name="SubReportType_Id" Mode="In" Type="Int16" />
+            <Parameter Name="ReportDescription" Mode="In" Type="String" />
+            <Parameter Name="UserUpd" Mode="In" Type="String" />
+            <Parameter Name="Delivered" Mode="In" Type="Boolean" />
+            <Parameter Name="Interaction" Mode="In" Type="Boolean" />
+            <Parameter Name="EmployeeCommitment" Mode="In" Type="String" />
+            <Parameter Name="EmployeeCommitmentDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Acknowledgment" Mode="In" Type="String" />
+            <Parameter Name="FutureImplications" Mode="In" Type="String" />
+            <Parameter Name="AcknowledgmentDate" Mode="In" Type="DateTime" />
+            <Parameter Name="CollegeId" Mode="In" Type="Int32" />
+            <Parameter Name="dateOfEvent" Mode="In" Type="DateTime" />
+            <Parameter Name="ReasonId" Mode="In" Type="Int32" />
+            <Parameter Name="SpecificCauseId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Get_RiskListType" ReturnType="Collection(TPRetentionModel.Get_RiskListType_Result)" />
+        </EntityContainer>
+        <ComplexType Name="Get_Employee_OnRisk_Result">
+          <Property Type="Int32" Name="RiskList_Id" Nullable="false" />
+          <Property Type="Int64" Name="Employee_Ident" Nullable="false" />
+          <Property Type="Int16" Name="RiskStatus_Id" Nullable="false" />
+          <Property Type="String" Name="RiskStatus" Nullable="true" MaxLength="30" />
+          <Property Type="DateTime" Name="RiskDate" Nullable="false" Precision="23" />
+          <Property Type="Int16" Name="Category_Id" Nullable="false" />
+          <Property Type="String" Name="Category" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="RiskDescription" Nullable="false" MaxLength="1000" />
+          <Property Type="Int32" Name="RiskListType_Id" Nullable="true" />
+          <Property Type="String" Name="RiskListType" Nullable="true" MaxLength="250" />
+          <Property Type="DateTime" Name="ResignationDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ReviewDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UserIns" Nullable="true" MaxLength="103" />
+          <Property Type="String" Name="EstimacionRiesgo" Nullable="true" MaxLength="40" />
+          <Property Type="Int16" Name="EstimacionRiesgo_Id" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Get_Employee_OnRisk_ActionLog_Result">
+          <Property Type="Int32" Name="RetentionLog_Id" Nullable="false" />
+          <Property Type="Int32" Name="RiskList_Id" Nullable="false" />
+          <Property Type="String" Name="RetentionAction" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="UserIns" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="DateIns" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="Get_Layoff_Status_Result">
+          <Property Type="Int16" Name="TipoBaja_Id" Nullable="false" />
+          <Property Type="String" Name="TipoBaja" Nullable="false" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="Get_Locations_Result">
+          <Property Type="Int16" Name="location_ident" Nullable="false" />
+          <Property Type="String" Name="Location_Name" Nullable="false" MaxLength="250" />
+          <Property Type="Int32" Name="Instalacion_Id" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Get_Managers_Result">
+          <Property Type="Int64" Name="Employee_Ident" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="103" />
+        </ComplexType>
+        <ComplexType Name="Get_Positions_Result">
+          <Property Type="Int32" Name="Position_Code_Type_Ident" Nullable="true" />
+          <Property Type="String" Name="Position_Code_Full_Name" Nullable="true" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="Get_Risk_Action_Categories_Result">
+          <Property Type="Int16" Name="CategoriaAccion_id" Nullable="false" />
+          <Property Type="String" Name="CategoriaAccion" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="Get_Risk_Case_Status_Result">
+          <Property Type="Int16" Name="EstatusCaso_Id" Nullable="false" />
+          <Property Type="String" Name="EstatusCaso" Nullable="false" MaxLength="40" />
+        </ComplexType>
+        <ComplexType Name="Get_Risk_Categories_Result">
+          <Property Type="Int32" Name="Category_Id" Nullable="true" />
+          <Property Type="String" Name="Category" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="Get_Risk_Estimation_Status_Result">
+          <Property Type="Int16" Name="EstimacionRiesgo_Id" Nullable="false" />
+          <Property Type="String" Name="EstimacionRiesgo" Nullable="false" MaxLength="40" />
+        </ComplexType>
+        <ComplexType Name="Get_Risk_Priority_Status_Result">
+          <Property Type="Int16" Name="Prioridad_Id" Nullable="false" />
+          <Property Type="String" Name="Prioridad" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="Get_Risk_Status_Result">
+          <Property Type="Int16" Name="RiskStatus_Id" Nullable="false" />
+          <Property Type="String" Name="RiskStatus" Nullable="false" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="Get_Employees_Search_Result">
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="103" />
+          <Property Type="Int64" Name="Employee_Ident" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Get_Employee_Detail_Result">
+          <Property Type="Int64" Name="Employee_Ident" Nullable="false" />
+          <Property Type="String" Name="PayRoll" Nullable="true" MaxLength="15" />
+          <Property Type="DateTime" Name="Hire_Date" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="103" />
+          <Property Type="Int64" Name="Manager_Ident" Nullable="true" />
+          <Property Type="String" Name="Manager_Name" Nullable="true" MaxLength="103" />
+          <Property Type="Int32" Name="Client_Ident" Nullable="true" />
+          <Property Type="String" Name="Client_Name" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Account_Id" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="Program_Name" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="LunIni" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="LunFin" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="MarIni" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="MarFin" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="MieIni" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="MieFin" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="JueIni" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="JueFin" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="VieIni" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="VieFin" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="SabIni" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="SabFin" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="DomIni" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="DomFin" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="HorarioCve" Nullable="false" MaxLength="7" />
+          <Property Type="Decimal" Name="FTE" Nullable="false" Precision="12" Scale="3" />
+          <Property Type="Int16" Name="RiskStatus_Id" Nullable="false" />
+          <Property Type="Int32" Name="RiskListCount" Nullable="true" />
+          <Property Type="Int32" Name="Program_Ident" Nullable="true" />
+          <Property Type="String" Name="Tenure" Nullable="false" MaxLength="9" />
+        </ComplexType>
+        <ComplexType Name="Get_Manager_Employees_Result">
+          <Property Type="Int64" Name="Employee_Ident" Nullable="false" />
+          <Property Type="String" Name="PayRoll" Nullable="true" MaxLength="15" />
+          <Property Type="DateTime" Name="Hire_Date" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="103" />
+          <Property Type="Int64" Name="Manager_Ident" Nullable="true" />
+          <Property Type="String" Name="Manager_Name" Nullable="true" MaxLength="103" />
+          <Property Type="Int32" Name="Client_Ident" Nullable="true" />
+          <Property Type="String" Name="Client_Name" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Account_Id" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="Program_Name" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="LunIni" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="LunFin" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="MarIni" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="MarFin" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="MieIni" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="MieFin" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="JueIni" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="JueFin" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="VieIni" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="VieFin" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="SabIni" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="SabFin" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="DomIni" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="DomFin" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="HorarioCve" Nullable="false" MaxLength="7" />
+          <Property Type="Decimal" Name="FTE" Nullable="false" Precision="12" Scale="3" />
+          <Property Type="Int32" Name="RiskListCount" Nullable="true" />
+          <Property Type="Int16" Name="RiskStatus_Id" Nullable="false" />
+          <Property Type="Int32" Name="Program_Ident" Nullable="true" />
+          <Property Type="String" Name="Tenure" Nullable="false" MaxLength="9" />
+        </ComplexType>
+        <ComplexType Name="Get_All_Managers_Result">
+          <Property Type="Int64" Name="manager_ident" Nullable="true" />
+          <Property Type="String" Name="manager_name" Nullable="true" MaxLength="103" />
+        </ComplexType>
+        <ComplexType Name="Get_Segment_Result">
+          <Property Type="Int64" Name="Segment_Id" Nullable="false" />
+          <Property Type="String" Name="Segment" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="Get_All_Clients_Result">
+          <Property Type="Int16" Name="Client_Ident" Nullable="false" />
+          <Property Type="String" Name="Client_Name" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="Get_All_FloorManagers_Result">
+          <Property Type="Int64" Name="FloorManager_Ident" Nullable="true" />
+          <Property Type="String" Name="FloorManager_Name" Nullable="true" MaxLength="103" />
+        </ComplexType>
+        <ComplexType Name="Get_All_RetentionAnalyst_Result">
+          <Property Type="Int32" Name="Employee_Ident" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="103" />
+        </ComplexType>
+        <ComplexType Name="Get_Employee_Profile_Result">
+          <Property Type="Int16" Name="Profile_Id" Nullable="false" />
+          <Property Type="String" Name="Profile" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Assign" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="Get_Modules_Profile_Result">
+          <Property Type="Int16" Name="Module_Id" Nullable="false" />
+          <Property Type="String" Name="Module" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Icon" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Color" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Path" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="Get_Profile_x_Employee_Result">
+          <Property Type="String" Name="Profile" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Profile_Id" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Get_RiskListEfficiency_Result">
+          <Property Type="Int64" Name="RiskListEfficiency_Id" Nullable="false" />
+          <Property Type="String" Name="RiskListEfficiency" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="Get_Tenure_Result">
+          <Property Type="Int64" Name="Tenure_Id" Nullable="false" />
+          <Property Type="String" Name="Tenure" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="Get_Employees_OnRisk_Result">
+          <Property Type="String" Name="RiskDate" Nullable="true" MaxLength="10" />
+          <Property Type="Int64" Name="Employee_Ident" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="103" />
+          <Property Type="String" Name="Payroll" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="Position_Code_Full_Name" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Manager_Name" Nullable="true" MaxLength="103" />
+          <Property Type="String" Name="FloorManager_Name" Nullable="true" MaxLength="103" />
+          <Property Type="String" Name="Client_Name" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Location_Name" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="RiskStatus" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="RiskListType" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="Category" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="RiskDescription" Nullable="false" MaxLength="1000" />
+          <Property Type="String" Name="ResignationDate" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="ReviewDate" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="UserIns" Nullable="true" MaxLength="80" />
+          <Property Type="DateTime" Name="DateIns" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UserUpd" Nullable="true" MaxLength="80" />
+          <Property Type="DateTime" Name="DateUpd" Nullable="true" Precision="23" />
+          <Property Type="String" Name="RetentionAction" Nullable="false" MaxLength="1000" />
+          <Property Type="String" Name="LogActionDate" Nullable="true" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="Get_Employee_OnRisk_InterActionLog_Result">
+          <Property Type="Int32" Name="InteractionLog_Id" Nullable="false" />
+          <Property Type="String" Name="Interaction" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="UserIns" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="DateIns" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="RiskList_Id" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Get_Programs_By_Clent_Result">
+          <Property Type="Int32" Name="Program_Ident" Nullable="false" />
+          <Property Type="String" Name="Program_Name" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="Get_Employee_HRreport_Result">
+          <Property Type="Int32" Name="HRreport_Id" Nullable="false" />
+          <Property Type="Int64" Name="Employee_Ident" Nullable="false" />
+          <Property Type="Int16" Name="ReportType_Id" Nullable="false" />
+          <Property Type="String" Name="ReportType" Nullable="true" MaxLength="250" />
+          <Property Type="Int16" Name="SubReportType_Id" Nullable="true" />
+          <Property Type="String" Name="SubReportType" Nullable="true" MaxLength="250" />
+          <Property Type="DateTime" Name="ReportDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="ReportDescription" Nullable="false" MaxLength="1000" />
+          <Property Type="String" Name="PrintedBy" Nullable="true" MaxLength="80" />
+          <Property Type="DateTime" Name="PrintingDate" Nullable="true" Precision="23" />
+          <Property Type="Boolean" Name="Delivered" Nullable="true" />
+          <Property Type="Boolean" Name="Interaction" Nullable="true" />
+          <Property Type="String" Name="EmployeeCommitment" Nullable="true" MaxLength="1000" />
+          <Property Type="DateTime" Name="EmployeeCommitmentDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Acknowledgment" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="FutureImplications" Nullable="true" MaxLength="1000" />
+          <Property Type="DateTime" Name="AcknowledgmentDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="CollegeId" Nullable="true" />
+          <Property Type="String" Name="CollegeName" Nullable="true" MaxLength="250" />
+          <Property Type="DateTime" Name="dateOfEvent" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="ReasonId" Nullable="true" />
+          <Property Type="Int32" Name="SpecificCauseId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Get_Employees_HRreport_Result">
+          <Property Type="String" Name="ReportDate" Nullable="true" MaxLength="10" />
+          <Property Type="Int64" Name="Employee_Ident" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="103" />
+          <Property Type="String" Name="Payroll" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="Position_Code_Full_Name" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Manager_Name" Nullable="true" MaxLength="103" />
+          <Property Type="String" Name="FloorManager_Name" Nullable="true" MaxLength="103" />
+          <Property Type="String" Name="Client_Name" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Location_Name" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="ReportType" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="SubReportType" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="ReportDescription" Nullable="false" MaxLength="1000" />
+          <Property Type="String" Name="UserIns" Nullable="true" MaxLength="80" />
+          <Property Type="DateTime" Name="DateIns" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UserUpd" Nullable="true" MaxLength="80" />
+          <Property Type="DateTime" Name="DateUpd" Nullable="true" Precision="23" />
+          <Property Type="String" Name="PrintedBy" Nullable="true" MaxLength="80" />
+          <Property Type="DateTime" Name="PrintingDate" Nullable="true" Precision="23" />
+          <Property Type="Boolean" Name="Delivered" Nullable="true" />
+          <Property Type="Boolean" Name="Interaction" Nullable="true" />
+          <Property Type="String" Name="EmployeeCommitment" Nullable="true" MaxLength="1000" />
+          <Property Type="DateTime" Name="EmployeeCommitmentDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="AcknowledgmentDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="dateOfEvent" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="HRreport_Id" Nullable="false" />
+          <Property Type="String" Name="Reason" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="SpecificCause" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="Get_ReportType_Result">
+          <Property Type="Int64" Name="ReportType_Id" Nullable="false" />
+          <Property Type="String" Name="ReportType" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="Get_SubReportType_Result">
+          <Property Type="Int64" Name="SubReportType_Id" Nullable="false" />
+          <Property Type="String" Name="SubReportType" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="Get_HRReportPrintingLayout_Result">
+          <Property Type="Int32" Name="ReportId" Nullable="false" />
+          <Property Type="String" Name="CreatedTime" Nullable="true" />
+          <Property Type="String" Name="NameDay" Nullable="true" MaxLength="9" />
+          <Property Type="String" Name="CreatedLongDate" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="EmployeeName" Nullable="true" MaxLength="103" />
+          <Property Type="String" Name="CreatedShortDate" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="ReportDescription" Nullable="false" MaxLength="1000" />
+          <Property Type="String" Name="EmployeeCommitment" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="EmployeeCommitmentDate" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="FutureImplications" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="Acknowledgment" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="ManagerName" Nullable="true" MaxLength="103" />
+          <Property Type="String" Name="FloorManager" Nullable="true" MaxLength="103" />
+          <Property Type="String" Name="CompanyName" Nullable="true" MaxLength="1000" />
+          <Property Type="Int16" Name="ReportTypeId" Nullable="false" />
+          <Property Type="String" Name="ReportType" Nullable="true" MaxLength="250" />
+          <Property Type="Int16" Name="SubReportTypeId" Nullable="true" />
+          <Property Type="String" Name="SubReportType" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="LocationCompanyName" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="NameMonth" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="YearNumber" Nullable="true" />
+          <Property Type="Int32" Name="DayNumber" Nullable="true" />
+          <Property Type="String" Name="ViewName" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="AcknowledgmentDate" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="PositionCodeEmpleado" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="CollegeName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="PositionCodeManager" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="PositionCodeFloorManager" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="PositionCodeRetentionAnalyst" Nullable="false" MaxLength="18" />
+        </ComplexType>
+        <ComplexType Name="Get_Employees_x_Hierarchy_Result">
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="103" />
+          <Property Type="Int64" Name="Employee_Ident" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Get_College_Result">
+          <Property Type="Int32" Name="CollegeId" Nullable="false" />
+          <Property Type="String" Name="CollegeName" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="Get_Employees_HRreport_Grid_Result">
+          <Property Type="String" Name="ReportDate" Nullable="true" MaxLength="10" />
+          <Property Type="Int64" Name="Employee_Ident" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="103" />
+          <Property Type="String" Name="Payroll" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Position_Code_Full_Name" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Manager_Name" Nullable="true" MaxLength="103" />
+          <Property Type="String" Name="FloorManager_Name" Nullable="true" MaxLength="103" />
+          <Property Type="String" Name="Client_Name" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Location_Name" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="ReportType" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="SubReportType" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="ReportDescription" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="UserIns" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="DateIns" Nullable="true" />
+          <Property Type="String" Name="UserUpd" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="DateUpd" Nullable="true" />
+          <Property Type="String" Name="PrintedBy" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="PrintingDate" Nullable="true" />
+          <Property Type="String" Name="Delivered" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="Interaction" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="EmployeeCommitment" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="EmployeeCommitmentDate" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="AcknowledgmentDate" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="Get_Employees_OnRisk_Grid_Result">
+          <Property Type="String" Name="RiskDate" Nullable="true" MaxLength="10" />
+          <Property Type="Int64" Name="Employee_Ident" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="103" />
+          <Property Type="String" Name="Payroll" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Position_Code_Full_Name" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Manager_Name" Nullable="true" MaxLength="103" />
+          <Property Type="String" Name="FloorManager_Name" Nullable="true" MaxLength="103" />
+          <Property Type="String" Name="Client_Name" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Location_Name" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="RiskStatus" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="RiskListType" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Category" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="RiskDescription" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="ResignationDate" Nullable="true" />
+          <Property Type="Int32" Name="ReviewDate" Nullable="true" />
+          <Property Type="String" Name="UserIns" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="DateIns" Nullable="true" />
+          <Property Type="String" Name="UserUpd" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="DateUpd" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Get_Reasons_Result">
+          <Property Type="Int16" Name="ReasonId" Nullable="false" />
+          <Property Type="String" Name="Reason" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="Get_SpecificCause_By_Reason_Result">
+          <Property Type="Int16" Name="SpecificCauseId" Nullable="false" />
+          <Property Type="String" Name="SpecificCause" Nullable="false" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="Get_RiskListType_Result">
+          <Property Type="Int64" Name="RiskListType_Id" Nullable="false" />
+          <Property Type="String" Name="RiskListType" Nullable="true" MaxLength="250" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TPRetentionModelStoreContainer" CdmEntityContainer="TPRetentionEntities" >
+          <FunctionImportMapping FunctionImportName="Get_Employee_OnRisk" FunctionName="TPRetentionModel.Store.Get_Employee_OnRisk">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Employee_OnRisk_Result">
+                <ScalarProperty Name="RiskList_Id" ColumnName="RiskList_Id" />
+                <ScalarProperty Name="Employee_Ident" ColumnName="Employee_Ident" />
+                <ScalarProperty Name="RiskStatus_Id" ColumnName="RiskStatus_Id" />
+                <ScalarProperty Name="RiskStatus" ColumnName="RiskStatus" />
+                <ScalarProperty Name="RiskDate" ColumnName="RiskDate" />
+                <ScalarProperty Name="Category_Id" ColumnName="Category_Id" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="RiskDescription" ColumnName="RiskDescription" />
+                <ScalarProperty Name="RiskListType_Id" ColumnName="RiskListType_Id" />
+                <ScalarProperty Name="RiskListType" ColumnName="RiskListType" />
+                <ScalarProperty Name="ResignationDate" ColumnName="ResignationDate" />
+                <ScalarProperty Name="ReviewDate" ColumnName="ReviewDate" />
+                <ScalarProperty Name="UserIns" ColumnName="UserIns" />
+                <ScalarProperty Name="EstimacionRiesgo" ColumnName="EstimacionRiesgo" />
+                <ScalarProperty Name="EstimacionRiesgo_Id" ColumnName="EstimacionRiesgo_Id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_Employee_OnRisk_ActionLog" FunctionName="TPRetentionModel.Store.Get_Employee_OnRisk_ActionLog">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Employee_OnRisk_ActionLog_Result">
+                <ScalarProperty Name="RetentionLog_Id" ColumnName="RetentionLog_Id" />
+                <ScalarProperty Name="RiskList_Id" ColumnName="RiskList_Id" />
+                <ScalarProperty Name="RetentionAction" ColumnName="RetentionAction" />
+                <ScalarProperty Name="UserIns" ColumnName="UserIns" />
+                <ScalarProperty Name="DateIns" ColumnName="DateIns" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_Layoff_Status" FunctionName="TPRetentionModel.Store.Get_Layoff_Status">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Layoff_Status_Result">
+                <ScalarProperty Name="TipoBaja_Id" ColumnName="TipoBaja_Id" />
+                <ScalarProperty Name="TipoBaja" ColumnName="TipoBaja" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_Locations" FunctionName="TPRetentionModel.Store.Get_Locations">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Locations_Result">
+                <ScalarProperty Name="location_ident" ColumnName="location_ident" />
+                <ScalarProperty Name="Location_Name" ColumnName="Location_Name" />
+                <ScalarProperty Name="Instalacion_Id" ColumnName="Instalacion_Id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_Managers" FunctionName="TPRetentionModel.Store.Get_Managers">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Managers_Result">
+                <ScalarProperty Name="Employee_Ident" ColumnName="Employee_Ident" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_Positions" FunctionName="TPRetentionModel.Store.Get_Positions">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Positions_Result">
+                <ScalarProperty Name="Position_Code_Type_Ident" ColumnName="Position_Code_Type_Ident" />
+                <ScalarProperty Name="Position_Code_Full_Name" ColumnName="Position_Code_Full_Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_Risk_Action_Categories" FunctionName="TPRetentionModel.Store.Get_Risk_Action_Categories">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Risk_Action_Categories_Result">
+                <ScalarProperty Name="CategoriaAccion_id" ColumnName="CategoriaAccion_id" />
+                <ScalarProperty Name="CategoriaAccion" ColumnName="CategoriaAccion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_Risk_Case_Status" FunctionName="TPRetentionModel.Store.Get_Risk_Case_Status">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Risk_Case_Status_Result">
+                <ScalarProperty Name="EstatusCaso_Id" ColumnName="EstatusCaso_Id" />
+                <ScalarProperty Name="EstatusCaso" ColumnName="EstatusCaso" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_Risk_Categories" FunctionName="TPRetentionModel.Store.Get_Risk_Categories">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Risk_Categories_Result">
+                <ScalarProperty Name="Category_Id" ColumnName="Category_Id" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_Risk_Estimation_Status" FunctionName="TPRetentionModel.Store.Get_Risk_Estimation_Status">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Risk_Estimation_Status_Result">
+                <ScalarProperty Name="EstimacionRiesgo_Id" ColumnName="EstimacionRiesgo_Id" />
+                <ScalarProperty Name="EstimacionRiesgo" ColumnName="EstimacionRiesgo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_Risk_Priority_Status" FunctionName="TPRetentionModel.Store.Get_Risk_Priority_Status">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Risk_Priority_Status_Result">
+                <ScalarProperty Name="Prioridad_Id" ColumnName="Prioridad_Id" />
+                <ScalarProperty Name="Prioridad" ColumnName="Prioridad" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_Risk_Status" FunctionName="TPRetentionModel.Store.Get_Risk_Status">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Risk_Status_Result">
+                <ScalarProperty Name="RiskStatus_Id" ColumnName="RiskStatus_Id" />
+                <ScalarProperty Name="RiskStatus" ColumnName="RiskStatus" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Insert_Employee_OnRisk" FunctionName="TPRetentionModel.Store.Insert_Employee_OnRisk" />
+          <FunctionImportMapping FunctionImportName="Update_Employee_OnRisk" FunctionName="TPRetentionModel.Store.Update_Employee_OnRisk" />
+          <FunctionImportMapping FunctionImportName="Get_Employees_Search" FunctionName="TPRetentionModel.Store.Get_Employees_Search">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Employees_Search_Result">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Employee_Ident" ColumnName="Employee_Ident" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Insert_Employee_OnRisk_ActionLog" FunctionName="TPRetentionModel.Store.Insert_Employee_OnRisk_ActionLog" />
+          <FunctionImportMapping FunctionImportName="Get_Employee_Detail" FunctionName="TPRetentionModel.Store.Get_Employee_Detail">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Employee_Detail_Result">
+                <ScalarProperty Name="Employee_Ident" ColumnName="Employee_Ident" />
+                <ScalarProperty Name="PayRoll" ColumnName="PayRoll" />
+                <ScalarProperty Name="Hire_Date" ColumnName="Hire_Date" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Manager_Ident" ColumnName="Manager_Ident" />
+                <ScalarProperty Name="Manager_Name" ColumnName="Manager_Name" />
+                <ScalarProperty Name="Client_Ident" ColumnName="Client_Ident" />
+                <ScalarProperty Name="Client_Name" ColumnName="Client_Name" />
+                <ScalarProperty Name="Account_Id" ColumnName="Account_Id" />
+                <ScalarProperty Name="Program_Name" ColumnName="Program_Name" />
+                <ScalarProperty Name="LunIni" ColumnName="LunIni" />
+                <ScalarProperty Name="LunFin" ColumnName="LunFin" />
+                <ScalarProperty Name="MarIni" ColumnName="MarIni" />
+                <ScalarProperty Name="MarFin" ColumnName="MarFin" />
+                <ScalarProperty Name="MieIni" ColumnName="MieIni" />
+                <ScalarProperty Name="MieFin" ColumnName="MieFin" />
+                <ScalarProperty Name="JueIni" ColumnName="JueIni" />
+                <ScalarProperty Name="JueFin" ColumnName="JueFin" />
+                <ScalarProperty Name="VieIni" ColumnName="VieIni" />
+                <ScalarProperty Name="VieFin" ColumnName="VieFin" />
+                <ScalarProperty Name="SabIni" ColumnName="SabIni" />
+                <ScalarProperty Name="SabFin" ColumnName="SabFin" />
+                <ScalarProperty Name="DomIni" ColumnName="DomIni" />
+                <ScalarProperty Name="DomFin" ColumnName="DomFin" />
+                <ScalarProperty Name="HorarioCve" ColumnName="HorarioCve" />
+                <ScalarProperty Name="FTE" ColumnName="FTE" />
+                <ScalarProperty Name="RiskStatus_Id" ColumnName="RiskStatus_Id" />
+                <ScalarProperty Name="RiskListCount" ColumnName="RiskListCount" />
+                <ScalarProperty Name="Program_Ident" ColumnName="Program_Ident" />
+                <ScalarProperty Name="Tenure" ColumnName="Tenure" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_Manager_Employees" FunctionName="TPRetentionModel.Store.Get_Manager_Employees">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Manager_Employees_Result">
+                <ScalarProperty Name="Employee_Ident" ColumnName="Employee_Ident" />
+                <ScalarProperty Name="PayRoll" ColumnName="PayRoll" />
+                <ScalarProperty Name="Hire_Date" ColumnName="Hire_Date" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Manager_Ident" ColumnName="Manager_Ident" />
+                <ScalarProperty Name="Manager_Name" ColumnName="Manager_Name" />
+                <ScalarProperty Name="Client_Ident" ColumnName="Client_Ident" />
+                <ScalarProperty Name="Client_Name" ColumnName="Client_Name" />
+                <ScalarProperty Name="Account_Id" ColumnName="Account_Id" />
+                <ScalarProperty Name="Program_Name" ColumnName="Program_Name" />
+                <ScalarProperty Name="LunIni" ColumnName="LunIni" />
+                <ScalarProperty Name="LunFin" ColumnName="LunFin" />
+                <ScalarProperty Name="MarIni" ColumnName="MarIni" />
+                <ScalarProperty Name="MarFin" ColumnName="MarFin" />
+                <ScalarProperty Name="MieIni" ColumnName="MieIni" />
+                <ScalarProperty Name="MieFin" ColumnName="MieFin" />
+                <ScalarProperty Name="JueIni" ColumnName="JueIni" />
+                <ScalarProperty Name="JueFin" ColumnName="JueFin" />
+                <ScalarProperty Name="VieIni" ColumnName="VieIni" />
+                <ScalarProperty Name="VieFin" ColumnName="VieFin" />
+                <ScalarProperty Name="SabIni" ColumnName="SabIni" />
+                <ScalarProperty Name="SabFin" ColumnName="SabFin" />
+                <ScalarProperty Name="DomIni" ColumnName="DomIni" />
+                <ScalarProperty Name="DomFin" ColumnName="DomFin" />
+                <ScalarProperty Name="HorarioCve" ColumnName="HorarioCve" />
+                <ScalarProperty Name="FTE" ColumnName="FTE" />
+                <ScalarProperty Name="RiskListCount" ColumnName="RiskListCount" />
+                <ScalarProperty Name="RiskStatus_Id" ColumnName="RiskStatus_Id" />
+                <ScalarProperty Name="Program_Ident" ColumnName="Program_Ident" />
+                <ScalarProperty Name="Tenure" ColumnName="Tenure" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_All_Managers" FunctionName="TPRetentionModel.Store.Get_All_Managers">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_All_Managers_Result">
+                <ScalarProperty Name="manager_ident" ColumnName="manager_ident" />
+                <ScalarProperty Name="manager_name" ColumnName="manager_name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_Segment" FunctionName="TPRetentionModel.Store.Get_Segment">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Segment_Result">
+                <ScalarProperty Name="Segment_Id" ColumnName="Segment_Id" />
+                <ScalarProperty Name="Segment" ColumnName="Segment" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_All_Clients" FunctionName="TPRetentionModel.Store.Get_All_Clients">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_All_Clients_Result">
+                <ScalarProperty Name="Client_Ident" ColumnName="Client_Ident" />
+                <ScalarProperty Name="Client_Name" ColumnName="Client_Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_All_FloorManagers" FunctionName="TPRetentionModel.Store.Get_All_FloorManagers">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_All_FloorManagers_Result">
+                <ScalarProperty Name="FloorManager_Ident" ColumnName="FloorManager_Ident" />
+                <ScalarProperty Name="FloorManager_Name" ColumnName="FloorManager_Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_All_RetentionAnalyst" FunctionName="TPRetentionModel.Store.Get_All_RetentionAnalyst">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_All_RetentionAnalyst_Result">
+                <ScalarProperty Name="Employee_Ident" ColumnName="Employee_Ident" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_Employee_Profile" FunctionName="TPRetentionModel.Store.Get_Employee_Profile">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Employee_Profile_Result">
+                <ScalarProperty Name="Profile_Id" ColumnName="Profile_Id" />
+                <ScalarProperty Name="Profile" ColumnName="Profile" />
+                <ScalarProperty Name="Assign" ColumnName="Assign" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Set_Employee_Profile" FunctionName="TPRetentionModel.Store.Set_Employee_Profile" />
+          <FunctionImportMapping FunctionImportName="Get_Modules_Profile" FunctionName="TPRetentionModel.Store.Get_Modules_Profile">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Modules_Profile_Result">
+                <ScalarProperty Name="Module_Id" ColumnName="Module_Id" />
+                <ScalarProperty Name="Module" ColumnName="Module" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_Profile_x_Employee" FunctionName="TPRetentionModel.Store.Get_Profile_x_Employee">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Profile_x_Employee_Result">
+                <ScalarProperty Name="Profile" ColumnName="Profile" />
+                <ScalarProperty Name="Profile_Id" ColumnName="Profile_Id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_RiskListEfficiency" FunctionName="TPRetentionModel.Store.Get_RiskListEfficiency">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_RiskListEfficiency_Result">
+                <ScalarProperty Name="RiskListEfficiency_Id" ColumnName="RiskListEfficiency_Id" />
+                <ScalarProperty Name="RiskListEfficiency" ColumnName="RiskListEfficiency" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_Tenure" FunctionName="TPRetentionModel.Store.Get_Tenure">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Tenure_Result">
+                <ScalarProperty Name="Tenure_Id" ColumnName="Tenure_Id" />
+                <ScalarProperty Name="Tenure" ColumnName="Tenure" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_Employees_OnRisk" FunctionName="TPRetentionModel.Store.Get_Employees_OnRisk">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Employees_OnRisk_Result">
+                <ScalarProperty Name="RiskDate" ColumnName="RiskDate" />
+                <ScalarProperty Name="Employee_Ident" ColumnName="Employee_Ident" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Payroll" ColumnName="Payroll" />
+                <ScalarProperty Name="Position_Code_Full_Name" ColumnName="Position_Code_Full_Name" />
+                <ScalarProperty Name="Manager_Name" ColumnName="Manager_Name" />
+                <ScalarProperty Name="FloorManager_Name" ColumnName="FloorManager_Name" />
+                <ScalarProperty Name="Client_Name" ColumnName="Client_Name" />
+                <ScalarProperty Name="Location_Name" ColumnName="Location_Name" />
+                <ScalarProperty Name="RiskStatus" ColumnName="RiskStatus" />
+                <ScalarProperty Name="RiskListType" ColumnName="RiskListType" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="RiskDescription" ColumnName="RiskDescription" />
+                <ScalarProperty Name="ResignationDate" ColumnName="ResignationDate" />
+                <ScalarProperty Name="ReviewDate" ColumnName="ReviewDate" />
+                <ScalarProperty Name="UserIns" ColumnName="UserIns" />
+                <ScalarProperty Name="DateIns" ColumnName="DateIns" />
+                <ScalarProperty Name="UserUpd" ColumnName="UserUpd" />
+                <ScalarProperty Name="DateUpd" ColumnName="DateUpd" />
+                <ScalarProperty Name="RetentionAction" ColumnName="RetentionAction" />
+                <ScalarProperty Name="LogActionDate" ColumnName="LogActionDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Insert_Errors" FunctionName="TPRetentionModel.Store.Insert_Errors" />
+          <FunctionImportMapping FunctionImportName="Get_Employee_OnRisk_InterActionLog" FunctionName="TPRetentionModel.Store.Get_Employee_OnRisk_InterActionLog">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Employee_OnRisk_InterActionLog_Result">
+                <ScalarProperty Name="InteractionLog_Id" ColumnName="InteractionLog_Id" />
+                <ScalarProperty Name="Interaction" ColumnName="Interaction" />
+                <ScalarProperty Name="UserIns" ColumnName="UserIns" />
+                <ScalarProperty Name="DateIns" ColumnName="DateIns" />
+                <ScalarProperty Name="RiskList_Id" ColumnName="RiskList_Id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Insert_Employee_OnRisk_InterActionLog" FunctionName="TPRetentionModel.Store.Insert_Employee_OnRisk_InterActionLog" />
+          <FunctionImportMapping FunctionImportName="Get_Programs_By_Clent" FunctionName="TPRetentionModel.Store.Get_Programs_By_Clent">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Programs_By_Clent_Result">
+                <ScalarProperty Name="Program_Ident" ColumnName="Program_Ident" />
+                <ScalarProperty Name="Program_Name" ColumnName="Program_Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Check_Employee_Ident" FunctionName="TPRetentionModel.Store.Check_Employee_Ident" />
+          <FunctionImportMapping FunctionImportName="Get_Employee_HRreport" FunctionName="TPRetentionModel.Store.Get_Employee_HRreport">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Employee_HRreport_Result">
+                <ScalarProperty Name="HRreport_Id" ColumnName="HRreport_Id" />
+                <ScalarProperty Name="Employee_Ident" ColumnName="Employee_Ident" />
+                <ScalarProperty Name="ReportType_Id" ColumnName="ReportType_Id" />
+                <ScalarProperty Name="ReportType" ColumnName="ReportType" />
+                <ScalarProperty Name="SubReportType_Id" ColumnName="SubReportType_Id" />
+                <ScalarProperty Name="SubReportType" ColumnName="SubReportType" />
+                <ScalarProperty Name="ReportDate" ColumnName="ReportDate" />
+                <ScalarProperty Name="ReportDescription" ColumnName="ReportDescription" />
+                <ScalarProperty Name="PrintedBy" ColumnName="PrintedBy" />
+                <ScalarProperty Name="PrintingDate" ColumnName="PrintingDate" />
+                <ScalarProperty Name="Delivered" ColumnName="Delivered" />
+                <ScalarProperty Name="Interaction" ColumnName="Interaction" />
+                <ScalarProperty Name="EmployeeCommitment" ColumnName="EmployeeCommitment" />
+                <ScalarProperty Name="EmployeeCommitmentDate" ColumnName="EmployeeCommitmentDate" />
+                <ScalarProperty Name="Acknowledgment" ColumnName="Acknowledgment" />
+                <ScalarProperty Name="FutureImplications" ColumnName="FutureImplications" />
+                <ScalarProperty Name="AcknowledgmentDate" ColumnName="AcknowledgmentDate" />
+                <ScalarProperty Name="CollegeId" ColumnName="CollegeId" />
+                <ScalarProperty Name="CollegeName" ColumnName="CollegeName" />
+                <ScalarProperty Name="dateOfEvent" ColumnName="dateOfEvent" />
+                <ScalarProperty Name="ReasonId" ColumnName="ReasonId" />
+                <ScalarProperty Name="SpecificCauseId" ColumnName="SpecificCauseId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_Employees_HRreport" FunctionName="TPRetentionModel.Store.Get_Employees_HRreport">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Employees_HRreport_Result">
+                <ScalarProperty Name="ReportDate" ColumnName="ReportDate" />
+                <ScalarProperty Name="Employee_Ident" ColumnName="Employee_Ident" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Payroll" ColumnName="Payroll" />
+                <ScalarProperty Name="Position_Code_Full_Name" ColumnName="Position_Code_Full_Name" />
+                <ScalarProperty Name="Manager_Name" ColumnName="Manager_Name" />
+                <ScalarProperty Name="FloorManager_Name" ColumnName="FloorManager_Name" />
+                <ScalarProperty Name="Client_Name" ColumnName="Client_Name" />
+                <ScalarProperty Name="Location_Name" ColumnName="Location_Name" />
+                <ScalarProperty Name="ReportType" ColumnName="ReportType" />
+                <ScalarProperty Name="SubReportType" ColumnName="SubReportType" />
+                <ScalarProperty Name="ReportDescription" ColumnName="ReportDescription" />
+                <ScalarProperty Name="UserIns" ColumnName="UserIns" />
+                <ScalarProperty Name="DateIns" ColumnName="DateIns" />
+                <ScalarProperty Name="UserUpd" ColumnName="UserUpd" />
+                <ScalarProperty Name="DateUpd" ColumnName="DateUpd" />
+                <ScalarProperty Name="PrintedBy" ColumnName="PrintedBy" />
+                <ScalarProperty Name="PrintingDate" ColumnName="PrintingDate" />
+                <ScalarProperty Name="Delivered" ColumnName="Delivered" />
+                <ScalarProperty Name="Interaction" ColumnName="Interaction" />
+                <ScalarProperty Name="EmployeeCommitment" ColumnName="EmployeeCommitment" />
+                <ScalarProperty Name="EmployeeCommitmentDate" ColumnName="EmployeeCommitmentDate" />
+                <ScalarProperty Name="AcknowledgmentDate" ColumnName="AcknowledgmentDate" />
+                <ScalarProperty Name="dateOfEvent" ColumnName="dateOfEvent" />
+                <ScalarProperty Name="HRreport_Id" ColumnName="HRreport_Id" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="SpecificCause" ColumnName="SpecificCause" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_ReportType" FunctionName="TPRetentionModel.Store.Get_ReportType">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_ReportType_Result">
+                <ScalarProperty Name="ReportType_Id" ColumnName="ReportType_Id" />
+                <ScalarProperty Name="ReportType" ColumnName="ReportType" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_SubReportType" FunctionName="TPRetentionModel.Store.Get_SubReportType">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_SubReportType_Result">
+                <ScalarProperty Name="SubReportType_Id" ColumnName="SubReportType_Id" />
+                <ScalarProperty Name="SubReportType" ColumnName="SubReportType" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Insert_Employee_HRreport" FunctionName="TPRetentionModel.Store.Insert_Employee_HRreport" />
+          <FunctionImportMapping FunctionImportName="Update_Employee_HRreport_Commitment" FunctionName="TPRetentionModel.Store.Update_Employee_HRreport_Commitment" />
+          <FunctionImportMapping FunctionImportName="Update_Employee_HRreport_Printed" FunctionName="TPRetentionModel.Store.Update_Employee_HRreport_Printed" />
+          <FunctionImportMapping FunctionImportName="Get_HRReportPrintingLayout" FunctionName="TPRetentionModel.Store.Get_HRReportPrintingLayout">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_HRReportPrintingLayout_Result">
+                <ScalarProperty Name="ReportId" ColumnName="ReportId" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="NameDay" ColumnName="NameDay" />
+                <ScalarProperty Name="CreatedLongDate" ColumnName="CreatedLongDate" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="CreatedShortDate" ColumnName="CreatedShortDate" />
+                <ScalarProperty Name="ReportDescription" ColumnName="ReportDescription" />
+                <ScalarProperty Name="EmployeeCommitment" ColumnName="EmployeeCommitment" />
+                <ScalarProperty Name="EmployeeCommitmentDate" ColumnName="EmployeeCommitmentDate" />
+                <ScalarProperty Name="FutureImplications" ColumnName="FutureImplications" />
+                <ScalarProperty Name="Acknowledgment" ColumnName="Acknowledgment" />
+                <ScalarProperty Name="ManagerName" ColumnName="ManagerName" />
+                <ScalarProperty Name="FloorManager" ColumnName="FloorManager" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="ReportTypeId" ColumnName="ReportTypeId" />
+                <ScalarProperty Name="ReportType" ColumnName="ReportType" />
+                <ScalarProperty Name="SubReportTypeId" ColumnName="SubReportTypeId" />
+                <ScalarProperty Name="SubReportType" ColumnName="SubReportType" />
+                <ScalarProperty Name="LocationCompanyName" ColumnName="LocationCompanyName" />
+                <ScalarProperty Name="NameMonth" ColumnName="NameMonth" />
+                <ScalarProperty Name="YearNumber" ColumnName="YearNumber" />
+                <ScalarProperty Name="DayNumber" ColumnName="DayNumber" />
+                <ScalarProperty Name="ViewName" ColumnName="ViewName" />
+                <ScalarProperty Name="AcknowledgmentDate" ColumnName="AcknowledgmentDate" />
+                <ScalarProperty Name="PositionCodeEmpleado" ColumnName="PositionCodeEmpleado" />
+                <ScalarProperty Name="CollegeName" ColumnName="CollegeName" />
+                <ScalarProperty Name="PositionCodeManager" ColumnName="PositionCodeManager" />
+                <ScalarProperty Name="PositionCodeFloorManager" ColumnName="PositionCodeFloorManager" />
+                <ScalarProperty Name="PositionCodeRetentionAnalyst" ColumnName="PositionCodeRetentionAnalyst" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_Employees_x_Hierarchy" FunctionName="TPRetentionModel.Store.Get_Employees_x_Hierarchy">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Employees_x_Hierarchy_Result">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Employee_Ident" ColumnName="Employee_Ident" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_College" FunctionName="TPRetentionModel.Store.Get_College">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_College_Result">
+                <ScalarProperty Name="CollegeId" ColumnName="CollegeId" />
+                <ScalarProperty Name="CollegeName" ColumnName="CollegeName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Delete_Employee_HRreport" FunctionName="TPRetentionModel.Store.Delete_Employee_HRreport" />
+          <FunctionImportMapping FunctionImportName="Get_Employees_HRreport_Grid" FunctionName="TPRetentionModel.Store.Get_Employees_HRreport_Grid">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Employees_HRreport_Grid_Result">
+                <ScalarProperty Name="ReportDate" ColumnName="ReportDate" />
+                <ScalarProperty Name="Employee_Ident" ColumnName="Employee_Ident" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Payroll" ColumnName="Payroll" />
+                <ScalarProperty Name="Position_Code_Full_Name" ColumnName="Position_Code_Full_Name" />
+                <ScalarProperty Name="Manager_Name" ColumnName="Manager_Name" />
+                <ScalarProperty Name="FloorManager_Name" ColumnName="FloorManager_Name" />
+                <ScalarProperty Name="Client_Name" ColumnName="Client_Name" />
+                <ScalarProperty Name="Location_Name" ColumnName="Location_Name" />
+                <ScalarProperty Name="ReportType" ColumnName="ReportType" />
+                <ScalarProperty Name="SubReportType" ColumnName="SubReportType" />
+                <ScalarProperty Name="ReportDescription" ColumnName="ReportDescription" />
+                <ScalarProperty Name="UserIns" ColumnName="UserIns" />
+                <ScalarProperty Name="DateIns" ColumnName="DateIns" />
+                <ScalarProperty Name="UserUpd" ColumnName="UserUpd" />
+                <ScalarProperty Name="DateUpd" ColumnName="DateUpd" />
+                <ScalarProperty Name="PrintedBy" ColumnName="PrintedBy" />
+                <ScalarProperty Name="PrintingDate" ColumnName="PrintingDate" />
+                <ScalarProperty Name="Delivered" ColumnName="Delivered" />
+                <ScalarProperty Name="Interaction" ColumnName="Interaction" />
+                <ScalarProperty Name="EmployeeCommitment" ColumnName="EmployeeCommitment" />
+                <ScalarProperty Name="EmployeeCommitmentDate" ColumnName="EmployeeCommitmentDate" />
+                <ScalarProperty Name="AcknowledgmentDate" ColumnName="AcknowledgmentDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_Employees_OnRisk_Grid" FunctionName="TPRetentionModel.Store.Get_Employees_OnRisk_Grid">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Employees_OnRisk_Grid_Result">
+                <ScalarProperty Name="RiskDate" ColumnName="RiskDate" />
+                <ScalarProperty Name="Employee_Ident" ColumnName="Employee_Ident" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Payroll" ColumnName="Payroll" />
+                <ScalarProperty Name="Position_Code_Full_Name" ColumnName="Position_Code_Full_Name" />
+                <ScalarProperty Name="Manager_Name" ColumnName="Manager_Name" />
+                <ScalarProperty Name="FloorManager_Name" ColumnName="FloorManager_Name" />
+                <ScalarProperty Name="Client_Name" ColumnName="Client_Name" />
+                <ScalarProperty Name="Location_Name" ColumnName="Location_Name" />
+                <ScalarProperty Name="RiskStatus" ColumnName="RiskStatus" />
+                <ScalarProperty Name="RiskListType" ColumnName="RiskListType" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="RiskDescription" ColumnName="RiskDescription" />
+                <ScalarProperty Name="ResignationDate" ColumnName="ResignationDate" />
+                <ScalarProperty Name="ReviewDate" ColumnName="ReviewDate" />
+                <ScalarProperty Name="UserIns" ColumnName="UserIns" />
+                <ScalarProperty Name="DateIns" ColumnName="DateIns" />
+                <ScalarProperty Name="UserUpd" ColumnName="UserUpd" />
+                <ScalarProperty Name="DateUpd" ColumnName="DateUpd" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_Reasons" FunctionName="TPRetentionModel.Store.Get_Reasons">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Reasons_Result">
+                <ScalarProperty Name="ReasonId" ColumnName="ReasonId" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_SpecificCause_By_Reason" FunctionName="TPRetentionModel.Store.Get_SpecificCause_By_Reason">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_SpecificCause_By_Reason_Result">
+                <ScalarProperty Name="SpecificCauseId" ColumnName="SpecificCauseId" />
+                <ScalarProperty Name="SpecificCause" ColumnName="SpecificCause" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Update_Employee_HRreport" FunctionName="TPRetentionModel.Store.Update_Employee_HRreport" />
+          <FunctionImportMapping FunctionImportName="Get_RiskListType" FunctionName="TPRetentionModel.Store.Get_RiskListType">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_RiskListType_Result">
+                <ScalarProperty Name="RiskListType_Id" ColumnName="RiskListType_Id" />
+                <ScalarProperty Name="RiskListType" ColumnName="RiskListType" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

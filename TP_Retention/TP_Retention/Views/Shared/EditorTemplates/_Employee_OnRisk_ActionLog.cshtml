@@ -1,0 +1,9 @@
+﻿@model TP_Retention_EFDM.ViewModel.EmployeeOnRiskActionLogViewModel
+
+@{
+    Layout = null;
+}
+
+@Html.HiddenFor(model => model.ListaRiesgo_Id)
+@Html.LabelFor(model => model.AccionRetencion)
+@Html.TextAreaFor(model => model.AccionRetencion)

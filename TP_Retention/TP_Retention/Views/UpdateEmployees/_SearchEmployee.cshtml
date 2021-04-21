@@ -1,0 +1,38 @@
+﻿@{ Layout = null; }
+
+<style>
+
+    #navigationPanelBar-1 {
+    
+        border-bottom-width:0px;
+
+    }
+
+</style>
+
+ @(Html.Kendo().PanelBar()
+        .Name("navigationPanelBar")
+        .HtmlAttributes(new { style = "padding-left: 0; margin-left:0px; border-bottom-width:0px;" })
+        .Items(panels =>
+            {
+                panels.Add()
+                    .Text("Employee Search")
+                    .Expanded(true)
+                    .Selected(true)
+                    .Content(
+                                @<text>
+
+                                    <fieldset style="padding:0 20px 20px">
+                                        <legend style="display:none;"></legend>
+                                        <br />
+                                        <label>Employee</label>
+                                        <input class="k-widget" type="text" id="txtEmployee" name="txtEmployee" maxlength="100"/>
+
+                                        <br />
+
+                                    </fieldset>
+
+                                </text>
+                            );
+                })
+)

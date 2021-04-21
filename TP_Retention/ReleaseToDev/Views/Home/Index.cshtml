@@ -1,0 +1,35 @@
+﻿@using System.Web.Optimization;
+@using System.Collections;
+@using System.Web.Helpers;
+@using System;
+@using TP_Retention_EFDM.ViewModel;
+
+
+@{
+    ViewBag.Title = "Home";
+}
+<h1>@ViewBag.Title</h1>
+
+<div class="container">
+    @{
+
+        List<ModuleViewModel> lMain = ViewData["Main"] as List<ModuleViewModel>;
+
+        foreach (ModuleViewModel i in lMain)
+        {
+            if (i.Module.Length > 0)
+            {
+                <a class="waves-effect waves-light btn-large @i.Color" href="~/@i.Path">
+                    <div>
+                        <div class="tile-icon">
+                            <i class="fa @i.Icon fa-4x" style="color: #FFFFFF;"></i>
+                        </div>
+                    </div>
+                    <div class="tile-title">
+                        <span class="tile-text">@i.Module</span>
+                    </div>
+                </a>
+            }
+        }
+    }
+</div>

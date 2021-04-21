@@ -1,0 +1,121 @@
+﻿@using System.Web.Optimization;
+@using System.Web.Mvc;
+@using System.Web.Helpers;
+
+@{ Layout = null; }
+
+@model TP_Retention_EFDM.ViewModel.FiltersHeadCountsQueryPanelViewModel
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#btnBuscar").click(function (e) {
+
+            e.preventDefault();
+
+            var QueryFormValidator = $("#divHeadCountsQueryForm").kendoValidator().data("kendoValidator");
+
+            if (QueryFormValidator.validate()) {
+
+                $("#ManagersEmployees").data("kendoGrid").dataSource.read();
+                $("#ManagersEmployees").data("kendoGrid").refresh();
+
+            }
+
+        });
+    });
+
+</script>
+
+<div id="divHeadCountsQueryForm">
+    @{
+        using (Html.BeginForm("ManagersEmployees_Read", "HeadCounts", FormMethod.Post, new { @id = "QueryForm" }))
+        {
+        <div class="row">
+            <fieldset style="padding: 0 20px 20px">
+                <legend style="display: none;"></legend>
+                <div class="row">
+                    <div class="col s6">
+                        <div class="section">
+                            @Html.LabelFor(model => model.Location, new { @id = "LocationLabel" })
+                        </div>
+                        <span class="k-widget k-combobox k-header" style="width: 200px;">
+                            <span class="k-dropdown-wrap k-state-disabled">
+                                <input id="Location" type="text" class="k-input k-widget" value="@ViewData["Location_Name"]" disabled="disabled">
+                                <span class="k-select">
+                                    <span class="k-icon k-i-arrow-s" role="button">select</span>
+                                </span>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s6">
+                        <div class="section">
+                            @Html.LabelFor(model => model.Positions, "Position", new { @id = "PositionsLabel" })
+                        </div>
+                        <span class="k-widget k-combobox k-header" style="width: 250px;">
+                            <span class="k-dropdown-wrap k-state-disabled">
+                                <input id="Positions" type="text" class="k-input k-widget" value="@ViewData["Position_Name"]" disabled="disabled">
+                                <span class="k-select">
+                                    <span class="k-icon k-i-arrow-s" role="button">select</span>
+                                </span>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s6">
+                        <div class="section">
+                            @Html.LabelFor(model => model.Managers, "Manager", new { @id = "ManagersLabel" })
+                        </div>
+                        @(Html.Kendo().ComboBoxFor(model => model.Managers)
+                                                .HtmlAttributes(new { style = "width: 250px;" })
+                                                .Filter(FilterType.Contains)
+                                                .DataTextField("Nombre")
+                                                .DataValueField("Employee_Ident")
+                                                .DataSource(source =>
+                                                {
+                                                    source.Read(read =>
+                                                    {
+                                                        read.Action("GetManagersByHierarchy", "HeadCounts");
+                                                    });
+                                                })
+                                                .Enable(true)
+                                                .AutoBind(false)
+                        )
+                        @*<span class="k-widget k-combobox k-header" style="width: 250px;">
+                        <span class="k-dropdown-wrap k-state-disabled">
+                            <input id="ManagersText" type="text" class="k-input k-widget" value="@ViewData["Employee_Name"]" disabled="disabled">
+                            @Html.Hidden("Managers", @ViewData["Employee_Ident"])
+                            <span class="k-select">
+                                <span class="k-icon k-i-arrow-s" role="button">select</span>
+                            </span>
+                        </span>
+                    </span>*@
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s6">
+                        <div class="section">
+                            @Html.LabelFor(model => model.QueryDate, "Date")
+                        </div>
+                        @(Html.Kendo().DatePickerFor(model => model.QueryDate)
+                                            .Value(DateTime.Today)
+                                            .Format("MM/dd/yyyy")
+                                            .Max(DateTime.Now)
+                                            .HtmlAttributes(new { Type = "Text" })
+                        )
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="section" style="text-align: center;">
+                        <button id="btnBuscar" type="button" class="waves-effect waves-light btn indigo darken-3"><i class="fa fa-search"></i> Search</button>
+                    </div>
+                </div>
+            </fieldset>
+
+        </div>
+        }
+    }
+</div>

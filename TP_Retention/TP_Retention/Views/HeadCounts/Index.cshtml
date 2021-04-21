@@ -1,0 +1,97 @@
+﻿@using System.Web.Optimization;
+@using System;
+@using System.Web.Helpers;
+@using TP_Retention.Helpers;
+
+@{
+    Layout = "~/Views/Shared/_LayoutGeneral.cshtml";
+}
+
+<script type="text/javascript" src="@Url.Js("Class/HeadCounts")"></script>
+
+@{
+    //En el perfil Manager se cargara la vista parcial que inhabilita los campos
+    int profile = (int)Session["Profile"];
+    string partialView = "_HeadCounts_QueryForm";
+
+    if (profile == 4)
+    {
+        partialView = "_HeadCounts_QueryFormManager";
+    }
+
+    if (profile == 3)
+    {
+        partialView = "_HeadCounts_QueryFormByEmployee";
+    }
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajaxSetup({ cache: false });
+
+        $("#horizontal").kendoSplitter({
+            panes: [{ collapsible: true, size: "350" }, { collapsible: true }]
+        });
+    });
+</script>
+
+<div class="k-content k-state-active" id="tabstrip-2" role="tabpanel" aria-expanded="true" style="display: block;">
+
+    <div id="divContentView">
+
+        <div id="horizontal">
+
+            <div>
+
+                <div class="panel">
+
+                    <div class="panel-content">
+
+                        @Html.Partial(partialView)
+
+                    </div>
+                    @{
+                        if (profile != 3)
+                        {
+                            <div class="panel-content">
+                                @Html.Partial("_HeadCounts_GridPanel")
+                            </div>
+                        }
+                    }
+                    
+                </div>
+
+            </div>
+
+            <div id="detailParent">
+
+                <div class="panel">
+                    <div class="row">
+                        <div class="row">
+                            <div class="col">
+                                <h5><i class="fa @ViewData["Icon"]"></i> @ViewData["Title"]</h5>
+                            </div>
+                        </div>
+                        <div class="col s12">
+                            <div class="panel-content">
+                                @*Contiene la seccion que muestra la foto del empleado y los datos*@
+                                <div id="EmployeeDetails"></div>
+                                <br />
+                                @*Contiene la seccion del tabstrip que contiene riesgos, actas y bajas*@
+                                <div id="EmployeeRiskDetails"></div>
+
+                                <br />
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

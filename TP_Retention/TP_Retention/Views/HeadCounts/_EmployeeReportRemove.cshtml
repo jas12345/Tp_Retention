@@ -1,0 +1,19 @@
+﻿@model TP_Retention_EFDM.ViewModel.EmployeeReportViewModel
+
+@{
+    Layout = null;
+}
+
+<div>
+    <div class="row center-align">
+        <p>Are you to remove HR Report with ID @Model.HRreport_Id to the Employee @Model.Employee_Ident?</p>
+    </div>
+    <div class="row center-align">
+        <div class="col s6">
+            <button id="btnEmployeeReportEdit" type="button" class="waves-effect waves-light btn indigo darken-3 white-text" onclick='HeadCounts.GoBackRemove();'><i class="fa fa-undo" style="padding-right: 5px;"></i>Go back</button>
+        </div>
+        <div class="col s6">
+            <button id="btnEmployeeReportEdit" type="button" class="waves-effect waves-light btn red darken-3 white-text" onclick="HeadCounts.DoHRReportRemove(@Model.Employee_Ident, @Model.HRreport_Id);"><i class="fa fa-remove" style="padding-right: 5px;"></i>Remove</button>
+        </div>
+    </div>
+</div>
