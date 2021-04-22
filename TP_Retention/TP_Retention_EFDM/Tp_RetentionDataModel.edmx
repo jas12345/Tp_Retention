@@ -25,6 +25,10 @@
         <Function Name="Get_Employee_HRreport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Employee_Ident" Type="bigint" Mode="In" />
         </Function>
+        <Function Name="Get_Employee_OnBarometer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Employee_Ident" Type="bigint" Mode="In" />
+          <Parameter Name="BarometerValue" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="Get_Employee_OnRisk" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Employee_Ident" Type="bigint" Mode="In" />
         </Function>
@@ -143,7 +147,9 @@
           <Parameter Name="Profile_Id" Type="int" Mode="In" />
         </Function>
         <Function Name="Get_RiskListEfficiency" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="Get_RiskListType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Get_RiskListType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="BarometerTypeId" Type="int" Mode="In" />
+        </Function>
         <Function Name="Get_Segment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Get_SpecificCause_By_Reason" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ReasonId" Type="smallint" Mode="In" />
@@ -152,6 +158,15 @@
           <Parameter Name="ReportType_Id" Type="smallint" Mode="In" />
         </Function>
         <Function Name="Get_Tenure" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Insert_Employee_Barometer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Employee_Ident" Type="bigint" Mode="In" />
+          <Parameter Name="RegistrationDate" Type="datetime" Mode="In" />
+          <Parameter Name="RiskListType_Id" Type="smallint" Mode="In" />
+          <Parameter Name="Term_Reason_Ident" Type="smallint" Mode="In" />
+          <Parameter Name="BarometerTypeId" Type="smallint" Mode="In" />
+          <Parameter Name="BarometerValue" Type="varchar" Mode="In" />
+          <Parameter Name="UserIns" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="Insert_Employee_HRreport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Employee_Ident" Type="bigint" Mode="In" />
           <Parameter Name="ReportDate" Type="datetime" Mode="In" />
@@ -499,7 +514,22 @@
             <Parameter Name="ReasonId" Mode="In" Type="Int32" />
             <Parameter Name="SpecificCauseId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="Get_RiskListType" ReturnType="Collection(TPRetentionModel.Get_RiskListType_Result)" />
+          <FunctionImport Name="Get_RiskListType" ReturnType="Collection(TPRetentionModel.Get_RiskListType_Result)">
+          <Parameter Name="BarometerTypeId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Insert_Employee_Barometer" ReturnType="Collection(Int64)">
+            <Parameter Name="Employee_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="RegistrationDate" Mode="In" Type="DateTime" />
+            <Parameter Name="RiskListType_Id" Mode="In" Type="Int16" />
+            <Parameter Name="Term_Reason_Ident" Mode="In" Type="Int16" />
+            <Parameter Name="BarometerTypeId" Mode="In" Type="Int16" />
+            <Parameter Name="BarometerValue" Mode="In" Type="String" />
+            <Parameter Name="UserIns" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Get_Employee_OnBarometer" ReturnType="Collection(TPRetentionModel.Get_Employee_OnBarometer_Result)">
+            <Parameter Name="Employee_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="BarometerValue" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="Get_Employee_OnRisk_Result">
           <Property Type="Int32" Name="RiskList_Id" Nullable="false" />
@@ -869,6 +899,18 @@
         <ComplexType Name="Get_RiskListType_Result">
           <Property Type="Int64" Name="RiskListType_Id" Nullable="false" />
           <Property Type="String" Name="RiskListType" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="Get_Employee_OnBarometer_Result">
+          <Property Type="Int64" Name="BarometerReportId" Nullable="false" />
+          <Property Type="Int64" Name="Employee_Ident" Nullable="false" />
+          <Property Type="DateTime" Name="RegistrationDate" Nullable="false" Precision="23" />
+          <Property Type="Int16" Name="Term_Reason_Ident" Nullable="false" />
+          <Property Type="String" Name="Category" Nullable="true" MaxLength="150" />
+          <Property Type="Int16" Name="RiskListType_Id" Nullable="false" />
+          <Property Type="String" Name="RiskListType" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="UserIns" Nullable="true" MaxLength="103" />
+          <Property Type="Int16" Name="BarometerTypeId" Nullable="false" />
+          <Property Type="String" Name="BarometerValue" Nullable="false" MaxLength="50" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1414,6 +1456,23 @@
               <ComplexTypeMapping TypeName="TPRetentionModel.Get_RiskListType_Result">
                 <ScalarProperty Name="RiskListType_Id" ColumnName="RiskListType_Id" />
                 <ScalarProperty Name="RiskListType" ColumnName="RiskListType" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Insert_Employee_Barometer" FunctionName="TPRetentionModel.Store.Insert_Employee_Barometer" />
+          <FunctionImportMapping FunctionImportName="Get_Employee_OnBarometer" FunctionName="TPRetentionModel.Store.Get_Employee_OnBarometer">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Employee_OnBarometer_Result">
+                <ScalarProperty Name="BarometerReportId" ColumnName="BarometerReportId" />
+                <ScalarProperty Name="Employee_Ident" ColumnName="Employee_Ident" />
+                <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+                <ScalarProperty Name="Term_Reason_Ident" ColumnName="Term_Reason_Ident" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="RiskListType_Id" ColumnName="RiskListType_Id" />
+                <ScalarProperty Name="RiskListType" ColumnName="RiskListType" />
+                <ScalarProperty Name="UserIns" ColumnName="UserIns" />
+                <ScalarProperty Name="BarometerTypeId" ColumnName="BarometerTypeId" />
+                <ScalarProperty Name="BarometerValue" ColumnName="BarometerValue" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -1,4 +1,4 @@
-﻿@model TP_Retention_EFDM.ViewModel.EmployeeOnRiskViewModel
+﻿@model TP_Retention_EFDM.ViewModel.EmployeeOnBarometerViewModel
 
 @{
     Layout = null;
@@ -180,8 +180,8 @@
                 @*Tercera fila*@
             <div class="row section">
                 <div class="col s4">
-                    @Html.LabelFor(model => model.Barometro)
-                    @(Html.Kendo().DropDownListFor(model => model.Barometro_Id)
+                    @Html.LabelFor(model => model.Barometer)
+                    @(Html.Kendo().DropDownListFor(model => model.Barometer_Id)
                                                             .HtmlAttributes(new { style = "width:150px" })
                                                             .OptionLabel("Select...")
                                                             .DataTextField("Text")

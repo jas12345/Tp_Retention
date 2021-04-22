@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Desarrollo\tpnsr_ptl\TP_Retention\TP_Retention_EFDM\Tp_RetentionDataModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Desarrollo\Tp_Retention\TP_Retention\TP_Retention_EFDM\Tp_RetentionDataModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

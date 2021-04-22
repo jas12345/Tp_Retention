@@ -428,6 +428,7 @@
 
         });
     },
+
     EmployeeRisksData_Create: function () {
 
         var validator = $("#FormRisksAdd").kendoValidator().data("kendoValidator");
@@ -1143,6 +1144,7 @@
             url: URL,
             success: function (data) {
                 if (data.search("/Access/Authentication") < 0) {
+                   
                     $("#ModalEmployeeNeutralEditor").empty();
                    
                     $("#ModalEmployeeNeutralAdd").html(data);
@@ -1179,7 +1181,7 @@
                     $("#ModalEmployeeSatisfiedEditor").empty();
 
                     $("#ModalEmployeeSatisfiedAdd").html(data);
-
+                    alert('si entro');
                     $("#ModalEmployeeSatisfiedAdd").data("kendoWindow").center().open();
                 }
                 else {
@@ -1229,23 +1231,25 @@
 
     },
 
-    EmployeeNuetralData_Create: function (Param) {
+    EmployeeData_Create: function (Param) {
        
-        var validator = $("#FormRisksAdd").kendoValidator().data("kendoValidator");
+        var forma = '#Form' + Param + "Add";
+        
+        var validator = $(forma).kendoValidator().data("kendoValidator");
 
-        var RiskStatus_Id = $("#RiskStatus_Id").val();
+        var RiskStatus_Id   = $("#RiskStatus_Id").val();
+        var RiskDate        = $("#RiskDate").val();     
         var RiskListType_Id = $("#RiskListType_Id").val();
-        var Category_Id = $("#Category_Id").val();
-        var RiskDescription = $("#RiskDescription").val();
-        var RiskDate = $("#RiskDate").val();
-        var ResignationDate = $("#dpResignationDate").val();
-        var ReviewDate = $("#dpReviewDate").val();
-        var accionRetencion = $("#AccionRetencion").val();
-        var EstimacionRiesgo_Id = $("#EstimacionRiesgo_Id").val();
+        var Category_Id     = $("#Category_Id").val();        
+        var Barometer_Id = $("#Barometer_Id").val();  
+        var Barometer = Param;
+        var ReviewDate      = $("#dpReviewDate").val();
+        var accionRetencion = null;
+       
 
         if (validator.validate()) {
 
-            var URL = General.BASE_URL + '/HeadCounts/EmployeeRisksData_Create';
+            var URL = General.BASE_URL + '/HeadCounts/EmployeeData_Create';
 
             var Employee_Ident = $("#Employee_Ident_Add").val();
             var Manager_Ident = $("#Manager_Ident_Editor").val();
@@ -1256,20 +1260,27 @@
                 dataType: "json",
                 type: 'POST',
                 data: {
-                    "Employee_Ident": Employee_Ident, "RiskDate": RiskDate, "RiskStatus_Id": RiskStatus_Id,
-                    "RiskListType_Id": RiskListType_Id, "ResignationDate": ResignationDate, "ReviewDate": ReviewDate,
-                    "Category_Id": Category_Id, "RiskDescription": RiskDescription, "Manager_Ident": Manager_Ident,
-                    "Program_Ident": Program_Ident, "RetentionAction": accionRetencion, "EstimacionRiesgo_Id": EstimacionRiesgo_Id
+                    "Employee_Ident": Employee_Ident,
+                    "RiskDate": RiskDate, 
+                    "RiskListType_Id": RiskListType_Id,                   
+                    "Category_Id": Category_Id,  
+                    "Barometer_Id": Barometer_Id,
+                    "Barometer": Barometer,
+                    "Manager_Ident": Manager_Ident,
+                    "Program_Ident": Program_Ident,
+                    "RetentionAction": accionRetencion,                    
                 },
                 async: false,
                 url: URL,
                 success: function (json) {
 
-                    if (json.success == 1) {
+                    if (json.success == 1) {                      
 
-                        var dialog = $("#ModalEmployeeRisksAdd").data("kendoWindow").close();
+                        var modal = "#ModalEmployee" + Param + "Add";                       
+                        var dialog = $(modal).data("kendoWindow").close();                      
+                        
 
-                        HeadCounts.EmployeeRisksDetails(Employee_Ident);
+                        HeadCounts.EmployeeBarometersDetails(Employee_Ident,Param);
 
                     } else if (json.failure == 1) {
 
@@ -1290,6 +1301,148 @@
 
             });
         }
+    },
+
+    EmployeeBarometersDetails: function (Employee_Ident, Barometer) {
+
+        var URL = General.BASE_URL + '/HeadCounts/GetEmployeeBarometerData';
+        var details = "#gridEmployee" + Barometer + "Details";
+        $.ajax({
+
+            dataType: 'json',
+            type: 'POST',
+            data: { "Employee_Ident": Employee_Ident, "Barometer": Barometer },
+            async: false,
+            url: URL,
+            success: function (json) {
+
+                if (json.success == 1) {
+
+                    var Data = json.oData.EmployeeRisk;
+
+                    if (!$.isEmptyObject(Data)) {
+                        $(details).kendoGrid({
+                            dataSource: {
+                                type: "odata",
+                                data: Data,
+                                schema: {
+                                    model: {
+                                        fields: {
+                                            Employee_Ident: { type: "integer" },
+                                            RiskList_Id: { type: "integer" },
+                                            sRiskDate: { type: "string" },                                          
+                                            RiskListType: { type: "string" },
+                                            Category: { type: "string" },
+                                            Barometer_Id: { type: "integer" },
+                                            Barometer: { type: "string" },
+                                        }
+                                    }
+                                },
+                                pageSize: 10,
+                                serverPaging: false,
+                                serverSorting: false,
+                                serverFiltering: false
+                            },
+                            height: 200,
+                            filterable: true,
+                            sortable: true,
+                            resizable: true,
+                            selectable: "row",
+                            pageable: {
+                                refresh: true,
+                                pageSizes: true,
+                                buttonCount: 5
+                            },
+                            columns: [{
+                                field: "sRiskDate",
+                                title: "Date",
+                                width: 50,
+                                filterable: true,
+                                attributes: {
+                                    style: "font-size: 11px"
+                                }
+                            },  {
+                                field: "RiskListType",
+                                title: "Attrition Type",
+                                width: 150,
+                                attributes: {
+                                    style: "font-size: 11px"
+                                }
+                            }, {
+                                field: "Category",
+                                title: "Category",
+                                width: 150,
+                                attributes: {
+                                    style: "font-size: 11px"
+                                        }
+                                },
+                                {
+                                    field: "Barometer_Id",
+                                    title: "Barometer Id",
+                                    width: 60,
+                                    
+                                    attributes: {
+                                        style: "font-size: 11px; text-align:center " 
+                                    }
+                                },
+                                {
+                                    field: "Barometer",
+                                    title: "Barometer",
+                                    width: 60,
+                                    attributes: {
+                                        style: "font-size: 11px"
+                                    }
+                                },
+
+                                {
+                                field: "Employee_Ident",
+                                title: "Options",
+                                ////template: "<div style='width:100%; text-align:center;cursor:pointer;'>" + "#if (RiskStatus_Id == 1 || RiskStatus_Id == 4){#" + "<i class='fa fa-pencil fa-2x' style='color:green;' onclick='HeadCounts.ModalEmployeeRisksEditor(" + "#= Employee_Ident #" + "," + "#= RiskList_Id #" + ");'></i>" + "#}#" + "</div>",
+                                    template: "<div style='width:100%; text-align:center;cursor:pointer;'>" + "#if (RiskList_Id == 1 || RiskList_Id == 4){#" 
+                                                                                                            + "<i class='fa fa-pencil fa-2x' style='color:green;' onclick='HeadCounts.ModalEmployeeNaturalEditor("
+                                                                                                            + "#= Employee_Ident #"
+                                                                                                            + ","
+                                                                                                            + "#= RiskList_Id #"
+                                                                                                            + ");'></i>" + "#}#"
+                                                                                                            + "#if (RiskList_Id==2 || RiskList_Id==3){#"
+                                                                                                            + "<i class='fa fa-eye fa-2x' style='color:gray;' onclick='HeadCounts.ModalEmployeeNaturalView("
+                                                                                                            + "#= Employee_Ident #"
+                                                                                                            + "," + "#= RiskList_Id #"
+                                                                                                            + ");'></i>" + "#}#"
+                                                                                                            + "</div> ",
+                                filterable: false,
+                                width: 40,
+                                attributes: {
+                                    style: "font-size: 11px"
+                                }
+                            }]
+                        });
+
+                        //HeadCounts.GoOverGrid();
+                    } else {
+                        //$('#addRiskButton').remove();
+                    }
+
+                } else if (json.failure == 1) {
+
+                    General.FlashMessage(json.oData.Error);
+
+                } else if (json.noLogin == 1) {
+
+                    window.location = General.BASE_URL + "/Access/Index";
+
+                }
+
+            },
+            error: function (request, status, error) {
+
+                General.FlashMessage('Error');
+
+            }
+
+        });
+
+
     },
 
 }

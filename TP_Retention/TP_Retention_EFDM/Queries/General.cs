@@ -501,5 +501,50 @@ namespace TP_Retention_EFDM.Queries
 
             return count;
         }
+
+        /// <summary>
+        /// Regresa un listado con los riesgos del empleado
+        /// </summary>
+        /// <param name="employee_Ident">Ident del empleado a consultar</param>
+        /// <returns></returns>
+        public static List<EmployeeOnBarometerViewModel> GetEmployeeOnBarometer(int employee_Ident, string barometer)
+        {
+            List<EmployeeOnBarometerViewModel> listEmployeeOnBarometer = new List<EmployeeOnBarometerViewModel>();
+
+            using (var contextModel = new TPRetentionEntities())
+            {
+                ObjectResult<Get_Employee_OnBarometer_Result> objectResultEmployeeOnBarometer
+                    = contextModel.Get_Employee_OnBarometer(employee_Ident, barometer);
+
+                foreach (Get_Employee_OnBarometer_Result employeeOnBarometerItem in objectResultEmployeeOnBarometer)
+                {
+                    EmployeeOnBarometerViewModel oEmployeeOnBarometer = new EmployeeOnBarometerViewModel();
+
+                    oEmployeeOnBarometer.Employee_Ident = employeeOnBarometerItem.Employee_Ident;
+                    oEmployeeOnBarometer.RiskListType_Id = employeeOnBarometerItem.RiskListType_Id;
+                    oEmployeeOnBarometer.RiskListType = employeeOnBarometerItem.RiskListType;                   
+                    oEmployeeOnBarometer.RiskDate = employeeOnBarometerItem.RegistrationDate;
+                    oEmployeeOnBarometer.sRiskDate = employeeOnBarometerItem.RegistrationDate.ToString("MM/dd/yyyy");
+                    oEmployeeOnBarometer.Category_Id = employeeOnBarometerItem.Term_Reason_Ident;
+                    oEmployeeOnBarometer.Category = employeeOnBarometerItem.Category;
+                    oEmployeeOnBarometer.Barometer_Id = employeeOnBarometerItem.BarometerTypeId;
+                    oEmployeeOnBarometer.Barometer = employeeOnBarometerItem.BarometerValue;
+                    
+                    
+
+                    listEmployeeOnBarometer.Add(oEmployeeOnBarometer);
+                }
+            }
+
+            //Si el empleado no tiene riesgos agregados.
+            //if (listEmployeeOnRisk.Count == 0)
+            //{
+            //    //agregar un objeto vacio a la lista
+            //    EmployeeOnRiskViewModel oEmployeeOnRisk = new EmployeeOnRiskViewModel();
+            //    listEmployeeOnRisk.Add(oEmployeeOnRisk);
+            //}
+
+            return listEmployeeOnBarometer;
+        }
     }
 }

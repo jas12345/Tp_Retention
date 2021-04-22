@@ -907,13 +907,59 @@ namespace TP_Retention_EFDM
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Update_Employee_HRreport", hRreport_IdParameter, reportDateParameter, reportType_IdParameter, subReportType_IdParameter, reportDescriptionParameter, userUpdParameter, deliveredParameter, interactionParameter, employeeCommitmentParameter, employeeCommitmentDateParameter, acknowledgmentParameter, futureImplicationsParameter, acknowledgmentDateParameter, collegeIdParameter, dateOfEventParameter, reasonIdParameter, specificCauseIdParameter);
         }
     
-        public virtual ObjectResult<Get_RiskListType_Result> Get_RiskListType(Nullable<int> BarometerId)
+        public virtual ObjectResult<Get_RiskListType_Result> Get_RiskListType(Nullable<int> barometerTypeId)
         {
-            var barometerIdParameter = BarometerId.HasValue ?
-               new ObjectParameter("BarometerTypeId", BarometerId) :
-               new ObjectParameter("BarometerTypeId", typeof(int));
-
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Get_RiskListType_Result>("Get_RiskListType", barometerIdParameter);
+            var barometerTypeIdParameter = barometerTypeId.HasValue ?
+                new ObjectParameter("BarometerTypeId", barometerTypeId) :
+                new ObjectParameter("BarometerTypeId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Get_RiskListType_Result>("Get_RiskListType", barometerTypeIdParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<long>> Insert_Employee_Barometer(Nullable<long> employee_Ident, Nullable<System.DateTime> registrationDate, Nullable<short> riskListType_Id, Nullable<short> term_Reason_Ident, Nullable<short> barometerTypeId, string barometerValue, string userIns)
+        {
+            var employee_IdentParameter = employee_Ident.HasValue ?
+                new ObjectParameter("Employee_Ident", employee_Ident) :
+                new ObjectParameter("Employee_Ident", typeof(long));
+    
+            var registrationDateParameter = registrationDate.HasValue ?
+                new ObjectParameter("RegistrationDate", registrationDate) :
+                new ObjectParameter("RegistrationDate", typeof(System.DateTime));
+    
+            var riskListType_IdParameter = riskListType_Id.HasValue ?
+                new ObjectParameter("RiskListType_Id", riskListType_Id) :
+                new ObjectParameter("RiskListType_Id", typeof(short));
+    
+            var term_Reason_IdentParameter = term_Reason_Ident.HasValue ?
+                new ObjectParameter("Term_Reason_Ident", term_Reason_Ident) :
+                new ObjectParameter("Term_Reason_Ident", typeof(short));
+    
+            var barometerTypeIdParameter = barometerTypeId.HasValue ?
+                new ObjectParameter("BarometerTypeId", barometerTypeId) :
+                new ObjectParameter("BarometerTypeId", typeof(short));
+    
+            var barometerValueParameter = barometerValue != null ?
+                new ObjectParameter("BarometerValue", barometerValue) :
+                new ObjectParameter("BarometerValue", typeof(string));
+    
+            var userInsParameter = userIns != null ?
+                new ObjectParameter("UserIns", userIns) :
+                new ObjectParameter("UserIns", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<long>>("Insert_Employee_Barometer", employee_IdentParameter, registrationDateParameter, riskListType_IdParameter, term_Reason_IdentParameter, barometerTypeIdParameter, barometerValueParameter, userInsParameter);
+        }
+    
+        public virtual ObjectResult<Get_Employee_OnBarometer_Result> Get_Employee_OnBarometer(Nullable<long> employee_Ident, string barometerValue)
+        {
+            var employee_IdentParameter = employee_Ident.HasValue ?
+                new ObjectParameter("Employee_Ident", employee_Ident) :
+                new ObjectParameter("Employee_Ident", typeof(long));
+    
+            var barometerValueParameter = barometerValue != null ?
+                new ObjectParameter("BarometerValue", barometerValue) :
+                new ObjectParameter("BarometerValue", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Get_Employee_OnBarometer_Result>("Get_Employee_OnBarometer", employee_IdentParameter, barometerValueParameter);
         }
     }
 }

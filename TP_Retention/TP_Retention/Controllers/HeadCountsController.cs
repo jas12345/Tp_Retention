@@ -98,7 +98,8 @@ namespace TP_Retention.Controllers
 
         private void Load_RiskListType()
         {
-            List<RiskListTypeViewModel> lstRiskListTyoe = Risks.GetRiskListType(1).
+            Nullable<int> Barometer = null;
+            List<RiskListTypeViewModel> lstRiskListTyoe = Risks.GetRiskListType(Barometer).
                 Select(x => new RiskListTypeViewModel() { RiskListType_Id = x.RiskListType_Id, RiskListType = x.RiskListType }).ToList();
 
             ViewData["RiskListType"] = lstRiskListTyoe;
@@ -916,7 +917,7 @@ namespace TP_Retention.Controllers
         /// Obtiene el listado de tipos de riesgos
         /// </summary>
         /// <returns>Objeto JsonResult con comportamiento GET</returns>
-        public JsonResult Get_RiskListType(int BarometerId)
+        public JsonResult Get_RiskListType(int? BarometerId)
         {
             List<RiskListTypeViewModel> lstRiskListType = new List<RiskListTypeViewModel>();
 
@@ -1348,33 +1349,33 @@ namespace TP_Retention.Controllers
         [HttpPost]
         public PartialViewResult GetEmployeeNeutralAdd(int Employee_Id)
         {
-            EmployeeOnRiskViewModel oEmployeeRisk = new EmployeeOnRiskViewModel();
+            EmployeeOnBarometerViewModel oEmployeeBarometer = new EmployeeOnBarometerViewModel();
 
-            oEmployeeRisk.Employee_Ident = Employee_Id;
+            oEmployeeBarometer.Employee_Ident = Employee_Id;
 
-            return PartialView("_EmployeeNeutralAdd", oEmployeeRisk);
+            return PartialView("_EmployeeNeutralAdd", oEmployeeBarometer);
 
         }
 
         [HttpPost]
         public PartialViewResult GetEmployeeSatisfiedAdd(int Employee_Id)
         {
-            EmployeeOnRiskViewModel oEmployeeRisk = new EmployeeOnRiskViewModel();
+            EmployeeOnBarometerViewModel oEmployeeBarometer = new EmployeeOnBarometerViewModel();
 
-            oEmployeeRisk.Employee_Ident = Employee_Id;
+            oEmployeeBarometer.Employee_Ident = Employee_Id;
 
-            return PartialView("_EmployeeSatisfiedAdd", oEmployeeRisk);
+            return PartialView("_EmployeeSatisfiedAdd", oEmployeeBarometer);
 
         }
 
         [HttpPost]
         public PartialViewResult GetEmployeeNAAdd(int Employee_Id)
         {
-            EmployeeOnRiskViewModel oEmployeeRisk = new EmployeeOnRiskViewModel();
+            EmployeeOnBarometerViewModel oEmployeeBarometer = new EmployeeOnBarometerViewModel();
 
-            oEmployeeRisk.Employee_Ident = Employee_Id;
+            oEmployeeBarometer.Employee_Ident = Employee_Id;
 
-            return PartialView("_EmployeeNAAdd", oEmployeeRisk);
+            return PartialView("_EmployeeNAAdd", oEmployeeBarometer);
 
         }
         public JsonResult Get_BarometerRisks()
@@ -1415,6 +1416,131 @@ namespace TP_Retention.Controllers
               }, "Value", "Text");
 
             return Json(BarometerList, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult EmployeeData_Create(EmployeeOnBarometerViewModel EmployeeBarometer, string RetentionAction)
+        {
+
+            JsonMessenger jmResult = new JsonMessenger();
+            if (EmployeeBarometer.Barometer == "NA")
+            {
+                EmployeeBarometer.Barometer_Id = 0;
+                ModelState["Barometer_Id"].Errors.Clear();
+               
+            }
+
+            RetentionAction = (RetentionAction == "") ? null : RetentionAction;
+
+            try
+            {
+                //TODO: Check required fields.
+                if (EmployeeBarometer != null && ModelState.IsValid)
+                {
+                    UserViewModel user = getUserSession();
+                    long? result = 0;
+
+                    result = Risks.Insert_Employee_OnBarometer(EmployeeBarometer, user.account_id);
+
+                    if (result > 0)
+                    {
+                        bool bResult = true;
+                        //en caso de haber ingresado action crear su registro.
+                        if (RetentionAction != null)
+                        {
+                            //Get the risk created before.
+
+                            bResult = CreateActionLog(Convert.ToInt16(result.Value), RetentionAction, EmployeeBarometer.RiskListType_Id);
+                        }
+
+                        if (bResult)
+                        {
+                            jmResult.success = 1;
+                            jmResult.failure = 0;
+                        }
+                        else
+                        {
+                            jmResult.success = 0;
+                            jmResult.failure = 1;
+                            jmResult.oData = new { Error = "Risks has been created, but action can not be generated." };
+                        }
+
+                    }
+                    else
+                    {
+                        jmResult.success = 0;
+                        jmResult.failure = 1;
+                        jmResult.oData = new { Error = "An Error has occured. Check your fields and try again." };
+                    }
+
+                }
+                else
+                {
+                    jmResult.success = 0;
+                    jmResult.failure = 1;
+                    jmResult.oData = new { Error = "Some fields are invalid, please verify your inputs." };
+                }
+            }
+            catch (Exception ex)
+            {
+                UserViewModel oUser = Session["User"] as UserViewModel;
+                ModelState.AddModelError("_HeadCounts_EmployeeRisksDetails", ex.ToString());
+                short Profile;
+
+                bool result = Int16.TryParse(Session["Profile"].ToString(), out Profile);
+
+                if (!result)
+                {
+                    Profile = 0;
+                }
+
+                string sError = this.SaveError(ex.Message, ex.StackTrace + ' ' + ex.InnerException, Profile, oUser.account_id);
+
+                jmResult.success = 0;
+                jmResult.failure = 1;
+                jmResult.oData = new { Error = sError };
+
+            }
+
+            return Json(jmResult);
+
+        }
+
+        [HttpPost]
+        public ActionResult GetEmployeeBarometerData(int Employee_Ident, string Barometer)
+        {
+            JsonMessenger jmResult = new JsonMessenger();
+
+            try
+            {
+                List<EmployeeOnBarometerViewModel> listEmployeeOnBarometer = new List<EmployeeOnBarometerViewModel>();
+
+                listEmployeeOnBarometer = General.GetEmployeeOnBarometer(Employee_Ident, Barometer);
+
+                jmResult.success = 1;
+                jmResult.failure = 0;
+                jmResult.oData = new { EmployeeRisk = listEmployeeOnBarometer };
+
+            }
+            catch (Exception ex)
+            {
+                UserViewModel oUser = Session["User"] as UserViewModel;
+                short Profile;
+
+                bool result = Int16.TryParse(Session["Profile"].ToString(), out Profile);
+
+                if (!result)
+                {
+                    Profile = 0;
+                }
+
+                string Error = this.SaveError(ex.Message, ex.StackTrace + ' ' + ex.InnerException, Profile, oUser.account_id);
+
+                jmResult.success = 0;
+                jmResult.failure = 1;
+
+            }
+
+            return Json(jmResult);
         }
     }
 }

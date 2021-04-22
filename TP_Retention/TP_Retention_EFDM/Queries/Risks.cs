@@ -205,7 +205,7 @@ namespace TP_Retention_EFDM.Queries
         /// Listado de tipos de riesgos
         /// </summary>
         /// <returns>Lista de objetos de tipo RiskListTypeViewModel</returns>
-        public static List<RiskListTypeViewModel> GetRiskListType(int BarometerId)
+        public static List<RiskListTypeViewModel> GetRiskListType(int? BarometerId)
         {
             List<RiskListTypeViewModel> lstRiskListType = new List<RiskListTypeViewModel>();
 
@@ -518,5 +518,30 @@ namespace TP_Retention_EFDM.Queries
 
             return oEmployeeManager;
         }
+
+        #region Insert and update Barometer
+        public static long? Insert_Employee_OnBarometer(EmployeeOnBarometerViewModel EmployeeBarometer, string account_id)
+        {
+            long? result = 0;
+
+            //Agregar Manager_Ident, FloorManager_Ident, Program_Ident e Instalacion_Id
+            using (var contextModel = new TPRetentionEntities())
+            {
+                ObjectResult<long?> orResult = contextModel.Insert_Employee_Barometer(
+                                                            EmployeeBarometer.Employee_Ident,                                                            
+                                                            EmployeeBarometer.RiskDate.Date,
+                                                            EmployeeBarometer.RiskListType_Id,
+                                                            EmployeeBarometer.Category_Id,
+                                                            EmployeeBarometer.Barometer_Id,
+                                                            EmployeeBarometer.Barometer,                                                            
+                                                            account_id);
+
+                result = orResult.SingleOrDefault();
+            }
+
+            return result;
+        }
+
+        #endregion
     }
 }

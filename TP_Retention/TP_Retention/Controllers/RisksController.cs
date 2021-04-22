@@ -567,7 +567,8 @@ namespace TP_Retention.Controllers
 
         private void Load_RiskListType()
         {
-            List<RiskListTypeViewModel> lstRiskListTyoe = Risks.GetRiskListType(1).
+            Nullable<int> Barometer = null;
+            List<RiskListTypeViewModel> lstRiskListTyoe = Risks.GetRiskListType(Barometer).
                 Select(x => new RiskListTypeViewModel() { RiskListType_Id = x.RiskListType_Id, RiskListType = x.RiskListType }).ToList();
 
             ViewData["RiskListType"] = lstRiskListTyoe;

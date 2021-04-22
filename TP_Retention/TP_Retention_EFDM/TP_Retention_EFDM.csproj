@@ -215,6 +215,9 @@
     <Compile Include="Get_Employee_HRreport_Result.cs">
       <DependentUpon>Tp_RetentionDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Get_Employee_OnBarometer_Result.cs">
+      <DependentUpon>Tp_RetentionDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Get_Employee_OnRisk_ActionLog_Result.cs">
       <DependentUpon>Tp_RetentionDataModel.tt</DependentUpon>
     </Compile>
@@ -329,6 +332,7 @@
     <Compile Include="ViewModel\CollegeViewModel.cs" />
     <Compile Include="ViewModel\EmployeeOnRiskInterActionLogViewModel.cs" />
     <Compile Include="ViewModel\EmployeeOnRiskActionLogViewModel.cs" />
+    <Compile Include="ViewModel\EmployeeOnBarometerViewModel.cs" />
     <Compile Include="ViewModel\EmployeeOnRiskViewModel.cs" />
     <Compile Include="ViewModel\EmployeeReportPrintViewModel.cs" />
     <Compile Include="ViewModel\EmployeeReportViewModel.cs" />
