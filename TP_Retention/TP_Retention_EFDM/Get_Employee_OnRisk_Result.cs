@@ -26,7 +26,8 @@ namespace TP_Retention_EFDM
         public Nullable<System.DateTime> ResignationDate { get; set; }
         public Nullable<System.DateTime> ReviewDate { get; set; }
         public string UserIns { get; set; }
-        public string EstimacionRiesgo { get; set; }
         public Nullable<short> EstimacionRiesgo_Id { get; set; }
+        public string EstimacionRiesgo { get; set; }
+        public string BarometerValue { get; set; }
     }
 }

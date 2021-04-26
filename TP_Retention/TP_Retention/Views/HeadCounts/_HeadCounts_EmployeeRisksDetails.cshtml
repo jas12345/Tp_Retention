@@ -16,11 +16,11 @@
 
         HeadCounts.EmployeeReportDetails(@ViewData["Employee_Ident"]);
 
-        HeadCounts.EmployeeBarometersDetails(@ViewData["Employee_Ident"], 'Neutral');
+        HeadCounts.EmployeeBarometersDetails(@ViewData["Employee_Ident"], 3);
 
-        HeadCounts.EmployeeBarometersDetails(@ViewData["Employee_Ident"], 'Satisfied');
+        HeadCounts.EmployeeBarometersDetails(@ViewData["Employee_Ident"], 4);
 
-        HeadCounts.EmployeeBarometersDetails(@ViewData["Employee_Ident"],'NA');
+        HeadCounts.EmployeeBarometersDetails(@ViewData["Employee_Ident"],1);
 
         $("#ModalEmployeeRisksEditor").kendoWindow({
             width: "735px",

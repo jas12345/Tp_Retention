@@ -447,6 +447,7 @@ namespace TP_Retention_EFDM.Queries
                     oEmployeeOnRisk.ResignationDate = (DateTime)employeeOnRiskItem.ResignationDate;
                     oEmployeeOnRisk.sResignationDate = Convert.ToDateTime(employeeOnRiskItem.ResignationDate).ToString("MM/dd/yyyy");
                     oEmployeeOnRisk.UserIns = employeeOnRiskItem.UserIns;
+                    oEmployeeOnRisk.Barometer_Value = employeeOnRiskItem.BarometerValue;
 
                     listEmployeeOnRisk.Add(oEmployeeOnRisk);
                 }
@@ -476,7 +477,8 @@ namespace TP_Retention_EFDM.Queries
                                  sResignationDate = e.sResignationDate,
                                  UserIns = e.UserIns,
                                  EstimacionRiesgo_Id =e.EstimacionRiesgo_Id,
-                                 EstimacionRiesgo = e.EstimacionRiesgo
+                                 EstimacionRiesgo = e.EstimacionRiesgo,
+                                 Barometer_Value = e.Barometer_Value
 
 
                              }).SingleOrDefault();
@@ -507,7 +509,7 @@ namespace TP_Retention_EFDM.Queries
         /// </summary>
         /// <param name="employee_Ident">Ident del empleado a consultar</param>
         /// <returns></returns>
-        public static List<EmployeeOnBarometerViewModel> GetEmployeeOnBarometer(int employee_Ident, string barometer)
+        public static List<EmployeeOnBarometerViewModel> GetEmployeeOnBarometer(int employee_Ident, short barometer)
         {
             List<EmployeeOnBarometerViewModel> listEmployeeOnBarometer = new List<EmployeeOnBarometerViewModel>();
 
@@ -528,9 +530,9 @@ namespace TP_Retention_EFDM.Queries
                     oEmployeeOnBarometer.Category_Id = employeeOnBarometerItem.Term_Reason_Ident;
                     oEmployeeOnBarometer.Category = employeeOnBarometerItem.Category;
                     oEmployeeOnBarometer.Barometer_Id = employeeOnBarometerItem.BarometerTypeId;
-                    oEmployeeOnBarometer.Barometer = employeeOnBarometerItem.BarometerValue;
-                    
-                    
+                    oEmployeeOnBarometer.Barometer = employeeOnBarometerItem.BarometerType;
+                    oEmployeeOnBarometer.Barometer_Value = employeeOnBarometerItem.BarometerValue;
+
 
                     listEmployeeOnBarometer.Add(oEmployeeOnBarometer);
                 }

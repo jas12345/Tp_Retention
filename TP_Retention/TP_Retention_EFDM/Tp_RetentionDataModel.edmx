@@ -27,7 +27,7 @@
         </Function>
         <Function Name="Get_Employee_OnBarometer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Employee_Ident" Type="bigint" Mode="In" />
-          <Parameter Name="BarometerValue" Type="varchar" Mode="In" />
+          <Parameter Name="BarometerTypeId" Type="smallint" Mode="In" />
         </Function>
         <Function Name="Get_Employee_OnRisk" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Employee_Ident" Type="bigint" Mode="In" />
@@ -197,6 +197,7 @@
           <Parameter Name="ResignationDate" Type="datetime" Mode="In" />
           <Parameter Name="ReviewDate" Type="datetime" Mode="In" />
           <Parameter Name="EstimacionRiesgo_Id" Type="smallint" Mode="In" />
+          <Parameter Name="BarometerValue" Type="varchar" Mode="In" />
         </Function>
         <Function Name="Insert_Employee_OnRisk_ActionLog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RiskList_Id" Type="int" Mode="In" />
@@ -270,9 +271,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="TPRetentionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="TPRetentionEntities" annotation:LazyLoadingEnabled="true" >
-          <FunctionImport Name="Get_Employee_OnRisk" ReturnType="Collection(TPRetentionModel.Get_Employee_OnRisk_Result)">
-          <Parameter Name="Employee_Ident" Mode="In" Type="Int64" />
-          </FunctionImport>
           <FunctionImport Name="Get_Employee_OnRisk_ActionLog" ReturnType="Collection(TPRetentionModel.Get_Employee_OnRisk_ActionLog_Result)">
           <Parameter Name="RiskList_Id" Mode="In" Type="Int64" />
           </FunctionImport>
@@ -295,22 +293,6 @@
           <FunctionImport Name="Get_Risk_Priority_Status" ReturnType="Collection(TPRetentionModel.Get_Risk_Priority_Status_Result)" />
           <FunctionImport Name="Get_Risk_Status" ReturnType="Collection(TPRetentionModel.Get_Risk_Status_Result)" >
           <Parameter Name="Profile_Id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="Insert_Employee_OnRisk" ReturnType="Collection(Int32)">
-            <Parameter Name="Employee_Ident" Mode="In" Type="Int64" />
-            <Parameter Name="Instalacion_Id" Mode="In" Type="Int16" />
-            <Parameter Name="RiskDate" Mode="In" Type="DateTime" />
-            <Parameter Name="Category_Id" Mode="In" Type="Int16" />
-            <Parameter Name="RiskStatus_Id" Mode="In" Type="Int16" />
-            <Parameter Name="RiskDescription" Mode="In" Type="String" />
-            <Parameter Name="Manager_Ident" Mode="In" Type="Int64" />
-            <Parameter Name="FloorManager_Ident" Mode="In" Type="Int64" />
-            <Parameter Name="Program_Ident" Mode="In" Type="Int32" />
-            <Parameter Name="UserIns" Mode="In" Type="String" />
-            <Parameter Name="RiskListType_Id" Mode="In" Type="Int32" />
-            <Parameter Name="ResignationDate" Mode="In" Type="DateTime" />
-            <Parameter Name="ReviewDate" Mode="In" Type="DateTime" />
-            <Parameter Name="EstimacionRiesgo_Id" Mode="In" Type="Int16" />
           </FunctionImport>
           <FunctionImport Name="Update_Employee_OnRisk">
             <Parameter Name="RiskList_Id" Mode="In" Type="Int32" />
@@ -528,26 +510,29 @@
           </FunctionImport>
           <FunctionImport Name="Get_Employee_OnBarometer" ReturnType="Collection(TPRetentionModel.Get_Employee_OnBarometer_Result)">
             <Parameter Name="Employee_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="BarometerTypeId" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="Insert_Employee_OnRisk" ReturnType="Collection(Int32)">
+            <Parameter Name="Employee_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="Instalacion_Id" Mode="In" Type="Int16" />
+            <Parameter Name="RiskDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Category_Id" Mode="In" Type="Int16" />
+            <Parameter Name="RiskStatus_Id" Mode="In" Type="Int16" />
+            <Parameter Name="RiskDescription" Mode="In" Type="String" />
+            <Parameter Name="Manager_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="FloorManager_Ident" Mode="In" Type="Int64" />
+            <Parameter Name="Program_Ident" Mode="In" Type="Int32" />
+            <Parameter Name="UserIns" Mode="In" Type="String" />
+            <Parameter Name="RiskListType_Id" Mode="In" Type="Int32" />
+            <Parameter Name="ResignationDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ReviewDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EstimacionRiesgo_Id" Mode="In" Type="Int16" />
             <Parameter Name="BarometerValue" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="Get_Employee_OnRisk" ReturnType="Collection(TPRetentionModel.Get_Employee_OnRisk_Result)">
+            <Parameter Name="Employee_Ident" Mode="In" Type="Int64" />
+          </FunctionImport>
         </EntityContainer>
-        <ComplexType Name="Get_Employee_OnRisk_Result">
-          <Property Type="Int32" Name="RiskList_Id" Nullable="false" />
-          <Property Type="Int64" Name="Employee_Ident" Nullable="false" />
-          <Property Type="Int16" Name="RiskStatus_Id" Nullable="false" />
-          <Property Type="String" Name="RiskStatus" Nullable="true" MaxLength="30" />
-          <Property Type="DateTime" Name="RiskDate" Nullable="false" Precision="23" />
-          <Property Type="Int16" Name="Category_Id" Nullable="false" />
-          <Property Type="String" Name="Category" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="RiskDescription" Nullable="false" MaxLength="1000" />
-          <Property Type="Int32" Name="RiskListType_Id" Nullable="true" />
-          <Property Type="String" Name="RiskListType" Nullable="true" MaxLength="250" />
-          <Property Type="DateTime" Name="ResignationDate" Nullable="true" Precision="23" />
-          <Property Type="DateTime" Name="ReviewDate" Nullable="true" Precision="23" />
-          <Property Type="String" Name="UserIns" Nullable="true" MaxLength="103" />
-          <Property Type="String" Name="EstimacionRiesgo" Nullable="true" MaxLength="40" />
-          <Property Type="Int16" Name="EstimacionRiesgo_Id" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="Get_Employee_OnRisk_ActionLog_Result">
           <Property Type="Int32" Name="RetentionLog_Id" Nullable="false" />
           <Property Type="Int32" Name="RiskList_Id" Nullable="false" />
@@ -910,7 +895,26 @@
           <Property Type="String" Name="RiskListType" Nullable="true" MaxLength="250" />
           <Property Type="String" Name="UserIns" Nullable="true" MaxLength="103" />
           <Property Type="Int16" Name="BarometerTypeId" Nullable="false" />
+          <Property Type="String" Name="BarometerType" Nullable="true" MaxLength="150" />
           <Property Type="String" Name="BarometerValue" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="Get_Employee_OnRisk_Result">
+          <Property Type="Int32" Name="RiskList_Id" Nullable="false" />
+          <Property Type="Int64" Name="Employee_Ident" Nullable="false" />
+          <Property Type="Int16" Name="RiskStatus_Id" Nullable="false" />
+          <Property Type="String" Name="RiskStatus" Nullable="true" MaxLength="30" />
+          <Property Type="DateTime" Name="RiskDate" Nullable="false" Precision="23" />
+          <Property Type="Int16" Name="Category_Id" Nullable="false" />
+          <Property Type="String" Name="Category" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="RiskDescription" Nullable="false" MaxLength="1000" />
+          <Property Type="Int32" Name="RiskListType_Id" Nullable="true" />
+          <Property Type="String" Name="RiskListType" Nullable="true" MaxLength="250" />
+          <Property Type="DateTime" Name="ResignationDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ReviewDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UserIns" Nullable="true" MaxLength="103" />
+          <Property Type="Int16" Name="EstimacionRiesgo_Id" Nullable="true" />
+          <Property Type="String" Name="EstimacionRiesgo" Nullable="true" MaxLength="40" />
+          <Property Type="String" Name="BarometerValue" Nullable="true" MaxLength="50" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -918,27 +922,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="TPRetentionModelStoreContainer" CdmEntityContainer="TPRetentionEntities" >
-          <FunctionImportMapping FunctionImportName="Get_Employee_OnRisk" FunctionName="TPRetentionModel.Store.Get_Employee_OnRisk">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Employee_OnRisk_Result">
-                <ScalarProperty Name="RiskList_Id" ColumnName="RiskList_Id" />
-                <ScalarProperty Name="Employee_Ident" ColumnName="Employee_Ident" />
-                <ScalarProperty Name="RiskStatus_Id" ColumnName="RiskStatus_Id" />
-                <ScalarProperty Name="RiskStatus" ColumnName="RiskStatus" />
-                <ScalarProperty Name="RiskDate" ColumnName="RiskDate" />
-                <ScalarProperty Name="Category_Id" ColumnName="Category_Id" />
-                <ScalarProperty Name="Category" ColumnName="Category" />
-                <ScalarProperty Name="RiskDescription" ColumnName="RiskDescription" />
-                <ScalarProperty Name="RiskListType_Id" ColumnName="RiskListType_Id" />
-                <ScalarProperty Name="RiskListType" ColumnName="RiskListType" />
-                <ScalarProperty Name="ResignationDate" ColumnName="ResignationDate" />
-                <ScalarProperty Name="ReviewDate" ColumnName="ReviewDate" />
-                <ScalarProperty Name="UserIns" ColumnName="UserIns" />
-                <ScalarProperty Name="EstimacionRiesgo" ColumnName="EstimacionRiesgo" />
-                <ScalarProperty Name="EstimacionRiesgo_Id" ColumnName="EstimacionRiesgo_Id" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="Get_Employee_OnRisk_ActionLog" FunctionName="TPRetentionModel.Store.Get_Employee_OnRisk_ActionLog">
             <ResultMapping>
               <ComplexTypeMapping TypeName="TPRetentionModel.Get_Employee_OnRisk_ActionLog_Result">
@@ -1031,7 +1014,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="Insert_Employee_OnRisk" FunctionName="TPRetentionModel.Store.Insert_Employee_OnRisk" />
           <FunctionImportMapping FunctionImportName="Update_Employee_OnRisk" FunctionName="TPRetentionModel.Store.Update_Employee_OnRisk" />
           <FunctionImportMapping FunctionImportName="Get_Employees_Search" FunctionName="TPRetentionModel.Store.Get_Employees_Search">
             <ResultMapping>
@@ -1472,6 +1454,30 @@
                 <ScalarProperty Name="RiskListType" ColumnName="RiskListType" />
                 <ScalarProperty Name="UserIns" ColumnName="UserIns" />
                 <ScalarProperty Name="BarometerTypeId" ColumnName="BarometerTypeId" />
+                <ScalarProperty Name="BarometerType" ColumnName="BarometerType" />
+                <ScalarProperty Name="BarometerValue" ColumnName="BarometerValue" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Insert_Employee_OnRisk" FunctionName="TPRetentionModel.Store.Insert_Employee_OnRisk" />
+          <FunctionImportMapping FunctionImportName="Get_Employee_OnRisk" FunctionName="TPRetentionModel.Store.Get_Employee_OnRisk">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TPRetentionModel.Get_Employee_OnRisk_Result">
+                <ScalarProperty Name="RiskList_Id" ColumnName="RiskList_Id" />
+                <ScalarProperty Name="Employee_Ident" ColumnName="Employee_Ident" />
+                <ScalarProperty Name="RiskStatus_Id" ColumnName="RiskStatus_Id" />
+                <ScalarProperty Name="RiskStatus" ColumnName="RiskStatus" />
+                <ScalarProperty Name="RiskDate" ColumnName="RiskDate" />
+                <ScalarProperty Name="Category_Id" ColumnName="Category_Id" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="RiskDescription" ColumnName="RiskDescription" />
+                <ScalarProperty Name="RiskListType_Id" ColumnName="RiskListType_Id" />
+                <ScalarProperty Name="RiskListType" ColumnName="RiskListType" />
+                <ScalarProperty Name="ResignationDate" ColumnName="ResignationDate" />
+                <ScalarProperty Name="ReviewDate" ColumnName="ReviewDate" />
+                <ScalarProperty Name="UserIns" ColumnName="UserIns" />
+                <ScalarProperty Name="EstimacionRiesgo_Id" ColumnName="EstimacionRiesgo_Id" />
+                <ScalarProperty Name="EstimacionRiesgo" ColumnName="EstimacionRiesgo" />
                 <ScalarProperty Name="BarometerValue" ColumnName="BarometerValue" />
               </ComplexTypeMapping>
             </ResultMapping>

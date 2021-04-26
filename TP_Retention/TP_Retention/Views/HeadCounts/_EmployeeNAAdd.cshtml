@@ -53,12 +53,12 @@
         };
     }
 
-    var param = {
-        ListaRiesgo_Id: 0,
-        Employee_Ident: 0
-    };
+    //var param = {
+    //    ListaRiesgo_Id: 0,
+    //    Employee_Ident: 0
+    //};
 
-    $.ajax({
+    @*$.ajax({
         type: "POST",
         url: '@Url.Action("GetActionLog", "HeadCounts")',
         data: JSON.stringify(param),
@@ -69,7 +69,7 @@
 
             $("#btnAddAction").remove();
         }
-    });
+    });*@
 
 </script>
 
@@ -204,7 +204,7 @@
         <div class="row">
             @*Save*@
             <div class="col s12 center-align">
-                <button type="button" id="btnEmployeeNAAdd" class="waves-effect waves-light btn green accent-3 white-text" onclick="HeadCounts.EmployeeData_Create('NA');"><i class="fa fa-check-circle" style="padding-right: 5px;"></i>Save</button>
+                <button type="button" id="btnEmployeeNAAdd" class="waves-effect waves-light btn green accent-3 white-text" onclick="HeadCounts.EmployeeData_Create(1,'NA');"><i class="fa fa-check-circle" style="padding-right: 5px;"></i>Save</button>
             </div>
         </div>
     </div>

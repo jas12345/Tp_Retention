@@ -331,7 +331,8 @@ namespace TP_Retention_EFDM.Queries
                                                             EmployeeRisk.RiskListType_Id,
                                                             EmployeeRisk.ResignationDate.Date,
                                                             EmployeeRisk.ReviewDate.Date,
-                                                            EmployeeRisk.EstimacionRiesgo_Id);
+                                                            EmployeeRisk.EstimacionRiesgo_Id,
+                                                            EmployeeRisk.Barometer_Value);
 
                 result = orResult.SingleOrDefault();
             }

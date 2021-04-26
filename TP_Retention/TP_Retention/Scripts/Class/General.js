@@ -123,7 +123,7 @@
             url: URL,
             async: false,
             success: function (json) {
-                console.log(json);
+               
                 $("#IdSecondMain").empty();
                 
                 for (var i in json.oData.Main) {

@@ -94,8 +94,8 @@ namespace TP_Retention_EFDM.ViewModel
 
         [DisplayName("Created By: ")]
         public string UserIns { get; set; }
-        public Nullable<short> Barometro_Id { get; set; }
+        public string Barometer_Value { get; set; }
         [DisplayName("Barometer")]
-        public string Barometro { get; set; }
+        public string Barometer { get; set; }
     }
 }

@@ -22,6 +22,7 @@ namespace TP_Retention_EFDM
         public string RiskListType { get; set; }
         public string UserIns { get; set; }
         public short BarometerTypeId { get; set; }
+        public string BarometerType { get; set; }
         public string BarometerValue { get; set; }
     }
 }

@@ -33,6 +33,7 @@
     });
 
     $(document).ready(function () {
+
         var window = $("#wAlertMsg");
 
         if (!window.data("kendoWindow")) {
@@ -53,12 +54,12 @@
         };
     }
 
-    var param = {
-        ListaRiesgo_Id: 0,
-        Employee_Ident: 0
-    };
+    //var param = {
+    //    ListaRiesgo_Id: 0,
+    //    Employee_Ident: 0
+    //};
 
-    $.ajax({
+    @*$.ajax({
         type: "POST",
         url: '@Url.Action("GetActionLog", "HeadCounts")',
         data: JSON.stringify(param),
@@ -69,7 +70,7 @@
 
             $("#btnAddAction").remove();
         }
-    });
+    });*@
 
 </script>
 
@@ -92,20 +93,7 @@
                                                             .Enable(false)
                         )
                     </div>
-                    @*Risk Status*@
-                    @*<div class="col s3">
-                        @Html.LabelFor(model => model.RiskStatus)
-                        @(Html.Kendo().DropDownListFor(model => model.RiskStatus_Id)
-                                                            .HtmlAttributes(new { style = "width:150px" })
-                                                            .OptionLabel("Select...")
-                                                            .DataTextField("EstatusRiesgo")
-                                                            .DataValueField("EstatusRiesgo_Id")
-                                                            .DataSource(source =>
-                                                            {
-                                                                source.Read(read => read.Action("Get_EmployeeStatus", "HeadCounts")).ServerFiltering(true);
-                                                            })
-                        )
-                    </div>*@
+                  
                     @*Risk List Type*@
                     <div class="col s3">
                         @Html.LabelFor(model => model.RiskListType)
@@ -120,29 +108,11 @@
                                                             })
                         )
                     </div>
-                    @*Resignation Date*@
-                    @*<div class="col s3">
-                        @Html.LabelFor(model => model.ResignationDate)
-                        @(Html.Kendo().DatePickerFor(model => model.ResignationDate)
-                                                                .Value(DateTime.Today)
-                                                                .Format("MM/dd/yyyy")
-                                                                .Min(DateTime.Now)
-                                                                .HtmlAttributes(new { style = "width:150px", @id = "dpResignationDate", Type = "Text" })
-                        )
-                    </div>*@
+                   
                 </div>
                 @*Segunda Fila*@
-            <div class="row section">
-                @*Review Date*@
-                @*<div class="col s3">
-            @Html.LabelFor(model => model.ReviewDate)
-            @(Html.Kendo().DatePickerFor(model => model.ReviewDate)
-                                                    .Value(DateTime.Today.AddDays(7))
-                                                    .Format("MM/dd/yyyy")
-                                                    .Min(DateTime.Now)
-                                                    .HtmlAttributes(new { style = "width:150px", @id = "dpReviewDate", Type = "Text" })
-            )
-        </div>*@
+
+            <div class="row section">               
                 @*Categories*@
                 <div class="col s9">
                     @Html.LabelFor(model => model.Category)
@@ -159,23 +129,9 @@
                                                             .AutoBind(false)
                                                             .CascadeFrom("RiskListType_Id")
                         )
-                </div>
-                
+                </div>                
               
-                @*RiskEstimation*@
-                @*<div class="col s3">
-            @Html.LabelFor(model => model.EstimacionRiesgo)
-            @(Html.Kendo().DropDownListFor(model => model.EstimacionRiesgo_Id)
-                                                .HtmlAttributes(new { style = "width:150px" })
-                                                .OptionLabel("Select...")
-                                                .DataTextField("EstimacionRiesgo")
-                                                .DataValueField("EstimacionRiesgo_Id")
-                                                .DataSource(source =>
-                                                {
-                                                    source.Read(read => read.Action("Get_EstimationStatus", "HeadCounts")).ServerFiltering(true);
-                                                })
-            )
-        </div>*@
+              
             </div>
                 @*Tercera fila*@
             <div class="row section">
@@ -193,17 +149,13 @@
                         )
 
                 </div>
-                @*Risk Description*@
-                @*<div class="col s12">
-            @Html.LabelFor(model => model.RiskDescription)
-            @Html.TextAreaFor(model => model.RiskDescription, new { maxlength = 8000, @class = "materialize-textarea", style = "height: 22px; text-transform:uppercase;", placeholder = "Type a description..." })
-        </div>*@
+               
             </div>
                 <div class =" hiddendiv" id="Employee_OnRisk_ActionLog"></div>
                 <div class="row">
                     @*Save*@
-                    <div class="col s12 center-align">
-                        <button type="button" id="btnEmployeeNeutralAdd" class="waves-effect waves-light btn green accent-3 white-text" onclick="HeadCounts.EmployeeData_Create('Neutral');"><i class="fa fa-check-circle" style="padding-right: 5px;"></i>Save</button>
+                    <div class="col s12 center-align">                        
+                        <button type="button" id="btnEmployeeNeutralAdd" class="waves-effect waves-light btn green accent-3 white-text" onclick="HeadCounts.EmployeeData_Create(3,'Neutral');"><i class="fa fa-check-circle" style="padding-right: 5px;"></i>Save</button>
                     </div>
                 </div>
             </div>

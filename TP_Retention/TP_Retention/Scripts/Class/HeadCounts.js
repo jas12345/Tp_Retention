@@ -442,6 +442,7 @@
         var ReviewDate = $("#dpReviewDate").val();
         var accionRetencion = $("#AccionRetencion").val();
         var EstimacionRiesgo_Id = $("#EstimacionRiesgo_Id").val();
+        var Barometer_Value = $("#Barometer_Value").val();
 
         if (validator.validate()) {
 
@@ -459,7 +460,8 @@
                     "Employee_Ident": Employee_Ident, "RiskDate": RiskDate, "RiskStatus_Id": RiskStatus_Id,
                     "RiskListType_Id": RiskListType_Id, "ResignationDate": ResignationDate, "ReviewDate": ReviewDate,
                     "Category_Id": Category_Id, "RiskDescription": RiskDescription, "Manager_Ident": Manager_Ident,
-                    "Program_Ident": Program_Ident, "RetentionAction": accionRetencion,"EstimacionRiesgo_Id": EstimacionRiesgo_Id
+                    "Program_Ident": Program_Ident, "RetentionAction": accionRetencion, "EstimacionRiesgo_Id": EstimacionRiesgo_Id,
+                   "Barometer_Value": Barometer_Value
                 },
                 async: false,
                 url: URL,
@@ -1143,12 +1145,12 @@
             async: false,
             url: URL,
             success: function (data) {
-                if (data.search("/Access/Authentication") < 0) {
-                   
-                    $("#ModalEmployeeNeutralEditor").empty();
+                if (data.search("/Access/Authentication") < 0) {                 
+
+                    HeadCounts.LimpiarModal();
                    
                     $("#ModalEmployeeNeutralAdd").html(data);
-
+                    
                     $("#ModalEmployeeNeutralAdd").data("kendoWindow").center().open();
                 }
                 else {
@@ -1177,11 +1179,11 @@
             async: false,
             url: URL,
             success: function (data) {
-                if (data.search("/Access/Authentication") < 0) {
-                    $("#ModalEmployeeSatisfiedEditor").empty();
-
+                if (data.search("/Access/Authentication") < 0) {                  
+                    HeadCounts.LimpiarModal();
+                    
                     $("#ModalEmployeeSatisfiedAdd").html(data);
-                    alert('si entro');
+                   
                     $("#ModalEmployeeSatisfiedAdd").data("kendoWindow").center().open();
                 }
                 else {
@@ -1211,7 +1213,7 @@
             url: URL,
             success: function (data) {
                 if (data.search("/Access/Authentication") < 0) {
-                    $("#ModalEmployeeNAEditor").empty();
+                    HeadCounts.LimpiarModal();
                     
                     $("#ModalEmployeeNAAdd").html(data);
 
@@ -1231,9 +1233,9 @@
 
     },
 
-    EmployeeData_Create: function (Param) {
+    EmployeeData_Create: function (barometerTypeId, barometerValue) {
        
-        var forma = '#Form' + Param + "Add";
+        var forma = '#Form' + barometerValue + "Add";    
         
         var validator = $(forma).kendoValidator().data("kendoValidator");
 
@@ -1241,8 +1243,9 @@
         var RiskDate        = $("#RiskDate").val();     
         var RiskListType_Id = $("#RiskListType_Id").val();
         var Category_Id     = $("#Category_Id").val();        
-        var Barometer_Id = $("#Barometer_Id").val();  
-        var Barometer = Param;
+        var Barometer_Id = barometerTypeId;
+        var Barometer = $("#Barometer_Id").val();          
+
         var ReviewDate      = $("#dpReviewDate").val();
         var accionRetencion = null;
        
@@ -1250,7 +1253,7 @@
         if (validator.validate()) {
 
             var URL = General.BASE_URL + '/HeadCounts/EmployeeData_Create';
-
+            
             var Employee_Ident = $("#Employee_Ident_Add").val();
             var Manager_Ident = $("#Manager_Ident_Editor").val();
             var Program_Ident = $("#Program_Ident_Editor").val();
@@ -1276,11 +1279,11 @@
 
                     if (json.success == 1) {                      
 
-                        var modal = "#ModalEmployee" + Param + "Add";                       
+                        var modal = "#ModalEmployee" + barometerValue + "Add";                       
                         var dialog = $(modal).data("kendoWindow").close();                      
                         
 
-                        HeadCounts.EmployeeBarometersDetails(Employee_Ident,Param);
+                        HeadCounts.EmployeeBarometersDetails(Employee_Ident, barometerTypeId);
 
                     } else if (json.failure == 1) {
 
@@ -1304,9 +1307,22 @@
     },
 
     EmployeeBarometersDetails: function (Employee_Ident, Barometer) {
+        var baromterValue = "NA";
+        switch (Barometer) {
+            case 1:
+                baromterValue = 'NA'
+                break;
+            case 3:
+                baromterValue = 'Neutral'
+                break;
+            case 4:
+                baromterValue = 'Satisfied'
+                break;
+            default:
+        }
 
         var URL = General.BASE_URL + '/HeadCounts/GetEmployeeBarometerData';
-        var details = "#gridEmployee" + Barometer + "Details";
+        var details = "#gridEmployee" + baromterValue + "Details";
         $.ajax({
 
             dataType: 'json',
@@ -1335,6 +1351,8 @@
                                             Category: { type: "string" },
                                             Barometer_Id: { type: "integer" },
                                             Barometer: { type: "string" },
+                                            Barometer_Value: { type: "string" },
+
                                         }
                                     }
                                 },
@@ -1377,20 +1395,20 @@
                                         }
                                 },
                                 {
-                                    field: "Barometer_Id",
-                                    title: "Barometer Id",
-                                    width: 60,
-                                    
-                                    attributes: {
-                                        style: "font-size: 11px; text-align:center " 
-                                    }
-                                },
-                                {
                                     field: "Barometer",
                                     title: "Barometer",
                                     width: 60,
+                                    
                                     attributes: {
-                                        style: "font-size: 11px"
+                                        style: "font-size: 11px " 
+                                    }
+                                },
+                                {
+                                    field: "Barometer_Value",
+                                    title: "Barometer Value",
+                                    width: 80,
+                                    attributes: {
+                                        style: "font-size: 11px; text-align:center"
                                     }
                                 },
 
@@ -1417,7 +1435,7 @@
                                 }
                             }]
                         });
-
+                       
                         //HeadCounts.GoOverGrid();
                     } else {
                         //$('#addRiskButton').remove();
@@ -1444,5 +1462,20 @@
 
 
     },
+
+    LimpiarModal: function () {
+
+      
+        $("#ModalEmployeeRisksEditor").empty();
+        $("#ModalEmployeeNeutralAdd").empty();
+      
+        $("#ModalEmployeeReportAdd").empty();
+        $("#ModalEmployeeReportEditor").empty();
+
+        $("#ModalEmployeeNAAdd").empty();
+        $("#ModalEmployeeSatisfiedAdd").empty();
+        $("#ModalEmployeeRisksAdd").empty();
+    },
+
 
 }

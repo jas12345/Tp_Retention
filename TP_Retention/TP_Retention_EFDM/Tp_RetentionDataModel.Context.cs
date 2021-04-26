@@ -28,15 +28,6 @@ namespace TP_Retention_EFDM
         }
     
     
-        public virtual ObjectResult<Get_Employee_OnRisk_Result> Get_Employee_OnRisk(Nullable<long> employee_Ident)
-        {
-            var employee_IdentParameter = employee_Ident.HasValue ?
-                new ObjectParameter("Employee_Ident", employee_Ident) :
-                new ObjectParameter("Employee_Ident", typeof(long));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Get_Employee_OnRisk_Result>("Get_Employee_OnRisk", employee_IdentParameter);
-        }
-    
         public virtual ObjectResult<Get_Employee_OnRisk_ActionLog_Result> Get_Employee_OnRisk_ActionLog(Nullable<long> riskList_Id)
         {
             var riskList_IdParameter = riskList_Id.HasValue ?
@@ -114,67 +105,6 @@ namespace TP_Retention_EFDM
                 new ObjectParameter("Profile_Id", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Get_Risk_Status_Result>("Get_Risk_Status", profile_IdParameter);
-        }
-    
-        public virtual ObjectResult<Nullable<int>> Insert_Employee_OnRisk(Nullable<long> employee_Ident, Nullable<short> instalacion_Id, Nullable<System.DateTime> riskDate, Nullable<short> category_Id, Nullable<short> riskStatus_Id, string riskDescription, Nullable<long> manager_Ident, Nullable<long> floorManager_Ident, Nullable<int> program_Ident, string userIns, Nullable<int> riskListType_Id, Nullable<System.DateTime> resignationDate, Nullable<System.DateTime> reviewDate, Nullable<short> estimacionRiesgo_Id)
-        {
-            var employee_IdentParameter = employee_Ident.HasValue ?
-                new ObjectParameter("Employee_Ident", employee_Ident) :
-                new ObjectParameter("Employee_Ident", typeof(long));
-    
-            var instalacion_IdParameter = instalacion_Id.HasValue ?
-                new ObjectParameter("Instalacion_Id", instalacion_Id) :
-                new ObjectParameter("Instalacion_Id", typeof(short));
-    
-            var riskDateParameter = riskDate.HasValue ?
-                new ObjectParameter("RiskDate", riskDate) :
-                new ObjectParameter("RiskDate", typeof(System.DateTime));
-    
-            var category_IdParameter = category_Id.HasValue ?
-                new ObjectParameter("Category_Id", category_Id) :
-                new ObjectParameter("Category_Id", typeof(short));
-    
-            var riskStatus_IdParameter = riskStatus_Id.HasValue ?
-                new ObjectParameter("RiskStatus_Id", riskStatus_Id) :
-                new ObjectParameter("RiskStatus_Id", typeof(short));
-    
-            var riskDescriptionParameter = riskDescription != null ?
-                new ObjectParameter("RiskDescription", riskDescription) :
-                new ObjectParameter("RiskDescription", typeof(string));
-    
-            var manager_IdentParameter = manager_Ident.HasValue ?
-                new ObjectParameter("Manager_Ident", manager_Ident) :
-                new ObjectParameter("Manager_Ident", typeof(long));
-    
-            var floorManager_IdentParameter = floorManager_Ident.HasValue ?
-                new ObjectParameter("FloorManager_Ident", floorManager_Ident) :
-                new ObjectParameter("FloorManager_Ident", typeof(long));
-    
-            var program_IdentParameter = program_Ident.HasValue ?
-                new ObjectParameter("Program_Ident", program_Ident) :
-                new ObjectParameter("Program_Ident", typeof(int));
-    
-            var userInsParameter = userIns != null ?
-                new ObjectParameter("UserIns", userIns) :
-                new ObjectParameter("UserIns", typeof(string));
-    
-            var riskListType_IdParameter = riskListType_Id.HasValue ?
-                new ObjectParameter("RiskListType_Id", riskListType_Id) :
-                new ObjectParameter("RiskListType_Id", typeof(int));
-    
-            var resignationDateParameter = resignationDate.HasValue ?
-                new ObjectParameter("ResignationDate", resignationDate) :
-                new ObjectParameter("ResignationDate", typeof(System.DateTime));
-    
-            var reviewDateParameter = reviewDate.HasValue ?
-                new ObjectParameter("ReviewDate", reviewDate) :
-                new ObjectParameter("ReviewDate", typeof(System.DateTime));
-    
-            var estimacionRiesgo_IdParameter = estimacionRiesgo_Id.HasValue ?
-                new ObjectParameter("EstimacionRiesgo_Id", estimacionRiesgo_Id) :
-                new ObjectParameter("EstimacionRiesgo_Id", typeof(short));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("Insert_Employee_OnRisk", employee_IdentParameter, instalacion_IdParameter, riskDateParameter, category_IdParameter, riskStatus_IdParameter, riskDescriptionParameter, manager_IdentParameter, floorManager_IdentParameter, program_IdentParameter, userInsParameter, riskListType_IdParameter, resignationDateParameter, reviewDateParameter, estimacionRiesgo_IdParameter);
         }
     
         public virtual int Update_Employee_OnRisk(Nullable<int> riskList_Id, Nullable<System.DateTime> riskDate, Nullable<short> category_Id, Nullable<short> riskStatus_Id, string riskDescription, string userUpd, Nullable<int> riskListType_Id, Nullable<System.DateTime> resignationDate, Nullable<System.DateTime> reviewDate, Nullable<int> estimacionRiesgo_Id)
@@ -949,17 +879,91 @@ namespace TP_Retention_EFDM
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<long>>("Insert_Employee_Barometer", employee_IdentParameter, registrationDateParameter, riskListType_IdParameter, term_Reason_IdentParameter, barometerTypeIdParameter, barometerValueParameter, userInsParameter);
         }
     
-        public virtual ObjectResult<Get_Employee_OnBarometer_Result> Get_Employee_OnBarometer(Nullable<long> employee_Ident, string barometerValue)
+        public virtual ObjectResult<Get_Employee_OnBarometer_Result> Get_Employee_OnBarometer(Nullable<long> employee_Ident, Nullable<short> barometerTypeId)
         {
             var employee_IdentParameter = employee_Ident.HasValue ?
                 new ObjectParameter("Employee_Ident", employee_Ident) :
                 new ObjectParameter("Employee_Ident", typeof(long));
     
+            var barometerTypeIdParameter = barometerTypeId.HasValue ?
+                new ObjectParameter("BarometerTypeId", barometerTypeId) :
+                new ObjectParameter("BarometerTypeId", typeof(short));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Get_Employee_OnBarometer_Result>("Get_Employee_OnBarometer", employee_IdentParameter, barometerTypeIdParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> Insert_Employee_OnRisk(Nullable<long> employee_Ident, Nullable<short> instalacion_Id, Nullable<System.DateTime> riskDate, Nullable<short> category_Id, Nullable<short> riskStatus_Id, string riskDescription, Nullable<long> manager_Ident, Nullable<long> floorManager_Ident, Nullable<int> program_Ident, string userIns, Nullable<int> riskListType_Id, Nullable<System.DateTime> resignationDate, Nullable<System.DateTime> reviewDate, Nullable<short> estimacionRiesgo_Id, string barometerValue)
+        {
+            var employee_IdentParameter = employee_Ident.HasValue ?
+                new ObjectParameter("Employee_Ident", employee_Ident) :
+                new ObjectParameter("Employee_Ident", typeof(long));
+    
+            var instalacion_IdParameter = instalacion_Id.HasValue ?
+                new ObjectParameter("Instalacion_Id", instalacion_Id) :
+                new ObjectParameter("Instalacion_Id", typeof(short));
+    
+            var riskDateParameter = riskDate.HasValue ?
+                new ObjectParameter("RiskDate", riskDate) :
+                new ObjectParameter("RiskDate", typeof(System.DateTime));
+    
+            var category_IdParameter = category_Id.HasValue ?
+                new ObjectParameter("Category_Id", category_Id) :
+                new ObjectParameter("Category_Id", typeof(short));
+    
+            var riskStatus_IdParameter = riskStatus_Id.HasValue ?
+                new ObjectParameter("RiskStatus_Id", riskStatus_Id) :
+                new ObjectParameter("RiskStatus_Id", typeof(short));
+    
+            var riskDescriptionParameter = riskDescription != null ?
+                new ObjectParameter("RiskDescription", riskDescription) :
+                new ObjectParameter("RiskDescription", typeof(string));
+    
+            var manager_IdentParameter = manager_Ident.HasValue ?
+                new ObjectParameter("Manager_Ident", manager_Ident) :
+                new ObjectParameter("Manager_Ident", typeof(long));
+    
+            var floorManager_IdentParameter = floorManager_Ident.HasValue ?
+                new ObjectParameter("FloorManager_Ident", floorManager_Ident) :
+                new ObjectParameter("FloorManager_Ident", typeof(long));
+    
+            var program_IdentParameter = program_Ident.HasValue ?
+                new ObjectParameter("Program_Ident", program_Ident) :
+                new ObjectParameter("Program_Ident", typeof(int));
+    
+            var userInsParameter = userIns != null ?
+                new ObjectParameter("UserIns", userIns) :
+                new ObjectParameter("UserIns", typeof(string));
+    
+            var riskListType_IdParameter = riskListType_Id.HasValue ?
+                new ObjectParameter("RiskListType_Id", riskListType_Id) :
+                new ObjectParameter("RiskListType_Id", typeof(int));
+    
+            var resignationDateParameter = resignationDate.HasValue ?
+                new ObjectParameter("ResignationDate", resignationDate) :
+                new ObjectParameter("ResignationDate", typeof(System.DateTime));
+    
+            var reviewDateParameter = reviewDate.HasValue ?
+                new ObjectParameter("ReviewDate", reviewDate) :
+                new ObjectParameter("ReviewDate", typeof(System.DateTime));
+    
+            var estimacionRiesgo_IdParameter = estimacionRiesgo_Id.HasValue ?
+                new ObjectParameter("EstimacionRiesgo_Id", estimacionRiesgo_Id) :
+                new ObjectParameter("EstimacionRiesgo_Id", typeof(short));
+    
             var barometerValueParameter = barometerValue != null ?
                 new ObjectParameter("BarometerValue", barometerValue) :
                 new ObjectParameter("BarometerValue", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Get_Employee_OnBarometer_Result>("Get_Employee_OnBarometer", employee_IdentParameter, barometerValueParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("Insert_Employee_OnRisk", employee_IdentParameter, instalacion_IdParameter, riskDateParameter, category_IdParameter, riskStatus_IdParameter, riskDescriptionParameter, manager_IdentParameter, floorManager_IdentParameter, program_IdentParameter, userInsParameter, riskListType_IdParameter, resignationDateParameter, reviewDateParameter, estimacionRiesgo_IdParameter, barometerValueParameter);
+        }
+    
+        public virtual ObjectResult<Get_Employee_OnRisk_Result> Get_Employee_OnRisk(Nullable<long> employee_Ident)
+        {
+            var employee_IdentParameter = employee_Ident.HasValue ?
+                new ObjectParameter("Employee_Ident", employee_Ident) :
+                new ObjectParameter("Employee_Ident", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Get_Employee_OnRisk_Result>("Get_Employee_OnRisk", employee_IdentParameter);
         }
     }
 }

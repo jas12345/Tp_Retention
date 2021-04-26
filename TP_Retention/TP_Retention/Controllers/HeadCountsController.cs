@@ -232,8 +232,18 @@ namespace TP_Retention.Controllers
                 {
                     UserViewModel user = getUserSession();
                     int? result = 0;
-
+                    long? result1 = 0;
                     result = Risks.Insert_Employee_OnRisk(EmployeeRisk, user.account_id);
+
+                    //EmployeeOnBarometerViewModel EmployeeBarometer = new EmployeeOnBarometerViewModel();
+                    //EmployeeBarometer.Barometer_Value = EmployeeRisk.Barometer_Value;
+                    //EmployeeBarometer.Barometer_Id = 2;
+                    //EmployeeBarometer.Barometer = "Risks";
+                    //EmployeeBarometer.Employee_Ident = EmployeeRisk.Employee_Ident;
+                    //EmployeeBarometer.RiskListType_Id = (short)EmployeeRisk.RiskListType_Id;
+                    //EmployeeBarometer.Category_Id = EmployeeRisk.Category_Id;
+                    //EmployeeBarometer.RiskDate = EmployeeRisk.RiskDate;
+                    //result1 = Risks.Insert_Employee_OnBarometer(EmployeeBarometer, user.account_id);
 
                     if (result > 0)
                     {
@@ -1422,9 +1432,9 @@ namespace TP_Retention.Controllers
         {
 
             JsonMessenger jmResult = new JsonMessenger();
-            if (EmployeeBarometer.Barometer == "NA")
-            {
-                EmployeeBarometer.Barometer_Id = 0;
+            if (EmployeeBarometer.Barometer_Id == 1)
+            {                
+                EmployeeBarometer.Barometer_Value = "0";
                 ModelState["Barometer_Id"].Errors.Clear();
                
             }
@@ -1506,7 +1516,7 @@ namespace TP_Retention.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetEmployeeBarometerData(int Employee_Ident, string Barometer)
+        public ActionResult GetEmployeeBarometerData(int Employee_Ident, short Barometer)
         {
             JsonMessenger jmResult = new JsonMessenger();
 

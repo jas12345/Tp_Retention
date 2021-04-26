@@ -43,6 +43,8 @@ namespace TP_Retention_EFDM.ViewModel
         [DisplayName("Barometer")]
         public string Barometer { get; set; }
 
+        [DisplayName("Barometer value")]
+        public string Barometer_Value { get; set; }
         public long? Manager_Ident { get; set; }
 
         public int? Program_Ident { get; set; }

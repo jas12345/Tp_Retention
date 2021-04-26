@@ -176,8 +176,8 @@
                         )
                 </div>
                 <div class="col s3">
-                    @Html.LabelFor(model => model.Barometro)
-                    @(Html.Kendo().DropDownListFor(model => model.Barometro_Id)
+                    @Html.LabelFor(model => model.Barometer)
+                    @(Html.Kendo().DropDownListFor(model => model.Barometer_Value)
                                                             .HtmlAttributes(new { style = "width:150px" })
                                                             .OptionLabel("Select...")
                                                             .DataTextField("Text")
